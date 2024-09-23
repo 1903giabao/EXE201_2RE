@@ -2,7 +2,9 @@
 using EXE201_2RE.Extensions;
 using EXE201_2RE_API.Middlewares;
 using EXE201_2RE_API.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace EXE201_2RE_API
 {
@@ -42,7 +44,7 @@ namespace EXE201_2RE_API
                 });
             });
 
-
+          
             builder.Services.AddCors(option =>
                 option.AddPolicy("CORS", builder =>
                     builder.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed((host) => true)));
