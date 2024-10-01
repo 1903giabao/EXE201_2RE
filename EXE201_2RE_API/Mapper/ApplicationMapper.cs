@@ -9,6 +9,7 @@ namespace EXE201_2RE_API.Mapper
         public ApplicationMapper()
         {
             CreateMap<UserModel, TblUser>().ReverseMap();
+            CreateMap<ProductModel, TblProduct>().ReverseMap();
         }
     }
 }

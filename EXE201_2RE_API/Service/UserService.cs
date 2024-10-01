@@ -52,11 +52,11 @@ namespace EXE201_2RE_API.Service
             try
             {
                 var result = _mapper.Map<UserModel>(_unitOfWork.UserRepository.GetAll().Where(_ => _.Username == username));
-                return new ServiceResult(1, "Get user by user name", result);
+                return new ServiceResult(200, "Get user by user name", result);
             }
             catch (Exception ex)
             {
-                return new ServiceResult(-1, ex.Message);
+                return new ServiceResult(500, ex.Message);
             }
         }
     }

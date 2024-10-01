@@ -62,13 +62,14 @@ public static class ServicesExtensions
 
         services.AddDbContext<EXE201Context>(opt =>
         {
-            opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            opt.UseSqlServer(configuration.GetConnectionString("BaoConnection"));
         });
 
         services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         services.AddScoped<UnitOfWork>();
         services.AddScoped<UserService>();
         services.AddScoped<IdentityService>();
+        services.AddScoped<ProductService>();
 
         return services;
     }
