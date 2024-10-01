@@ -34,7 +34,7 @@ public class AuthController : ControllerBase
     [HttpPost]
     public IActionResult Login([FromBody] LoginRequest req)
     {
-        var loginResult = _identityService.Login(req.Username, req.Password);
+        var loginResult = _identityService.Login(req.Email, req.Password);
         if (!loginResult.Authenticated)
         {
             var result = ApiResult<Dictionary<string, string[]>>.Fail(new Exception("Username or password is invalid"));
@@ -79,7 +79,7 @@ public class AuthController : ControllerBase
 
         string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
 
-        var user = await _userService.GetUserByUserName(email);
+        var user = await _userService.GetUserByEmail(email);
         if (user.Data == null)
         {
             return BadRequest("username is in valid");

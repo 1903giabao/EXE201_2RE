@@ -19,6 +19,7 @@ namespace EXE201_2RE_API.Repository
         private ReviewRepository _review;
         private RoleRepository _role;
         private SizeRepository _size;
+        private FavoriteRepository _favorite;
 
         public UnitOfWork()
         {
@@ -33,6 +34,14 @@ namespace EXE201_2RE_API.Repository
             get
             {
                 return _user ??= new UserRepository(_unitOfWorkContext);
+            }
+        }
+
+        public FavoriteRepository FavoriteRepository
+        {
+            get
+            {
+                return _favorite ??= new FavoriteRepository(_unitOfWorkContext);
             }
         }
 

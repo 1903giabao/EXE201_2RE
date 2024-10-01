@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using EXE201_2RE_API.Model;
+using EXE201_2RE_API.DTOs;
 using EXE201_2RE_API.Models;
+using EXE201_2RE_API.Response;
 
 namespace EXE201_2RE_API.Mapper
 {
@@ -10,6 +11,7 @@ namespace EXE201_2RE_API.Mapper
         {
             CreateMap<UserModel, TblUser>().ReverseMap();
             CreateMap<ProductModel, TblProduct>().ReverseMap();
+            CreateMap<GetFavoriteProductsResponse, TblFavorite>().ReverseMap();
         }
     }
 }

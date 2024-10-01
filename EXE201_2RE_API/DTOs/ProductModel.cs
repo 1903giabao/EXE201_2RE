@@ -1,10 +1,10 @@
 ﻿using EXE201_2RE_API.Models;
 
-namespace EXE201_2RE_API.Model
+namespace EXE201_2RE_API.DTOs
 {
     public class ProductModel
     {
-        public int Id { get; set; }
+        public int ProductId { get; set; }
 
         public int? ShopOwnerId { get; set; }
 

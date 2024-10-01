@@ -70,6 +70,7 @@ public static class ServicesExtensions
         services.AddScoped<UserService>();
         services.AddScoped<IdentityService>();
         services.AddScoped<ProductService>();
+        services.AddScoped<FavoriteService>();
 
         return services;
     }

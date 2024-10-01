@@ -2,12 +2,14 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EXE201_2RE_API.Models;
 
 public partial class TblCartDetail
 {
-    public int Id { get; set; }
+    [Key]
+    public int CartDetailId { get; set; }
 
     public int? CartId { get; set; }
 
