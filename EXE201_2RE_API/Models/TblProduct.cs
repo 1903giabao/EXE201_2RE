@@ -2,12 +2,14 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EXE201_2RE_API.Models;
 
 public partial class TblProduct
 {
-    public int Id { get; set; }
+    [Key]
+    public int ProductId { get; set; }
 
     public int? ShopOwnerId { get; set; }
 
@@ -42,4 +44,6 @@ public partial class TblProduct
     public virtual ICollection<TblCartDetail> TblCartDetails { get; set; } = new List<TblCartDetail>();
 
     public virtual ICollection<TblReview> TblReviews { get; set; } = new List<TblReview>();
+    public virtual ICollection<TblFavorite> TblFavorites { get; set; } = new List<TblFavorite>();
+
 }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EXE201_2RE_API.Constants;
-using EXE201_2RE_API.Model;
+using EXE201_2RE_API.DTOs;
 using EXE201_2RE_API.Repository;
 
 namespace EXE201_2RE_API.Service

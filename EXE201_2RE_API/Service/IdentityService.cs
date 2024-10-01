@@ -82,7 +82,7 @@ namespace EXE201_2RE_API.Service
 
                 if (res > 0)
                 {
-                    return new ServiceResult(202, "Sign up successfully");
+                    return new ServiceResult(200, "Sign up successfully");
                 }
 
                 return new ServiceResult(500, "Sign up fail");
@@ -131,8 +131,8 @@ namespace EXE201_2RE_API.Service
             var utcNow = DateTime.UtcNow;
             var authClaims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.Email, user.Username),
+                new(JwtRegisteredClaimNames.NameId, user.UserId.ToString()),
+                new(JwtRegisteredClaimNames.Email, user.Email),
                 new(ClaimTypes.Role, user.Role.Name),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };

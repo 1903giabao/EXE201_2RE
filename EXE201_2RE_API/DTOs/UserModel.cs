@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EXE201_2RE_API.Model
+namespace EXE201_2RE_API.DTOs
 {
     public class UserModel
     {
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         public string Username { get; set; }
 
@@ -37,6 +37,5 @@ namespace EXE201_2RE_API.Model
 
         public DateTime UpdatedAt { get; set; }
 
-        public virtual TblRole Role { get; set; }
     }
 }

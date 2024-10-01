@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EXE201_2RE_API.Constants;
 using EXE201_2RE_API.Exceptions;
-using EXE201_2RE_API.Model;
+using EXE201_2RE_API.DTOs;
 using EXE201_2RE_API.Repository;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,7 @@ namespace EXE201_2RE_API.Service
             }
             string userName = jwtToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
 
-            var user = _unitOfWork.UserRepository.GetAll().Where(x => x.Username == userName).FirstOrDefault();
+            var user = _unitOfWork.UserRepository.GetAll().Where(x => x.Email == userName).FirstOrDefault();
             if (user is null)
             {
                 throw new BadRequestException("Cannot find User");
@@ -47,11 +47,11 @@ namespace EXE201_2RE_API.Service
             return _mapper.Map<UserModel>(user);
         }
 
-        public async Task<IServiceResult> GetUserByUserName(string username)
+        public async Task<IServiceResult> GetUserByEmail(string username)
         {
             try
             {
-                var result = _mapper.Map<UserModel>(_unitOfWork.UserRepository.GetAll().Where(_ => _.Username == username));
+                var result = _mapper.Map<UserModel>(_unitOfWork.UserRepository.GetAll().Where(_ => _.Email == username).FirstOrDefault());
                 return new ServiceResult(200, "Get user by user name", result);
             }
             catch (Exception ex)
