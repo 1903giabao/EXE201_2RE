@@ -4,13 +4,9 @@ namespace EXE201_2RE_API.DTOs
 {
     public class ActionOutcome
     {
-        [JsonPropertyName("Result")]
-        public object? Result { get; set; }
-        [JsonPropertyName("IsSuccess")]
-        public bool IsSuccess { get; set; } = true;
-        [JsonPropertyName("Message")]
-        public string Message { get; set; } = string.Empty;
-        [JsonPropertyName("Value")]
-        public string Value { get; set; } = string.Empty;
+        public object? result { get; set; }
+        public bool isSuccess { get; set; } = true;
+        public string message { get; set; } = string.Empty;
+        public string value { get; set; } = string.Empty;
     }
 }

@@ -8,6 +8,6 @@ namespace EXE201_2RE_API.Response
 {
     public class CheckTokenResponse
     {
-        public object? User { get; set; }
+        public object? user { get; set; }
     }
 }

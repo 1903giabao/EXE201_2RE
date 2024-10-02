@@ -22,7 +22,7 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var result = _mapper.Map<List<GetFavoriteProductsResponse>>(await _unitOfWork.FavoriteRepository.FindByConditionAsync(_ => _.UserId == userId));
+                var result = _mapper.Map<List<GetFavoriteProductsResponse>>(await _unitOfWork.FavoriteRepository.FindByConditionAsync(_ => _.userId == userId));
 
                 return new ServiceResult(200, "Favorite products by user", result);
             }
@@ -36,7 +36,7 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var checkExisted = _unitOfWork.FavoriteRepository.FindByCondition(_ => _.ProductId == productId && _.UserId == userId).FirstOrDefault();
+                var checkExisted = _unitOfWork.FavoriteRepository.FindByCondition(_ => _.productId == productId && _.userId == userId).FirstOrDefault();
                 
                 if (checkExisted != null)
                 {
@@ -45,8 +45,8 @@ namespace EXE201_2RE_API.Service
 
                 var favorite = new TblFavorite 
                 { 
-                    UserId = userId, 
-                    ProductId = productId 
+                    userId = userId, 
+                    productId = productId 
                 };
 
                 var result = await _unitOfWork.FavoriteRepository.CreateAsync(favorite);

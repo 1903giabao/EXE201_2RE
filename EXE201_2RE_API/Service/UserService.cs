@@ -39,7 +39,7 @@ namespace EXE201_2RE_API.Service
             }
             string userName = jwtToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
 
-            var user = _unitOfWork.UserRepository.GetAll().Where(x => x.Email == userName).FirstOrDefault();
+            var user = _unitOfWork.UserRepository.GetAll().Where(x => x.email == userName).FirstOrDefault();
             if (user is null)
             {
                 throw new BadRequestException("Cannot find User");
@@ -51,7 +51,7 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var result = _mapper.Map<UserModel>(_unitOfWork.UserRepository.GetAll().Where(_ => _.Email == username).FirstOrDefault());
+                var result = _mapper.Map<UserModel>(_unitOfWork.UserRepository.GetAll().Where(_ => _.email == username).FirstOrDefault());
                 return new ServiceResult(200, "Get user by user name", result);
             }
             catch (Exception ex)

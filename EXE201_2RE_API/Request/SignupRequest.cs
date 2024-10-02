@@ -8,16 +8,16 @@ namespace EXE201_2RE_API.Request
 {
     public class SignupRequest
     {
-        public string Username { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string Address { get; set; } = null!;
-        public string PhoneNumber { get; set; }
-        public bool IsShopOwner { get; set; }
-        public string ShopName { get; set; }
-        public string ShopAddress { get; set; }
-        public string ShopDescription { get; set; }
-        public string ShopLogo { get; set; }
+        public string userName { get; set; } = null!;
+        public string passWord { get; set; } = null!;
+        public string email { get; set; } = null!;
+        public string address { get; set; } = null!;
+        public string phoneNumber { get; set; }
+        public bool isShopOwner { get; set; }
+        public string shopName { get; set; }
+        public string shopAddress { get; set; }
+        public string shopDescription { get; set; }
+        public string shopLogo { get; set; }
 
     }
 }

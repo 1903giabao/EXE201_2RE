@@ -19,31 +19,31 @@ public partial class TblProduct
 
     public Guid? sizeId { get; set; }
 
-    public string name { get; set; }
+    public string? name { get; set; }
 
-    public decimal price { get; set; }
+    public decimal? price { get; set; }
 
-    public string imgUrl { get; set; }
+    public string? imgUrl { get; set; }
 
-    public string description { get; set; }
+    public string? description { get; set; }
 
-    public string status { get; set; }
+    public string? status { get; set; }
 
-    public DateTime createdAt { get; set; }
+    public DateTime? createdAt { get; set; }
 
-    public DateTime updatedAt { get; set; }
+    public DateTime? updatedAt { get; set; }
 
-    public virtual TblCategory category { get; set; }
+    public virtual TblCategory? category { get; set; }
 
-    public virtual TblGenderCategory genderCategory { get; set; }
+    public virtual TblGenderCategory? genderCategory { get; set; }
 
-    public virtual TblUser shopOwner { get; set; }
+    public virtual TblUser? shopOwner { get; set; }
 
-    public virtual TblSize size { get; set; }
+    public virtual TblSize? size { get; set; }
 
-    public virtual ICollection<TblCartDetail> tblCartDetails { get; set; } = new List<TblCartDetail>();
+    public virtual ICollection<TblCartDetail>? tblCartDetails { get; set; } = new List<TblCartDetail>();
 
-    public virtual ICollection<TblReview> tblReviews { get; set; } = new List<TblReview>();
-    public virtual ICollection<TblFavorite> tblFavorites { get; set; } = new List<TblFavorite>();
+    public virtual ICollection<TblReview>? tblReviews { get; set; } = new List<TblReview>();
+    public virtual ICollection<TblFavorite>? tblFavorites { get; set; } = new List<TblFavorite>();
 
 }

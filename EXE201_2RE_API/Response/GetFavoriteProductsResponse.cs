@@ -2,7 +2,7 @@
 {
     public class GetFavoriteProductsResponse
     {
-        public int FavoriteId { get; set; }
-        public int ProductId { get; set; }
+        public Guid favoriteId { get; set; }
+        public Guid productId { get; set; }
     }
 }

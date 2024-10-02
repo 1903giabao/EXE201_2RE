@@ -34,7 +34,7 @@ public class AuthController : ControllerBase
     [HttpPost]
     public IActionResult Login([FromBody] LoginRequest req)
     {
-        var loginResult = _identityService.Login(req.Email, req.Password);
+        var loginResult = _identityService.Login(req.email, req.password);
         if (!loginResult.Authenticated)
         {
             var result = ApiResult<Dictionary<string, string[]>>.Fail(new Exception("Username or password is invalid"));
@@ -44,7 +44,7 @@ public class AuthController : ControllerBase
         var handler = new JwtSecurityTokenHandler();
         var res = new LoginResponse
         {
-            AccessToken = handler.WriteToken(loginResult.Token),
+            accessToken = handler.WriteToken(loginResult.Token),
         };
         return Ok(ApiResult<LoginResponse>.Succeed(res));
     }
@@ -88,7 +88,7 @@ public class AuthController : ControllerBase
         // If token is valid, return success response
         return Ok(ApiResult<CheckTokenResponse>.Succeed(new CheckTokenResponse
         {
-            User = user.Data
+            user = user.Data
         }));
     }
 }

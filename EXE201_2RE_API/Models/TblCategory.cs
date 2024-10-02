@@ -9,9 +9,9 @@ namespace EXE201_2RE_API.Models;
 public partial class TblCategory
 {
     [Key]
-    public Guid categoryId { get; set; }
+    public Guid? categoryId { get; set; }
 
-    public string name { get; set; }
+    public string? name { get; set; }
 
-    public virtual ICollection<TblProduct> tblProducts { get; set; } = new List<TblProduct>();
+    public virtual ICollection<TblProduct>? tblProducts { get; set; } = new List<TblProduct>();
 }

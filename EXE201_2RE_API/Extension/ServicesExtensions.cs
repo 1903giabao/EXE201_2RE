@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using EXE201_2RE_API.Models;
 using EXE201_2RE_API.Repository;
 using EXE201_2RE_API.Service;
+using static EXE201_2RE_API.Configuration.ConfigurationModel;
 
 namespace EXE201_2RE.Extensions;
 
@@ -64,6 +65,12 @@ public static class ServicesExtensions
         {
             opt.UseSqlServer(configuration.GetConnectionString("BaoConnection"));
         });
+
+        var firebaseConfigSection = configuration.GetSection("Firebase");
+        var firebaseConfig = firebaseConfigSection.Get<FirebaseConfiguration>();
+
+        services.Configure<FirebaseConfiguration>(firebaseConfigSection);
+        services.AddSingleton(firebaseConfig);
 
         services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         services.AddScoped<UnitOfWork>();

@@ -9,33 +9,33 @@ namespace EXE201_2RE_API.DTOs
 {
     public class UserModel
     {
-        public Guid UserId { get; set; }
+        public Guid userId { get; set; }
 
-        public string Username { get; set; }
+        public string userName { get; set; }
 
-        public string Password { get; set; }
+        public string passWord { get; set; }
 
-        public string Email { get; set; }
+        public string email { get; set; }
 
-        public string Address { get; set; }
+        public string address { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string phoneNumber { get; set; }
 
-        public Guid? RoleId { get; set; }
+        public Guid? roleId { get; set; }
 
-        public bool? IsShopOwner { get; set; }
+        public bool? isShopOwner { get; set; }
 
-        public string ShopName { get; set; }
+        public string shopName { get; set; }
 
-        public string ShopAddress { get; set; }
+        public string shopAddress { get; set; }
 
-        public string ShopDescription { get; set; }
+        public string shopDescription { get; set; }
 
-        public string ShopLogo { get; set; }
+        public string shopLogo { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime createdAt { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
+        public DateTime updatedAt { get; set; }
 
     }
 }

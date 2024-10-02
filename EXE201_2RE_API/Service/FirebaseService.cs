@@ -9,6 +9,14 @@ using static EXE201_2RE_API.Configuration.ConfigurationModel;
 
 namespace EXE201_2RE_API.Service
 {
+    public interface IFirebaseService
+    {
+        Task<ActionOutcome> UploadFileToFirebase(IFormFile file, string pathFileName);
+        Task<ActionOutcome> UploadFilesToFirebase(List<IFormFile> files, string basePath);
+        public Task<string> GetUrlImageFromFirebase(string pathFileName);
+        public Task<ActionOutcome> DeleteFileFromFirebase(string pathFileName);
+    }
+
     public class FirebaseService : GenericBackendService, IFirebaseService
     {
         private ActionOutcome _result;
@@ -38,12 +46,12 @@ namespace EXE201_2RE_API.Service
                 await storage
                     .Child(pathFileName)
                     .DeleteAsync();
-                _result.Message = "XÓA FILE THÀNH CÔNG!";
-                _result.IsSuccess = true;
+                _result.message = "XÓA FILE THÀNH CÔNG!";
+                _result.isSuccess = true;
             }
             catch (FirebaseStorageException ex)
             {
-                _result.Message = $"LỖI KHI XÓA FILE: {ex.Message}".ToUpper();
+                _result.message = $"LỖI KHI XÓA FILE: {ex.Message}".ToUpper();
             }
             return _result;
         }
@@ -78,7 +86,7 @@ namespace EXE201_2RE_API.Service
             if (file == null || file.Length == 0)
             {
                 isValid = false;
-                _result.Message = "FILE ĐANG BỊ TRỐNG!";
+                _result.message = "FILE ĐANG BỊ TRỐNG!";
             }
             if (isValid)
             {
@@ -100,12 +108,12 @@ namespace EXE201_2RE_API.Service
 
                 if (task != null)
                 {
-                    _result.Result = downloadUrl;
+                    _result.result = downloadUrl;
                 }
                 else
                 {
-                    _result.IsSuccess = false;
-                    _result.Message = "TẢI FILE LÊN LỖI!";
+                    _result.isSuccess = false;
+                    _result.message = "TẢI FILE LÊN LỖI!";
                 }
             }
             return _result;
@@ -129,7 +137,7 @@ namespace EXE201_2RE_API.Service
             {
                 if (file == null || file.Length == 0)
                 {
-                    _result.Message = "MỘT HOẶC NHIỀU FILE BỊ TRỐNG!";
+                    _result.message = "MỘT HOẶC NHIỀU FILE BỊ TRỐNG!";
                     continue;
                 }
 
@@ -145,21 +153,21 @@ namespace EXE201_2RE_API.Service
                 }
                 else
                 {
-                    _result.IsSuccess = false;
-                    _result.Message = $"TẢI FILE LÊN BỊ LỖI : {file.FileName}".ToUpper();
+                    _result.isSuccess = false;
+                    _result.message = $"TẢI FILE LÊN BỊ LỖI : {file.FileName}".ToUpper();
                 }
             }
 
-            _result.Result = uploadResults;
+            _result.result = uploadResults;
             if (uploadResults.Count == files.Count)
             {
-                _result.IsSuccess = true;
-                _result.Message = "TẢI TOÀN BỘ FILE THÀNH CÔNG!";
+                _result.isSuccess = true;
+                _result.message = "TẢI TOÀN BỘ FILE THÀNH CÔNG!";
             }
             else
             {
-                _result.IsSuccess = false;
-                _result.Message = "MỘT SỐ FILE BỊ LỖI KHI TẢI LÊN!";
+                _result.isSuccess = false;
+                _result.message = "MỘT SỐ FILE BỊ LỖI KHI TẢI LÊN!";
             }
 
             return _result;

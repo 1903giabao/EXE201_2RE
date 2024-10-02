@@ -34,26 +34,26 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(req.Username))
+                if (string.IsNullOrWhiteSpace(req.userName))
                 {
                     return new ServiceResult(500, "Incorrect format of Username");
                 }
 
                 string emailPattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
 
-                if (!Regex.IsMatch(req.Email, emailPattern))
+                if (!Regex.IsMatch(req.email, emailPattern))
                 {
                     return new ServiceResult(500, "Incorrect format of Email");
                 }
 
                 string phonePattern = @"^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
 
-                if (!Regex.IsMatch(req.PhoneNumber, phonePattern))
+                if (!Regex.IsMatch(req.phoneNumber, phonePattern))
                 {
                     return new ServiceResult(500, "Incorrect format of Phone number");
                 }
 
-                var user = _unitOfWork.UserRepository.GetAll().Where(u => u.Email == req.Email).FirstOrDefault();
+                var user = _unitOfWork.UserRepository.GetAll().Where(u => u.email == req.email).FirstOrDefault();
                 if (user is not null)
                 {
                     return new ServiceResult(500, "Email already exists");
@@ -61,20 +61,20 @@ namespace EXE201_2RE_API.Service
 
                 var newAccount = new TblUser
                 {
-                    UserId = new Guid(),
-                    Username = req.Username,
-                    Password = SecurityUtil.Hash(req.Password),
-                    Email = req.Email,
-                    Address = req.Address,
-                    PhoneNumber = req.PhoneNumber,
-                    IsShopOwner = req.IsShopOwner,
-                    ShopAddress = req.ShopAddress,
-                    RoleId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
-                    ShopDescription = req.ShopDescription,
-                    ShopLogo = req.ShopLogo,
-                    ShopName = req.ShopName,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
+                    userId = new Guid(),
+                    userName = req.userName,
+                    passWord = SecurityUtil.Hash(req.passWord),
+                    email = req.email,
+                    address = req.address,
+                    phoneNumber = req.phoneNumber,
+                    isShopOwner = req.isShopOwner,
+                    shopAddress = req.shopAddress,
+                    roleId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                    shopDescription = req.shopDescription,
+                    shopLogo = req.shopLogo,
+                    shopName = req.shopName,
+                    createdAt = DateTime.Now,
+                    updatedAt = DateTime.Now,
                 };
 
                 _unitOfWork.UserRepository.PrepareCreate(newAccount);
@@ -96,7 +96,7 @@ namespace EXE201_2RE_API.Service
 
         public LoginResult Login(string email, string password)
         {
-            var user = _unitOfWork.UserRepository.GetAllIncluding(_ => _.Role).Where(_ => _.Email.Equals(email)).FirstOrDefault();
+            var user = _unitOfWork.UserRepository.GetAllIncluding(_ => _.role).Where(_ => _.email.Equals(email)).FirstOrDefault();
 
             if (user is null)
             {
@@ -109,7 +109,7 @@ namespace EXE201_2RE_API.Service
             }
 
             var hash = SecurityUtil.Hash(password);
-            if (!user.Password.Equals(hash))
+            if (!user.passWord.Equals(hash))
             {
                 return new LoginResult
                 {
@@ -121,7 +121,7 @@ namespace EXE201_2RE_API.Service
 
             return new LoginResult
             {
-                RoleName = user.Role.Name,
+                RoleName = user.role.name,
                 Authenticated = true,
                 Token = CreateJwtToken(user),
             };
@@ -132,9 +132,9 @@ namespace EXE201_2RE_API.Service
             var utcNow = DateTime.UtcNow;
             var authClaims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.NameId, user.UserId.ToString()),
-                new(JwtRegisteredClaimNames.Email, user.Email),
-                new(ClaimTypes.Role, user.Role.Name),
+                new(JwtRegisteredClaimNames.NameId, user.userId.ToString()),
+                new(JwtRegisteredClaimNames.Email, user.email),
+                new(ClaimTypes.Role, user.role.name),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

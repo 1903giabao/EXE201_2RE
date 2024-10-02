@@ -9,6 +9,6 @@ namespace EXE201_2RE_API.Response
 {
     public class LoginResponse
     {
-        public string AccessToken { get; set; } = null!;
+        public string accessToken { get; set; } = null!;
     }
 }

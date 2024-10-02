@@ -9,23 +9,23 @@ namespace EXE201_2RE_API.Models;
 public partial class TblCart
 {
     [Key]
-    public Guid cartId { get; set; }
+    public Guid? cartId { get; set; }
 
     public Guid? userId { get; set; }
 
     public decimal? totalPrice { get; set; }
 
-    public DateTime dateTime { get; set; }
+    public DateTime? dateTime { get; set; }
 
-    public string address { get; set; }
+    public string? address { get; set; }
+                 
+    public string? phone { get; set; }
+                 
+    public string? status { get; set; }
 
-    public string phone { get; set; }
+    public virtual ICollection<TblCartDetail>? tblCartDetails { get; set; } = new List<TblCartDetail>();
 
-    public string status { get; set; }
+    public virtual ICollection<TblOrderHistory>? tblOrderHistories { get; set; } = new List<TblOrderHistory>();
 
-    public virtual ICollection<TblCartDetail> tblCartDetails { get; set; } = new List<TblCartDetail>();
-
-    public virtual ICollection<TblOrderHistory> tblOrderHistories { get; set; } = new List<TblOrderHistory>();
-
-    public virtual TblUser user { get; set; }
+    public virtual TblUser? user { get; set; }
 }

@@ -17,11 +17,11 @@ public partial class TblReview
 
     public int? rating { get; set; }
 
-    public string comment { get; set; }
+    public string? comment { get; set; }
 
-    public DateTime createdAt { get; set; }
+    public DateTime? createdAt { get; set; }
 
-    public virtual TblProduct product { get; set; }
+    public virtual TblProduct? product { get; set; }
 
-    public virtual TblUser user { get; set; }
+    public virtual TblUser? user { get; set; }
 }

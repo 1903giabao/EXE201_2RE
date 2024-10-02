@@ -17,8 +17,6 @@ namespace EXE201_2RE_API
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddInfrastructure(builder.Configuration);
-            ConfigureFirebase(builder.Services, builder.Configuration);
-
 
             builder.Services.AddSwaggerGen(option =>
             {
@@ -100,16 +98,6 @@ namespace EXE201_2RE_API
                     _db.Database.Migrate();
                 }
             }
-        }
-        private static void ConfigureFirebase(IServiceCollection services, IConfiguration configuration)
-        {
-            var firebaseConfigSection = configuration.GetSection("Firebase");
-            var firebaseConfig = firebaseConfigSection.Get<FirebaseConfiguration>();
-
-            services.Configure<FirebaseConfiguration>(firebaseConfigSection);
-            services.AddSingleton(firebaseConfig);
-
-            services.AddScoped<IFirebaseService, FirebaseService>();
         }
     }
 }

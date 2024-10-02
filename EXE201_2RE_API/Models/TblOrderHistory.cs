@@ -9,13 +9,13 @@ namespace EXE201_2RE_API.Models;
 public partial class TblOrderHistory
 {
     [Key]
-    public Guid orderHistoryId { get; set; }
+    public Guid? orderHistoryId { get; set; }
 
     public Guid? cartId { get; set; }
 
-    public string status { get; set; }
+    public string? status { get; set; }
 
-    public DateTime changedAt { get; set; }
+    public DateTime? changedAt { get; set; }
 
-    public virtual TblCart cart { get; set; }
+    public virtual TblCart? cart { get; set; }
 }

@@ -9,7 +9,7 @@ namespace EXE201_2RE_API.Models;
 public partial class TblCartDetail
 {
     [Key]
-    public Guid cartDetailId { get; set; }
+    public Guid? cartDetailId { get; set; }
 
     public Guid? cartId { get; set; }
 
@@ -17,7 +17,7 @@ public partial class TblCartDetail
 
     public decimal? price { get; set; }
 
-    public virtual TblCart cart { get; set; }
+    public virtual TblCart? cart { get; set; }
 
-    public virtual TblProduct product { get; set; }
+    public virtual TblProduct? product { get; set; }
 }

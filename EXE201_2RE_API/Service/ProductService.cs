@@ -61,7 +61,7 @@ namespace EXE201_2RE_API.Service
                     description = createProductModel.description,
                     name = createProductModel.name,
                     price = createProductModel.price,
-                    createdAt = createProductModel.createdAt,
+                    createdAt = DateTime.Now,
                     status = SD.GeneralStatus.ACTIVE,
                 };
 
@@ -70,12 +70,12 @@ namespace EXE201_2RE_API.Service
                     var imagePath = FirebasePathName.PRODUCT + $"{newProduct.productId}";
                     var imageUploadResult = await _firebaseService.UploadFileToFirebase(createProductModel.imgUrl, imagePath);
 
-                    if (!imageUploadResult.IsSuccess)
+                    if (!imageUploadResult.isSuccess)
                     {
                         return new ServiceResult(500, "Failed to upload image", null);
                     }
 
-                    newProduct.imgUrl = (string)imageUploadResult.Result;
+                    newProduct.imgUrl = (string)imageUploadResult.result;
                 }
                 else
                 {

@@ -18,7 +18,5 @@
 
         public string description { get; set; }
 
-        public DateTime createdAt { get; set; }
-
     }
 }
