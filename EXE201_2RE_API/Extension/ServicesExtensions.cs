@@ -71,6 +71,7 @@ public static class ServicesExtensions
         services.AddScoped<IdentityService>();
         services.AddScoped<ProductService>();
         services.AddScoped<FavoriteService>();
+        services.AddScoped<IFirebaseService, FirebaseService>();
 
         return services;
     }

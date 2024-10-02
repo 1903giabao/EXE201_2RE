@@ -1,4 +1,5 @@
-﻿using EXE201_2RE_API.Service;
+﻿using EXE201_2RE_API.DTOs;
+using EXE201_2RE_API.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,13 @@ namespace EXE201_2RE_API.Controllers
         public async Task<IActionResult> GetProductById([FromRoute] Guid id)
         {
             var result = await _productService.GetProductById(id);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct([FromForm] CreateProductModel createProductModel)
+        {
+            var result = await _productService.CreateProduct(createProductModel);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
     }

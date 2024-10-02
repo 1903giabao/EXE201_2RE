@@ -9,15 +9,15 @@ namespace EXE201_2RE_API.Models;
 public partial class TblCartDetail
 {
     [Key]
-    public Guid CartDetailId { get; set; }
+    public Guid cartDetailId { get; set; }
 
-    public Guid? CartId { get; set; }
+    public Guid? cartId { get; set; }
 
-    public Guid? ProductId { get; set; }
+    public Guid? productId { get; set; }
 
-    public decimal? Price { get; set; }
+    public decimal? price { get; set; }
 
-    public virtual TblCart Cart { get; set; }
+    public virtual TblCart cart { get; set; }
 
-    public virtual TblProduct Product { get; set; }
+    public virtual TblProduct product { get; set; }
 }

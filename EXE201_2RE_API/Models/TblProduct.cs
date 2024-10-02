@@ -9,41 +9,41 @@ namespace EXE201_2RE_API.Models;
 public partial class TblProduct
 {
     [Key]
-    public Guid ProductId { get; set; }
+    public Guid productId { get; set; }
 
-    public Guid? ShopOwnerId { get; set; }
+    public Guid? shopOwnerId { get; set; }
 
-    public Guid? CategoryId { get; set; }
+    public Guid? categoryId { get; set; }
 
-    public Guid? GenderCategoryId { get; set; }
+    public Guid? genderCategoryId { get; set; }
 
-    public Guid? SizeId { get; set; }
+    public Guid? sizeId { get; set; }
 
-    public string Name { get; set; }
+    public string name { get; set; }
 
-    public decimal Price { get; set; }
+    public decimal price { get; set; }
 
-    public string ImgUrl { get; set; }
+    public string imgUrl { get; set; }
 
-    public string Description { get; set; }
+    public string description { get; set; }
 
-    public string Status { get; set; }
+    public string status { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime createdAt { get; set; }
 
-    public DateTime UpdatedAt { get; set; }
+    public DateTime updatedAt { get; set; }
 
-    public virtual TblCategory Category { get; set; }
+    public virtual TblCategory category { get; set; }
 
-    public virtual TblGenderCategory GenderCategory { get; set; }
+    public virtual TblGenderCategory genderCategory { get; set; }
 
-    public virtual TblUser ShopOwner { get; set; }
+    public virtual TblUser shopOwner { get; set; }
 
-    public virtual TblSize Size { get; set; }
+    public virtual TblSize size { get; set; }
 
-    public virtual ICollection<TblCartDetail> TblCartDetails { get; set; } = new List<TblCartDetail>();
+    public virtual ICollection<TblCartDetail> tblCartDetails { get; set; } = new List<TblCartDetail>();
 
-    public virtual ICollection<TblReview> TblReviews { get; set; } = new List<TblReview>();
-    public virtual ICollection<TblFavorite> TblFavorites { get; set; } = new List<TblFavorite>();
+    public virtual ICollection<TblReview> tblReviews { get; set; } = new List<TblReview>();
+    public virtual ICollection<TblFavorite> tblFavorites { get; set; } = new List<TblFavorite>();
 
 }

@@ -9,9 +9,9 @@ namespace EXE201_2RE_API.Models;
 public partial class TblRole
 {
     [Key]
-    public Guid RoleId { get; set; }
+    public Guid roleId { get; set; }
 
-    public string Name { get; set; }
+    public string name { get; set; }
 
-    public virtual ICollection<TblUser> TblUsers { get; set; } = new List<TblUser>();
+    public virtual ICollection<TblUser> tblUsers { get; set; } = new List<TblUser>();
 }

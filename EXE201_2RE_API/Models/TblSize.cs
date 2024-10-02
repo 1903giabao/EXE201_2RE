@@ -9,9 +9,9 @@ namespace EXE201_2RE_API.Models;
 public partial class TblSize
 {
     [Key]
-    public Guid SizeId { get; set; }
+    public Guid sizeId { get; set; }
 
-    public string SizeName { get; set; }
+    public string sizeName { get; set; }
 
-    public virtual ICollection<TblProduct> TblProducts { get; set; } = new List<TblProduct>();
+    public virtual ICollection<TblProduct> tblProducts { get; set; } = new List<TblProduct>();
 }

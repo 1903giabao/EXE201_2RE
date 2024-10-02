@@ -5,16 +5,16 @@ namespace EXE201_2RE_API.Models
     public partial class TblFavorite
     {
         [Key]
-        public Guid FavoriteId { get; set; }
+        public Guid favoriteId { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public Guid userId { get; set; }
 
         [Required]
-        public Guid ProductId { get; set; }
+        public Guid productId { get; set; }
 
-        public virtual TblUser User { get; set; }
+        public virtual TblUser user { get; set; }
 
-        public virtual TblProduct Product { get; set; }
+        public virtual TblProduct product { get; set; }
     }
 }

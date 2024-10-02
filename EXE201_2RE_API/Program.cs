@@ -2,9 +2,11 @@
 using EXE201_2RE.Extensions;
 using EXE201_2RE_API.Middlewares;
 using EXE201_2RE_API.Models;
+using EXE201_2RE_API.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System;
+using static EXE201_2RE_API.Settings.ConfigurationModel;
 
 namespace EXE201_2RE_API
 {
@@ -15,6 +17,8 @@ namespace EXE201_2RE_API
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddInfrastructure(builder.Configuration);
+            ConfigureFirebase(builder.Services, builder.Configuration);
+
 
             builder.Services.AddSwaggerGen(option =>
             {
@@ -44,7 +48,7 @@ namespace EXE201_2RE_API
                 });
             });
 
-          
+
             builder.Services.AddCors(option =>
                 option.AddPolicy("CORS", builder =>
                     builder.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed((host) => true)));
@@ -96,6 +100,16 @@ namespace EXE201_2RE_API
                     _db.Database.Migrate();
                 }
             }
+        }
+        private static void ConfigureFirebase(IServiceCollection services, IConfiguration configuration)
+        {
+            var firebaseConfigSection = configuration.GetSection("Firebase");
+            var firebaseConfig = firebaseConfigSection.Get<FirebaseConfiguration>();
+
+            services.Configure<FirebaseConfiguration>(firebaseConfigSection);
+            services.AddSingleton(firebaseConfig);
+
+            services.AddScoped<IFirebaseService, FirebaseService>();
         }
     }
 }
