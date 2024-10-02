@@ -24,14 +24,14 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblCart", b =>
                 {
-                    b.Property<Guid>("cartId")
+                    b.Property<Guid?>("cartId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("dateTime")
+                    b.Property<DateTime?>("dateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("phone")
@@ -55,7 +55,7 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblCartDetail", b =>
                 {
-                    b.Property<Guid>("cartDetailId")
+                    b.Property<Guid?>("cartDetailId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -79,7 +79,7 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblCategory", b =>
                 {
-                    b.Property<Guid>("categoryId")
+                    b.Property<Guid?>("categoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -110,14 +110,16 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblFavorite", b =>
                 {
-                    b.Property<Guid>("favoriteId")
+                    b.Property<Guid?>("favoriteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("productId")
+                    b.Property<Guid?>("productId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("userId")
+                    b.Property<Guid?>("userId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("favoriteId");
@@ -131,7 +133,7 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblGenderCategory", b =>
                 {
-                    b.Property<Guid>("genderCategoryId")
+                    b.Property<Guid?>("genderCategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -157,14 +159,14 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblOrderHistory", b =>
                 {
-                    b.Property<Guid>("orderHistoryId")
+                    b.Property<Guid?>("orderHistoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("cartId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("changedAt")
+                    b.Property<DateTime?>("changedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("status")
@@ -186,7 +188,7 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<Guid?>("categoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("createdAt")
+                    b.Property<DateTime?>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("description")
@@ -201,7 +203,7 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("price")
+                    b.Property<decimal?>("price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("shopOwnerId")
@@ -213,7 +215,7 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("updatedAt")
+                    b.Property<DateTime?>("updatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("productId");
@@ -227,6 +229,158 @@ namespace EXE201_2RE_API.Migrations
                     b.HasIndex("sizeId");
 
                     b.ToTable("tblProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            productId = new Guid("13b300c8-166b-4fc5-87c6-7fdb5dbaa8d7"),
+                            categoryId = new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6412),
+                            description = "Classic men's t-shirt in various sizes",
+                            genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            imgUrl = "https://example.com/tshirt1.jpg",
+                            name = "Men's Classic T-Shirt",
+                            price = 19.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6413)
+                        },
+                        new
+                        {
+                            productId = new Guid("f79009f9-4869-46bc-9fd4-b842f3e50f7b"),
+                            categoryId = new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6421),
+                            description = "Slim-fit jeans with a modern look",
+                            genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            imgUrl = "https://example.com/jeans1.jpg",
+                            name = "Men's Slim Fit Jeans",
+                            price = 39.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6421)
+                        },
+                        new
+                        {
+                            productId = new Guid("646d3096-1365-4d62-bbd6-6b8c64539220"),
+                            categoryId = new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6427),
+                            description = "Casual jacket for everyday wear",
+                            genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            imgUrl = "https://example.com/jacket1.jpg",
+                            name = "Men's Casual Jacket",
+                            price = 49.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6428)
+                        },
+                        new
+                        {
+                            productId = new Guid("beb2d9d0-4585-4460-a464-f6ab0fcba7b7"),
+                            categoryId = new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6433),
+                            description = "Comfortable fitted t-shirt for women",
+                            genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
+                            imgUrl = "https://example.com/tshirt2.jpg",
+                            name = "Women's Fitted T-Shirt",
+                            price = 24.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6434)
+                        },
+                        new
+                        {
+                            productId = new Guid("c0d59df0-9d48-473a-b082-9b06a1a8da6f"),
+                            categoryId = new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6451),
+                            description = "Fashionable skinny jeans for women",
+                            genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
+                            imgUrl = "https://example.com/jeans2.jpg",
+                            name = "Women's Skinny Jeans",
+                            price = 34.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6452)
+                        },
+                        new
+                        {
+                            productId = new Guid("51e9abc8-a1fd-42cd-aa78-5ed5edef4677"),
+                            categoryId = new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6457),
+                            description = "Stylish and warm jacket for women",
+                            genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
+                            imgUrl = "https://example.com/jacket2.jpg",
+                            name = "Women's Casual Jacket",
+                            price = 59.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6458)
+                        },
+                        new
+                        {
+                            productId = new Guid("e8a306df-3863-4ddb-83dc-4a9b5f9c85cb"),
+                            categoryId = new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6463),
+                            description = "Trendy graphic t-shirt with cool design",
+                            genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            imgUrl = "https://example.com/tshirt3.jpg",
+                            name = "Men's Graphic Tee",
+                            price = 29.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6464)
+                        },
+                        new
+                        {
+                            productId = new Guid("e191d1bd-5040-41eb-bba2-6b3f566d213b"),
+                            categoryId = new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6469),
+                            description = "Classic regular fit jeans",
+                            genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            imgUrl = "https://example.com/jeans3.jpg",
+                            name = "Men's Regular Fit Jeans",
+                            price = 44.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6469)
+                        },
+                        new
+                        {
+                            productId = new Guid("31e0bcbb-9645-4eb1-90d2-c0c200e8d9b8"),
+                            categoryId = new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6474),
+                            description = "Premium leather jacket for men",
+                            genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            imgUrl = "https://example.com/jacket3.jpg",
+                            name = "Men's Leather Jacket",
+                            price = 99.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6475)
+                        },
+                        new
+                        {
+                            productId = new Guid("0a890ed8-ba58-4c67-a3d3-9f3cfcf63720"),
+                            categoryId = new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6480),
+                            description = "Soft cotton t-shirt for casual wear",
+                            genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
+                            imgUrl = "https://example.com/tshirt4.jpg",
+                            name = "Women's Cotton Tee",
+                            price = 18.99m,
+                            shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            sizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"),
+                            status = "Available",
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6480)
+                        });
                 });
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblReview", b =>
@@ -238,7 +392,7 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<string>("comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("createdAt")
+                    b.Property<DateTime?>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("productId")
@@ -261,7 +415,7 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblRole", b =>
                 {
-                    b.Property<Guid>("roleId")
+                    b.Property<Guid?>("roleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -287,7 +441,7 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblSize", b =>
                 {
-                    b.Property<Guid>("sizeId")
+                    b.Property<Guid?>("sizeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -323,14 +477,14 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblUser", b =>
                 {
-                    b.Property<Guid>("userId")
+                    b.Property<Guid?>("userId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("createdAt")
+                    b.Property<DateTime?>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("email")
@@ -360,7 +514,7 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<string>("shopName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("updatedAt")
+                    b.Property<DateTime?>("updatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("userName")
@@ -377,7 +531,7 @@ namespace EXE201_2RE_API.Migrations
                         {
                             userId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             address = "address",
-                            createdAt = new DateTime(2024, 10, 2, 20, 25, 25, 562, DateTimeKind.Local).AddTicks(7506),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6163),
                             email = "user1@gmail.com",
                             isShopOwner = true,
                             passWord = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
@@ -387,20 +541,20 @@ namespace EXE201_2RE_API.Migrations
                             shopDescription = "shop1des",
                             shopLogo = "shop1logo",
                             shopName = "shop1",
-                            updatedAt = new DateTime(2024, 10, 2, 20, 25, 25, 562, DateTimeKind.Local).AddTicks(7515),
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6179),
                             userName = "user1"
                         },
                         new
                         {
                             userId = new Guid("e2c3c2b1-5a1f-4c4f-b1ea-6b2c4f8e1a0b"),
                             address = "address",
-                            createdAt = new DateTime(2024, 10, 2, 20, 25, 25, 562, DateTimeKind.Local).AddTicks(7579),
+                            createdAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6264),
                             email = "admin@gmail.com",
                             isShopOwner = false,
                             passWord = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
                             phoneNumber = "0912398765",
                             roleId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
-                            updatedAt = new DateTime(2024, 10, 2, 20, 25, 25, 562, DateTimeKind.Local).AddTicks(7580),
+                            updatedAt = new DateTime(2024, 10, 2, 20, 57, 51, 465, DateTimeKind.Local).AddTicks(6264),
                             userName = "admin"
                         });
                 });
