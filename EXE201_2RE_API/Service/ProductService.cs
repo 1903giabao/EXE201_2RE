@@ -29,7 +29,7 @@ namespace EXE201_2RE_API.Service
             }
         }
 
-        public async Task<IServiceResult> GetProductById(int id)
+        public async Task<IServiceResult> GetProductById(Guid id)
         {
             try
             {

@@ -9,7 +9,7 @@ namespace EXE201_2RE_API.Models;
 public partial class TblGenderCategory
 {
     [Key]
-    public int GenderCategoryId { get; set; }
+    public Guid GenderCategoryId { get; set; }
 
     public string Name { get; set; }
 

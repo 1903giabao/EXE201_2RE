@@ -9,9 +9,9 @@ namespace EXE201_2RE_API.Models;
 public partial class TblCart
 {
     [Key]
-    public int CartId { get; set; }
+    public Guid CartId { get; set; }
 
-    public int? UserId { get; set; }
+    public Guid? UserId { get; set; }
 
     public decimal? TotalPrice { get; set; }
 

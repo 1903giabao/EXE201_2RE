@@ -9,9 +9,9 @@ namespace EXE201_2RE_API.Models;
 public partial class TblOrderHistory
 {
     [Key]
-    public int OrderHistoryId { get; set; }
+    public Guid OrderHistoryId { get; set; }
 
-    public int? CartId { get; set; }
+    public Guid? CartId { get; set; }
 
     public string Status { get; set; }
 

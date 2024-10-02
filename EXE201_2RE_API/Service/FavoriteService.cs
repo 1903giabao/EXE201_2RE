@@ -18,7 +18,7 @@ namespace EXE201_2RE_API.Service
             _mapper = mapper;
         }
 
-        public async Task<IServiceResult> GetFavoriteProductsByUserId (int userId)
+        public async Task<IServiceResult> GetFavoriteProductsByUserId (Guid userId)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace EXE201_2RE_API.Service
             }
         }
 
-        public async Task<IServiceResult> AddFavoriteProduct(int userId, int productId)
+        public async Task<IServiceResult> AddFavoriteProduct(Guid userId, Guid productId)
         {
             try
             {

@@ -61,6 +61,7 @@ namespace EXE201_2RE_API.Service
 
                 var newAccount = new TblUser
                 {
+                    UserId = new Guid(),
                     Username = req.Username,
                     Password = SecurityUtil.Hash(req.Password),
                     Email = req.Email,
@@ -68,7 +69,7 @@ namespace EXE201_2RE_API.Service
                     PhoneNumber = req.PhoneNumber,
                     IsShopOwner = req.IsShopOwner,
                     ShopAddress = req.ShopAddress,
-                    RoleId = 1,
+                    RoleId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
                     ShopDescription = req.ShopDescription,
                     ShopLogo = req.ShopLogo,
                     ShopName = req.ShopName,

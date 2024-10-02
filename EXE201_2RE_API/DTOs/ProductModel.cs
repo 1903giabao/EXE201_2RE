@@ -4,15 +4,15 @@ namespace EXE201_2RE_API.DTOs
 {
     public class ProductModel
     {
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
-        public int? ShopOwnerId { get; set; }
+        public Guid? ShopOwnerId { get; set; }
 
-        public int? CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
 
-        public int? GenderCategoryId { get; set; }
+        public Guid? GenderCategoryId { get; set; }
 
-        public int? SizeId { get; set; }
+        public Guid? SizeId { get; set; }
 
         public string Name { get; set; }
 

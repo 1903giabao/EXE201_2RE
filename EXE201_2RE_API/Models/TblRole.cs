@@ -9,7 +9,7 @@ namespace EXE201_2RE_API.Models;
 public partial class TblRole
 {
     [Key]
-    public int RoleId { get; set; }
+    public Guid RoleId { get; set; }
 
     public string Name { get; set; }
 

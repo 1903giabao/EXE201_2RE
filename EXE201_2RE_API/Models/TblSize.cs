@@ -9,7 +9,7 @@ namespace EXE201_2RE_API.Models;
 public partial class TblSize
 {
     [Key]
-    public int SizeId { get; set; }
+    public Guid SizeId { get; set; }
 
     public string SizeName { get; set; }
 

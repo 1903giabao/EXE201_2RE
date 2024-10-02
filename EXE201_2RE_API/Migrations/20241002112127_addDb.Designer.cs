@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201_2RE_API.Migrations
 {
     [DbContext(typeof(EXE201Context))]
-    [Migration("20241001190400_addDb")]
+    [Migration("20241002112127_addDb")]
     partial class addDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,9 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblCart", b =>
                 {
-                    b.Property<int>("CartId")
+                    b.Property<Guid>("CartId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -47,8 +45,8 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<decimal?>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CartId");
 
@@ -59,20 +57,18 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblCartDetail", b =>
                 {
-                    b.Property<int>("CartDetailId")
+                    b.Property<Guid>("CartDetailId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartDetailId"), 1L, 1);
-
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CartId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CartDetailId");
 
@@ -85,11 +81,9 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblCategory", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -97,21 +91,36 @@ namespace EXE201_2RE_API.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("tblCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"),
+                            Name = "T-Shirts"
+                        },
+                        new
+                        {
+                            CategoryId = new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"),
+                            Name = "Jeans"
+                        },
+                        new
+                        {
+                            CategoryId = new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"),
+                            Name = "Jackets"
+                        });
                 });
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblFavorite", b =>
                 {
-                    b.Property<int>("FavoriteId")
+                    b.Property<Guid>("FavoriteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FavoriteId"), 1L, 1);
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("FavoriteId");
 
@@ -124,11 +133,9 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblGenderCategory", b =>
                 {
-                    b.Property<int>("GenderCategoryId")
+                    b.Property<Guid>("GenderCategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GenderCategoryId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -136,18 +143,28 @@ namespace EXE201_2RE_API.Migrations
                     b.HasKey("GenderCategoryId");
 
                     b.ToTable("tblGenderCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            GenderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            Name = "Male"
+                        },
+                        new
+                        {
+                            GenderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
+                            Name = "Female"
+                        });
                 });
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblOrderHistory", b =>
                 {
-                    b.Property<int>("OrderHistoryId")
+                    b.Property<Guid>("OrderHistoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderHistoryId"), 1L, 1);
-
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CartId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ChangedAt")
                         .HasColumnType("datetime2");
@@ -164,14 +181,12 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblProduct", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -179,8 +194,8 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GenderCategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("GenderCategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
@@ -191,11 +206,11 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ShopOwnerId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ShopOwnerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("SizeId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("SizeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -218,11 +233,9 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblReview", b =>
                 {
-                    b.Property<int>("ReviewId")
+                    b.Property<Guid>("ReviewId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -230,14 +243,14 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ReviewId");
 
@@ -250,11 +263,9 @@ namespace EXE201_2RE_API.Migrations
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblRole", b =>
                 {
-                    b.Property<int>("RoleId")
+                    b.Property<Guid>("RoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -262,15 +273,25 @@ namespace EXE201_2RE_API.Migrations
                     b.HasKey("RoleId");
 
                     b.ToTable("tblRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            Name = "User"
+                        },
+                        new
+                        {
+                            RoleId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblSize", b =>
                 {
-                    b.Property<int>("SizeId")
+                    b.Property<Guid>("SizeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("SizeName")
                         .HasColumnType("nvarchar(max)");
@@ -278,15 +299,35 @@ namespace EXE201_2RE_API.Migrations
                     b.HasKey("SizeId");
 
                     b.ToTable("tblSizes");
+
+                    b.HasData(
+                        new
+                        {
+                            SizeId = new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"),
+                            SizeName = "S"
+                        },
+                        new
+                        {
+                            SizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"),
+                            SizeName = "M"
+                        },
+                        new
+                        {
+                            SizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"),
+                            SizeName = "L"
+                        },
+                        new
+                        {
+                            SizeId = new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"),
+                            SizeName = "XL"
+                        });
                 });
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblUser", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -306,8 +347,8 @@ namespace EXE201_2RE_API.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ShopAddress")
                         .HasColumnType("nvarchar(max)");
@@ -332,6 +373,38 @@ namespace EXE201_2RE_API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("tblUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
+                            Address = "address",
+                            CreatedAt = new DateTime(2024, 10, 2, 18, 21, 27, 347, DateTimeKind.Local).AddTicks(6603),
+                            Email = "user1@gmail.com",
+                            IsShopOwner = true,
+                            Password = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+                            PhoneNumber = "0909123456",
+                            RoleId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+                            ShopAddress = "shop1address",
+                            ShopDescription = "shop1des",
+                            ShopLogo = "shop1logo",
+                            ShopName = "shop1",
+                            UpdatedAt = new DateTime(2024, 10, 2, 18, 21, 27, 347, DateTimeKind.Local).AddTicks(6613),
+                            Username = "user1"
+                        },
+                        new
+                        {
+                            UserId = new Guid("e2c3c2b1-5a1f-4c4f-b1ea-6b2c4f8e1a0b"),
+                            Address = "address",
+                            CreatedAt = new DateTime(2024, 10, 2, 18, 21, 27, 347, DateTimeKind.Local).AddTicks(6649),
+                            Email = "admin@gmail.com",
+                            IsShopOwner = false,
+                            Password = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+                            PhoneNumber = "0912398765",
+                            RoleId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
+                            UpdatedAt = new DateTime(2024, 10, 2, 18, 21, 27, 347, DateTimeKind.Local).AddTicks(6649),
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("EXE201_2RE_API.Models.TblCart", b =>

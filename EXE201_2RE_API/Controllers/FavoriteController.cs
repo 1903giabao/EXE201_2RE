@@ -17,7 +17,7 @@ namespace EXE201_2RE_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetFavoriteProductsByUserId([FromRoute] int userId)
+        public async Task<IActionResult> GetFavoriteProductsByUserId([FromRoute] Guid userId)
         {
             var result = await _favoriteService.GetFavoriteProductsByUserId(userId);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
@@ -25,7 +25,7 @@ namespace EXE201_2RE_API.Controllers
         
         [AllowAnonymous]
         [HttpPost("{userId}/{productId}")]
-        public async Task<IActionResult> AddFavoriteProduct([FromRoute] int userId, [FromRoute] int productId)
+        public async Task<IActionResult> AddFavoriteProduct([FromRoute] Guid userId, [FromRoute] Guid productId)
         {
             var result = await _favoriteService.AddFavoriteProduct(userId, productId);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);

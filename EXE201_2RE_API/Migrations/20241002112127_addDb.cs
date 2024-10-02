@@ -13,8 +13,7 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblCategories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -26,8 +25,7 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblGenderCategories",
                 columns: table => new
                 {
-                    GenderCategoryId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GenderCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -39,8 +37,7 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblRoles",
                 columns: table => new
                 {
-                    RoleId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -52,8 +49,7 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblSizes",
                 columns: table => new
                 {
-                    SizeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SizeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SizeName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -65,14 +61,13 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblUsers",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleId = table.Column<int>(type: "int", nullable: true),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsShopOwner = table.Column<bool>(type: "bit", nullable: true),
                     ShopName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShopAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -95,9 +90,8 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblCarts",
                 columns: table => new
                 {
-                    CartId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
+                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -118,12 +112,11 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblProducts",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ShopOwnerId = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
-                    GenderCategoryId = table.Column<int>(type: "int", nullable: true),
-                    SizeId = table.Column<int>(type: "int", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShopOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    GenderCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SizeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -161,9 +154,8 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblOrderHistories",
                 columns: table => new
                 {
-                    OrderHistoryId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CartId = table.Column<int>(type: "int", nullable: true),
+                    OrderHistoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ChangedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -181,10 +173,9 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblCartDetails",
                 columns: table => new
                 {
-                    CartDetailId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CartId = table.Column<int>(type: "int", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true),
+                    CartDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
@@ -206,10 +197,9 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblFavorites",
                 columns: table => new
                 {
-                    FavoriteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    FavoriteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -232,10 +222,9 @@ namespace EXE201_2RE_API.Migrations
                 name: "tblReviews",
                 columns: table => new
                 {
-                    ReviewId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true),
+                    ReviewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -254,6 +243,55 @@ namespace EXE201_2RE_API.Migrations
                         principalTable: "tblUsers",
                         principalColumn: "UserId");
                 });
+
+            migrationBuilder.InsertData(
+                table: "tblCategories",
+                columns: new[] { "CategoryId", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"), "Jackets" },
+                    { new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"), "Jeans" },
+                    { new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"), "T-Shirts" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "tblGenderCategories",
+                columns: new[] { "GenderCategoryId", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Female" },
+                    { new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Male" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "tblRoles",
+                columns: new[] { "RoleId", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Admin" },
+                    { new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "User" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "tblSizes",
+                columns: new[] { "SizeId", "SizeName" },
+                values: new object[,]
+                {
+                    { new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"), "XL" },
+                    { new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"), "S" },
+                    { new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), "M" },
+                    { new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), "L" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "tblUsers",
+                columns: new[] { "UserId", "Address", "CreatedAt", "Email", "IsShopOwner", "Password", "PhoneNumber", "RoleId", "ShopAddress", "ShopDescription", "ShopLogo", "ShopName", "UpdatedAt", "Username" },
+                values: new object[] { new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), "address", new DateTime(2024, 10, 2, 18, 21, 27, 347, DateTimeKind.Local).AddTicks(6603), "user1@gmail.com", true, "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", "0909123456", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "shop1address", "shop1des", "shop1logo", "shop1", new DateTime(2024, 10, 2, 18, 21, 27, 347, DateTimeKind.Local).AddTicks(6613), "user1" });
+
+            migrationBuilder.InsertData(
+                table: "tblUsers",
+                columns: new[] { "UserId", "Address", "CreatedAt", "Email", "IsShopOwner", "Password", "PhoneNumber", "RoleId", "ShopAddress", "ShopDescription", "ShopLogo", "ShopName", "UpdatedAt", "Username" },
+                values: new object[] { new Guid("e2c3c2b1-5a1f-4c4f-b1ea-6b2c4f8e1a0b"), "address", new DateTime(2024, 10, 2, 18, 21, 27, 347, DateTimeKind.Local).AddTicks(6649), "admin@gmail.com", false, "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", "0912398765", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), null, null, null, null, new DateTime(2024, 10, 2, 18, 21, 27, 347, DateTimeKind.Local).AddTicks(6649), "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblCartDetails_CartId",

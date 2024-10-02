@@ -25,7 +25,7 @@ namespace EXE201_2RE_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductById([FromRoute] int id)
+        public async Task<IActionResult> GetProductById([FromRoute] Guid id)
         {
             var result = await _productService.GetProductById(id);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);

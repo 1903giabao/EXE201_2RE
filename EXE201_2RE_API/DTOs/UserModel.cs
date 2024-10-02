@@ -9,7 +9,7 @@ namespace EXE201_2RE_API.DTOs
 {
     public class UserModel
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public string Username { get; set; }
 
@@ -21,7 +21,7 @@ namespace EXE201_2RE_API.DTOs
 
         public string PhoneNumber { get; set; }
 
-        public int? RoleId { get; set; }
+        public Guid? RoleId { get; set; }
 
         public bool? IsShopOwner { get; set; }
 
