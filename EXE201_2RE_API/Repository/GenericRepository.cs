@@ -95,6 +95,18 @@ namespace EXE201_2RE_API.Repository
             return await _context.SaveChangesAsync();
         }
 
+        public void CreateRange(IEnumerable<T> entities)
+        {
+            _context.AddRange(entities);
+            _context.SaveChanges();
+        }
+
+        public async Task<int> CreateRangeAsync(IEnumerable<T> entities)
+        {
+            await _context.AddRangeAsync(entities);
+            return await _context.SaveChangesAsync();
+        }
+
         public void Update(T entity)
         {
             var tracker = _context.Attach(entity);

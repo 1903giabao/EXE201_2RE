@@ -14,9 +14,11 @@
 
         public decimal price { get; set; }
 
-        public IFormFile imgUrl { get; set; }
+        public List<IFormFile> listImgUrl { get; set; }
 
         public string description { get; set; }
+        public string brand { get; set; }
+        public string condition { get; set; }
 
     }
 }

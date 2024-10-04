@@ -1,8 +1,6 @@
-﻿using EXE201_2RE_API.Models;
-
-namespace EXE201_2RE_API.DTOs
+﻿namespace EXE201_2RE_API.Response
 {
-    public class ProductModel
+    public class GetProductDetailResponse
     {
         public Guid productId { get; set; }
 
@@ -18,15 +16,18 @@ namespace EXE201_2RE_API.DTOs
 
         public decimal price { get; set; }
 
-        public string imgUrl { get; set; }
+        public string mainImgUrl { get; set; }
+
+        public List<string> listImgUrl { get; set; }
 
         public string description { get; set; }
+        public string brand { get; set; }
+        public string condition { get; set; }
 
         public string status { get; set; }
 
         public DateTime createdAt { get; set; }
 
         public DateTime updatedAt { get; set; }
-
     }
 }

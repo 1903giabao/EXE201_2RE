@@ -70,7 +70,7 @@ namespace EXE201_2RE_API
                 app.UseSwaggerUI();
             }
 
-            ApplyMigration(app);
+            //ApplyMigration(app);
 
             app.UseCors("CORS");
 
@@ -88,7 +88,7 @@ namespace EXE201_2RE_API
             app.Run();
         }
 
-        private static void ApplyMigration(WebApplication app)
+/*        private static void ApplyMigration(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
@@ -98,6 +98,6 @@ namespace EXE201_2RE_API
                     _db.Database.Migrate();
                 }
             }
-        }
+        }*/
     }
 }

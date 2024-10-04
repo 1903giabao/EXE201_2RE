@@ -25,6 +25,10 @@ namespace EXE201_2RE_API.Repository
 
         public Task<int> CreateAsync(T entity);
 
+        public void CreateRange(IEnumerable<T> entities);
+
+        public Task<int> CreateRangeAsync(IEnumerable<T> entities);
+
         public void Update(T entity);
 
         public Task<int> UpdateAsync(T entity);
