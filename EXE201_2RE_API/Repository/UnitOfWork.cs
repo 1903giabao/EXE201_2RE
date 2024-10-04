@@ -20,6 +20,7 @@ namespace EXE201_2RE_API.Repository
         private RoleRepository _role;
         private SizeRepository _size;
         private FavoriteRepository _favorite;
+        private ProductImageRepository _productImage;
 
         public UnitOfWork()
         {
@@ -29,6 +30,15 @@ namespace EXE201_2RE_API.Repository
         {
             _unitOfWorkContext ??= unitOfWorkContext;
         }
+        public ProductImageRepository ProductImageRepository
+        {
+            get
+            {
+                return _productImage ??= new ProductImageRepository(_unitOfWorkContext);
+            }
+        }
+
+
         public UserRepository UserRepository
         {
             get

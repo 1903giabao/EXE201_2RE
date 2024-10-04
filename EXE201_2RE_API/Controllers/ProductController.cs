@@ -1,4 +1,5 @@
 ﻿using EXE201_2RE_API.DTOs;
+using EXE201_2RE_API.Repository;
 using EXE201_2RE_API.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,37 @@ namespace EXE201_2RE_API.Controllers
         {
             var result = await _productService.GetProductById(id);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }        
+        
+        [AllowAnonymous]
+        [HttpGet("newest")]
+        public async Task<IActionResult> GetNewestProducts()
+        {
+            var result = await _productService.GetNewestProducts();
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
+
+        [AllowAnonymous]
+        [HttpGet("list")]
+        public async Task<IActionResult> GetListProductByListId([FromQuery] List<Guid> listId)
+        {
+            if (listId == null || listId.Count == 0)
+            {
+                return BadRequest("No IDs provided.");
+            }
+
+            var result = await _productService.GetListProductByListId(listId);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("related/{id}")]
+        public async Task<IActionResult> GetRelatedProducts([FromRoute] Guid id)
+        {
+            var result = await _productService.GetRelatedProducts(id);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductModel createProductModel)

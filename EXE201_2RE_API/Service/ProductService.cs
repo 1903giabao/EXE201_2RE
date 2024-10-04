@@ -5,6 +5,8 @@ using EXE201_2RE_API.Enums;
 using EXE201_2RE_API.Helpers;
 using EXE201_2RE_API.Models;
 using EXE201_2RE_API.Repository;
+using EXE201_2RE_API.Response;
+using Microsoft.EntityFrameworkCore;
 
 namespace EXE201_2RE_API.Service
 {
@@ -26,7 +28,8 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var products = _mapper.Map<List<ProductModel>>(await _unitOfWork.ProductRepository.GetAllAsync());
+                var productEntities = _unitOfWork.ProductRepository.GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages);
+                var products = _mapper.Map<List<GetListProductResponse>>(productEntities);
                 return new ServiceResult(200, "Get all products", products);
             }
             catch (Exception ex)
@@ -39,7 +42,8 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var product = _mapper.Map<ProductModel>(await _unitOfWork.ProductRepository.GetByIdAsync(id));
+                var productEntities = await _unitOfWork.ProductRepository.GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages).Where(_ => _.productId == id).FirstOrDefaultAsync();
+                var product = _mapper.Map<GetProductDetailResponse>(productEntities);
                 return new ServiceResult(200, "Get product by id", product);
             }
             catch (Exception ex)
@@ -47,45 +51,159 @@ namespace EXE201_2RE_API.Service
                 return new ServiceResult(500, ex.Message);
             }
         }
+
+        public async Task<IServiceResult> GetListProductByListId(List<Guid> ids)
+        {
+            try
+            {
+                var products = await _unitOfWork.ProductRepository
+                    .GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
+                    .Where(p => ids.Contains(p.productId))
+                    .ToListAsync();
+
+                if (products == null || !products.Any())
+                {
+                    return new ServiceResult(404, "No products found for the provided IDs", null);
+                }
+
+                var productModel = _mapper.Map<List<GetListProductResponse>>(products);
+
+                return new ServiceResult(200, "Get product by IDs", productModel);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IServiceResult> GetNewestProducts()
+        {
+            try
+            {
+                var products = _unitOfWork.ProductRepository
+                    .GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
+                    .OrderByDescending(p => p.createdAt)
+                    .Take(6)
+                    .ToList();
+
+                var productModel = _mapper.Map<List<GetListProductResponse>>(products);
+
+                return new ServiceResult(200, "Get newest product", productModel);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IServiceResult> GetRelatedProducts(Guid id)
+        {
+            try
+            {
+                var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
+                if (product == null)
+                {
+                    return new ServiceResult(404, "Product not found", null);
+                }
+
+                var products = _unitOfWork.ProductRepository
+                    .GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
+                    .Where(p => p.categoryId == product.categoryId &&
+                                 p.genderCategoryId == product.genderCategoryId &&
+                                 p.productId != product.productId)
+                    .ToList();
+
+                var randomProducts = new List<TblProduct>();
+
+                if (products.Count > 0)
+                {
+                    Random random = new Random();
+                    int numberToTake = Math.Min(5, products.Count); 
+
+                    var selectedIndices = new HashSet<int>();
+                    while (selectedIndices.Count < numberToTake)
+                    {
+                        selectedIndices.Add(random.Next(products.Count));
+                    }
+
+                    foreach (var index in selectedIndices)
+                    {
+                        randomProducts.Add(products[index]);
+                    }
+                }
+
+                var productModel = _mapper.Map<List<GetListProductResponse>>(randomProducts);
+
+                return new ServiceResult(200, "Get related product", productModel);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
         public async Task<IServiceResult> CreateProduct(CreateProductModel createProductModel)
         {
             try
             {
-                var newProduct = new TblProduct
-                {
-                    productId = Guid.NewGuid(),
-                    categoryId = createProductModel.categoryId,
-                    genderCategoryId = createProductModel.genderCategoryId,
-                    shopOwnerId = createProductModel.shopOwnerId,
-                    sizeId = createProductModel.sizeId,
-                    description = createProductModel.description,
-                    name = createProductModel.name,
-                    price = createProductModel.price,
-                    createdAt = DateTime.Now,
-                    status = SD.GeneralStatus.ACTIVE,
-                };
+                var result = 0;
+                var newProduct = new TblProduct();
 
-                if (createProductModel.imgUrl != null)
+                if (createProductModel.listImgUrl != null && createProductModel.listImgUrl.Any())
                 {
-                    var imagePath = FirebasePathName.PRODUCT + $"{newProduct.productId}";
-                    var imageUploadResult = await _firebaseService.UploadFileToFirebase(createProductModel.imgUrl, imagePath);
-
-                    if (!imageUploadResult.isSuccess)
+                    newProduct = new TblProduct
                     {
-                        return new ServiceResult(500, "Failed to upload image", null);
+                        productId = Guid.NewGuid(),
+                        categoryId = createProductModel.categoryId,
+                        genderCategoryId = createProductModel.genderCategoryId,
+                        shopOwnerId = createProductModel.shopOwnerId,
+                        sizeId = createProductModel.sizeId,
+                        description = createProductModel.description,
+                        name = createProductModel.name,
+                        brand = createProductModel.brand,
+                        condition = createProductModel.condition,
+                        price = createProductModel.price,
+                        createdAt = DateTime.Now,
+                        status = SD.GeneralStatus.ACTIVE,
+                    };
+
+                    var imageUploadResults = new List<string>();
+                    var productImages = new List<TblProductImage>();
+
+                    foreach (var imgUrl in createProductModel.listImgUrl)
+                    {
+                        var imagePath = FirebasePathName.PRODUCT + $"{newProduct.productId}";
+                        var imageUploadResult = await _firebaseService.UploadFileToFirebase(imgUrl, imagePath);
+
+                        if (!imageUploadResult.isSuccess)
+                        {
+                            return new ServiceResult(500, "Failed to upload one or more images", null);
+                        }
+
+                        var uploadedImgUrl = (string)imageUploadResult.result;
+                        imageUploadResults.Add(uploadedImgUrl);
+
+                        var productImage = new TblProductImage
+                        {
+                            productImageId = Guid.NewGuid(),
+                            productId = newProduct.productId,
+                            imageUrl = uploadedImgUrl
+                        };
+
+                        productImages.Add(productImage);
                     }
 
-                    newProduct.imgUrl = (string)imageUploadResult.result;
+                    result = await _unitOfWork.ProductRepository.CreateAsync(newProduct);
+                    result += await _unitOfWork.ProductImageRepository.CreateRangeAsync(productImages);
                 }
                 else
                 {
                     return new ServiceResult(400, "Product image is required", null);
                 }
 
-                var result = await _unitOfWork.ProductRepository.CreateAsync(newProduct);
                 if (result > 0)
                 {
-                    return new ServiceResult(200, "Product created successfully", newProduct);
+                    return new ServiceResult(200, "Product created successfully");
                 }
                 else
                 {

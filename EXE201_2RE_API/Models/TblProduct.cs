@@ -23,9 +23,11 @@ public partial class TblProduct
 
     public decimal? price { get; set; }
 
-    public string? imgUrl { get; set; }
-
     public string? description { get; set; }
+
+    public string? brand { get; set; }
+
+    public string? condition { get; set; }
 
     public string? status { get; set; }
 
@@ -42,7 +44,7 @@ public partial class TblProduct
     public virtual TblSize? size { get; set; }
 
     public virtual ICollection<TblCartDetail>? tblCartDetails { get; set; } = new List<TblCartDetail>();
-
+    public virtual ICollection<TblProductImage>? tblProductImages { get; set; } = new List<TblProductImage>();
     public virtual ICollection<TblReview>? tblReviews { get; set; } = new List<TblReview>();
     public virtual ICollection<TblFavorite>? tblFavorites { get; set; } = new List<TblFavorite>();
 
