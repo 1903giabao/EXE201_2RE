@@ -50,15 +50,10 @@ namespace EXE201_2RE_API.Models
             );
 
             modelBuilder.Entity<TblCategory>().HasData(
-                new TblCategory { categoryId = new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"), name = "Áo Thun" }, // T-Shirts
-                new TblCategory { categoryId = new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"), name = "Quần Jeans" }, // Jeans
-                new TblCategory { categoryId = new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"), name = "Áo Khoác" },  // Jackets
-                new TblCategory { categoryId = new Guid("b1a3f4e1-1c2d-4e3b-ba1c-1b1a2c4e5f6a"), name = "Giày Dép" }, // Shoes
-                new TblCategory { categoryId = new Guid("c2b3d5a6-3e4f-5a6b-c8d9-2f2b3e5a7b8c"), name = "Váy" }, // Dresses
-                new TblCategory { categoryId = new Guid("d3f7a1e2-4b3c-5d2e-f1a4-3c3b6d7e8a9b"), name = "Bộ Đồ Ngủ" }, // Sleepwear
-                new TblCategory { categoryId = new Guid("e4c6b1d9-5a8b-4e2c-bb3d-4e1e2f4f6a1a"), name = "Áo Sơ Mi" }, // Shirts
-                new TblCategory { categoryId = new Guid("f5c8d2e3-6f1a-4f7b-bc2e-5c3f8e9a7d2d"), name = "Khăn Quàng" }, // Scarves
-                new TblCategory { categoryId = new Guid("g6e9f3b4-7a2b-5d8c-dc9f-6d4f1b0e9c3c"), name = "Đồ Thể Thao" } // Sportswear
+                new TblCategory { categoryId = new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), name = "Áo Thun" }, // T-Shirts
+                new TblCategory { categoryId = new Guid("a7b8c9d8-3e2a-4b9b-b9f7-5e6a7c8e9f0b"), name = "Quần Jeans" }, // Jeans
+                new TblCategory { categoryId = new Guid("c5e1f2b8-2f4c-4b3d-b7a8-4c5e6f7d8b9a"), name = "Áo Khoác" },  // Jackets
+                new TblCategory { categoryId = new Guid("e2b3d5a6-3e4f-5a6b-c8d9-2f2b3e5a7b8c"), name = "Váy" }
             );
 
             modelBuilder.Entity<TblGenderCategory>().HasData(
