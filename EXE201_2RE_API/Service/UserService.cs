@@ -16,9 +16,9 @@ namespace EXE201_2RE_API.Service
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public UserService(IMapper mapper)
+        public UserService(UnitOfWork unitOfWork, IMapper mapper)
         {
-            _unitOfWork ??= new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
