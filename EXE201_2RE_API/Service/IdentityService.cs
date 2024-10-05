@@ -24,9 +24,9 @@ namespace EXE201_2RE_API.Service
         private readonly JwtSettings _jwtSettings;
         private readonly UnitOfWork _unitOfWork;
 
-        public IdentityService(IOptions<JwtSettings> jwtSettingsOptions)
+        public IdentityService(UnitOfWork unitOfWork, IOptions<JwtSettings> jwtSettingsOptions)
         {
-            _unitOfWork ??= new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _jwtSettings = jwtSettingsOptions.Value;
         }
 
