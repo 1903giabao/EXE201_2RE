@@ -45,6 +45,7 @@ namespace EXE201_2RE_API.Service
 
                 var favorite = new TblFavorite 
                 { 
+                    favoriteId = Guid.NewGuid(),
                     userId = userId, 
                     productId = productId 
                 };

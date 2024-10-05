@@ -61,7 +61,7 @@ namespace EXE201_2RE_API.Service
 
                 var newAccount = new TblUser
                 {
-                    userId = new Guid(),
+                    userId = Guid.NewGuid(),
                     userName = req.userName,
                     passWord = SecurityUtil.Hash(req.passWord),
                     email = req.email,
