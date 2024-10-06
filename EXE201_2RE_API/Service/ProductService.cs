@@ -7,6 +7,8 @@ using EXE201_2RE_API.Models;
 using EXE201_2RE_API.Repository;
 using EXE201_2RE_API.Response;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using static EXE201_2RE_API.Response.GetListOrderFromShop;
 
 namespace EXE201_2RE_API.Service
 {
@@ -37,7 +39,45 @@ namespace EXE201_2RE_API.Service
                 return new ServiceResult(500, ex.Message);
             }
         }
+        public async Task<IServiceResult> GetProductByShopOwner(Guid shopId)
+        {
+            try
+            {
+                var productsOwnedByShopOwner = _unitOfWork.ProductRepository.GetAll()
+                                                          .Where(_ => _.shopOwnerId == shopId)
+                                                          .Select(_ => _.productId)
+                                                          .ToList();
 
+                var productInCartDetails = _unitOfWork.CartDetailRepository.GetAll()
+                                                      .Where(_ => productsOwnedByShopOwner.Contains((Guid)_.productId))
+                                                      .Select(_ => new { _.productId, _.cartId }) 
+                                                      .ToList();
+
+                var distinctCartIds = productInCartDetails
+                                     .Select(_ => _.cartId)
+                                     .Distinct()
+                                     .ToList();
+                var listCartFromShop = new List<CartShopModel>();
+                foreach (var cartId in distinctCartIds)
+                {
+                    var cart =  _unitOfWork.CartRepository.GetAllIncluding(_ => _.user).Where(_ => _.cartId == cartId).FirstOrDefault();
+                    var totalProduct = _unitOfWork.CartDetailRepository.GetAll().Where(_ => _.cartId == cartId).Count();
+                    var cartFromShop = new CartShopModel
+                    {
+                        id = (Guid)cartId,
+                        nameUser = cart.user.userName,
+                        totalPrice = (decimal)cart.totalPrice,
+                        totalQuantity = totalProduct,
+                    };
+                }
+
+                return new ServiceResult(200, "Success", distinctCartIds);
+            }
+            catch(Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
         public async Task<IServiceResult> GetProductById(Guid id)
         {
             try

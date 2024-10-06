@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EXE201_2RE_API.Migrations
 {
-    public partial class updateDb : Migration
+    public partial class updateEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -95,6 +95,7 @@ namespace EXE201_2RE_API.Migrations
                     totalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     dateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    fullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -133,7 +134,8 @@ namespace EXE201_2RE_API.Migrations
                         name: "FK_tblProducts_tblCategories_categoryId",
                         column: x => x.categoryId,
                         principalTable: "tblCategories",
-                        principalColumn: "categoryId");
+                        principalColumn: "categoryId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblProducts_tblGenderCategories_genderCategoryId",
                         column: x => x.genderCategoryId,
@@ -268,9 +270,10 @@ namespace EXE201_2RE_API.Migrations
                 columns: new[] { "categoryId", "name" },
                 values: new object[,]
                 {
-                    { new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"), "Jackets" },
-                    { new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"), "Jeans" },
-                    { new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"), "T-Shirts" }
+                    { new Guid("a7b8c9d8-3e2a-4b9b-b9f7-5e6a7c8e9f0b"), "Quần Jeans" },
+                    { new Guid("c5e1f2b8-2f4c-4b3d-b7a8-4c5e6f7d8b9a"), "Áo Khoác" },
+                    { new Guid("e2b3d5a6-3e4f-5a6b-c8d9-2f2b3e5a7b8c"), "Váy" },
+                    { new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), "Áo Thun" }
                 });
 
             migrationBuilder.InsertData(
@@ -278,8 +281,8 @@ namespace EXE201_2RE_API.Migrations
                 columns: new[] { "genderCategoryId", "name" },
                 values: new object[,]
                 {
-                    { new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Female" },
-                    { new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Male" }
+                    { new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Nữ" },
+                    { new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Nam" }
                 });
 
             migrationBuilder.InsertData(
@@ -305,28 +308,28 @@ namespace EXE201_2RE_API.Migrations
             migrationBuilder.InsertData(
                 table: "tblUsers",
                 columns: new[] { "userId", "address", "createdAt", "email", "isShopOwner", "passWord", "phoneNumber", "roleId", "shopAddress", "shopDescription", "shopLogo", "shopName", "updatedAt", "userName" },
-                values: new object[] { new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), "address", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8542), "user1@gmail.com", true, "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", "0909123456", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "shop1address", "shop1des", "shop1logo", "shop1", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8550), "user1" });
+                values: new object[] { new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), "address", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(898), "user1@gmail.com", true, "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", "0909123456", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "shop1address", "shop1des", "shop1logo", "shop1", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(917), "user1" });
 
             migrationBuilder.InsertData(
                 table: "tblUsers",
                 columns: new[] { "userId", "address", "createdAt", "email", "isShopOwner", "passWord", "phoneNumber", "roleId", "shopAddress", "shopDescription", "shopLogo", "shopName", "updatedAt", "userName" },
-                values: new object[] { new Guid("e2c3c2b1-5a1f-4c4f-b1ea-6b2c4f8e1a0b"), "address", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8584), "admin@gmail.com", false, "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", "0912398765", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), null, null, null, null, new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8585), "admin" });
+                values: new object[] { new Guid("e2c3c2b1-5a1f-4c4f-b1ea-6b2c4f8e1a0b"), "address", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(954), "admin@gmail.com", false, "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", "0912398765", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), null, null, null, null, new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(955), "admin" });
 
             migrationBuilder.InsertData(
                 table: "tblProducts",
                 columns: new[] { "productId", "brand", "categoryId", "condition", "createdAt", "description", "genderCategoryId", "name", "price", "shopOwnerId", "sizeId", "status", "updatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a"), "Puma", new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"), "89%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8883), "Fashionable skinny jeans for women", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Women's Skinny Jeans", 34.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8883) },
-                    { new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e"), "Nike", new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"), "90%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8854), "Classic men's t-shirt in various sizes", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Men's Classic T-Shirt", 19.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8855) },
-                    { new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e"), "Adidas", new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"), "80%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8913), "Soft cotton t-shirt for casual wear", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Women's Cotton Tee", 18.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8914) },
-                    { new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a"), "Puma", new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"), "85%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8901), "Classic regular fit jeans", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Men's Regular Fit Jeans", 44.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8901) },
-                    { new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7"), "Adidas", new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"), "96%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8869), "Casual jacket for everyday wear", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Men's Casual Jacket", 49.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8870) },
-                    { new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b"), "Nike", new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"), "70%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8907), "Premium leather jacket for men", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Men's Leather Jacket", 99.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8908) },
-                    { new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d"), "Nike", new Guid("d9b4c8c3-3a2e-4b9b-b9f7-5e6a7c8e9f0b"), "90%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8862), "Slim-fit jeans with a modern look", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Men's Slim Fit Jeans", 39.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8863) },
-                    { new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10"), "Adidas", new Guid("a5e1d2b3-2f3c-4b3d-b7a8-4c5e6f7d8b9a"), "99%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8889), "Stylish and warm jacket for women", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Women's Casual Jacket", 59.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8889) },
-                    { new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f"), "Nike", new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"), "99%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8895), "Trendy graphic t-shirt with cool design", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Men's Graphic Tee", 29.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8895) },
-                    { new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f"), "Adidas", new Guid("f1aee1c7-6d5e-4e87-a5ea-3a5d6e7c8f9a"), "90%", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8876), "Comfortable fitted t-shirt for women", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Women's Fitted T-Shirt", 24.99m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"), "Available", new DateTime(2024, 10, 4, 22, 10, 19, 299, DateTimeKind.Local).AddTicks(8876) }
+                    { new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a"), "Puma", new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), "89%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1250), "Quần jeans ôm thời trang cho nữ", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Quần Jeans Ôm Nữ", 350000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1250) },
+                    { new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e"), "Nike", new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), "90%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1225), "Áo thun cổ điển dành cho nam, có nhiều kích cỡ", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Áo Thun Cổ Điển Nam", 200000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1226) },
+                    { new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e"), "Adidas", new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), "80%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1308), "Áo thun cotton mềm mại dành cho trang phục thường ngày", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Áo Thun Cotton Nữ", 340000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1308) },
+                    { new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a"), "Puma", new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), "85%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1295), "Quần jeans regular fit cổ điển", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Quần Jeans Regular Fit Nam", 440000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1296) },
+                    { new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7"), "Adidas", new Guid("c5e1f2b8-2f4c-4b3d-b7a8-4c5e6f7d8b9a"), "96%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1238), "Áo khoác thường cho ngày thường", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Áo Khoác Thường Nam", 400000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1239) },
+                    { new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b"), "Nike", new Guid("c5e1f2b8-2f4c-4b3d-b7a8-4c5e6f7d8b9a"), "70%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1301), "Áo khoác da cao cấp dành cho nam", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Áo Khoác Da Nam", 280000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1302) },
+                    { new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d"), "Nike", new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), "90%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1232), "Quần jeans slim fit với kiểu dáng hiện đại", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Quần Jeans Slim Fit Nam", 300000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1233) },
+                    { new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10"), "Adidas", new Guid("c5e1f2b8-2f4c-4b3d-b7a8-4c5e6f7d8b9a"), "99%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1255), "Áo khoác thời trang và ấm áp cho nữ", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Áo Khoác Thường Nữ", 500000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1256) },
+                    { new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f"), "Nike", new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), "99%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1262), "Áo thun họa tiết thời trang với thiết kế đẹp", new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Áo Thun Họa Tiết Nam", 290000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1262) },
+                    { new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f"), "Adidas", new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"), "90%", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1244), "Áo thun ôm thoải mái cho nữ", new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), "Áo Thun Ôm Nữ", 250000m, new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"), new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"), "Có sẵn", new DateTime(2024, 10, 6, 21, 41, 43, 660, DateTimeKind.Local).AddTicks(1245) }
                 });
 
             migrationBuilder.InsertData(
@@ -334,46 +337,46 @@ namespace EXE201_2RE_API.Migrations
                 columns: new[] { "productImageId", "imageUrl", "productId" },
                 values: new object[,]
                 {
-                    { new Guid("03e01310-5856-4a93-ac95-87763233cc8b"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e") },
-                    { new Guid("0488dff5-bda3-42ca-8018-9cff649584de"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d") },
-                    { new Guid("0594097f-d341-4b48-8ffa-7465444a0ad5"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10") },
-                    { new Guid("07329016-67d5-4059-b1a6-9f3fa1d155c4"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10") },
-                    { new Guid("18d3cf85-7586-488a-8960-1fa216999fcf"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d") },
-                    { new Guid("1b5f5eb9-cbd8-476b-b4c0-719b164cb884"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e") },
-                    { new Guid("1d10ba81-2afa-4787-a74f-f2f99d89d8aa"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b") },
-                    { new Guid("2222ba45-bc56-49e8-90d8-b286b1a84073"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f") },
-                    { new Guid("2854140f-ab5f-452e-9804-d9d064f60a03"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b") },
-                    { new Guid("2c5d2bb1-17ba-4c2f-9c19-c8e47bf0fc52"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f") },
-                    { new Guid("2f5d955b-536d-4597-850b-1496612fd53f"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a") },
-                    { new Guid("382d7e43-3c56-493a-ae72-885185b195b9"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e") },
-                    { new Guid("413e2ca8-c88f-4402-800f-9b7a32a35502"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a") },
-                    { new Guid("4426d8b0-b024-4f26-87f9-b9e4b8f715bd"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f") },
-                    { new Guid("4d1d37d7-e91c-413f-8d59-29dc3a523933"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10") },
-                    { new Guid("4d362937-11f0-4d2d-b655-d6a31dc9365c"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d") },
-                    { new Guid("600f9fdd-11e8-4f43-843e-cedb33098b9f"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e") },
-                    { new Guid("616631be-d973-4f1f-bda7-930b51508834"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e") },
-                    { new Guid("68e224ae-3707-43c1-b8e0-26398ad1625c"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e") },
-                    { new Guid("6f725601-2c98-462a-b6c1-11a911ba2223"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f") },
-                    { new Guid("72e7ab7e-a828-4123-8218-f1d27f7aa2f1"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7") },
-                    { new Guid("732f7960-8fe0-452a-a134-e72354f32656"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a") },
-                    { new Guid("7e602260-ead8-427e-a0e0-85b940ee1a0a"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a") },
-                    { new Guid("8157f726-6df3-4e32-a39b-115283d862f4"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e") },
-                    { new Guid("8b965b0e-7cc7-4fb5-92be-2f7947927714"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f") },
-                    { new Guid("98f62ec8-a632-4113-a314-8dbeb0d90c0b"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e") },
-                    { new Guid("9ac7eef3-029e-4775-83f9-68389396fd56"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10") },
-                    { new Guid("9bec261f-2d91-4d6a-8116-b66b93040913"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d") },
-                    { new Guid("9ec4b31a-d51b-4d06-b7d9-45100e434bca"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b") },
-                    { new Guid("abff0575-59af-4035-83a9-747f78e71801"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f") },
-                    { new Guid("c10d49bc-5f6d-40e5-ab51-e5b5f28bc0dd"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a") },
-                    { new Guid("cc237e0d-064f-4353-9bb9-15dd58f75eef"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a") },
-                    { new Guid("df8ceadb-2324-4324-9528-2826b77b674f"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a") },
-                    { new Guid("e2cd81ef-aa0d-4b3a-a01f-3b75810e122c"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7") },
-                    { new Guid("e7c16bfc-f353-49cf-9134-1981660c595a"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a") },
-                    { new Guid("e8204a60-7a6b-43d1-94ae-524ba92c1e4c"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b") },
-                    { new Guid("ef3e8157-431e-4ac6-ac4a-01ce255cfa37"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7") },
-                    { new Guid("f032bf6f-0d3e-4ba4-a2f0-e06fb0f391ad"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f") },
-                    { new Guid("f8439c4b-5605-4c19-a0bb-25a989c010d8"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f") },
-                    { new Guid("fb099a50-9c2f-4a2c-89bb-b80fe96a51ad"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7") }
+                    { new Guid("040d4bc4-bf62-46cd-bf11-db40fe29666b"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a") },
+                    { new Guid("0f9435b2-627c-47d7-9ed7-024df4bd0e73"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e") },
+                    { new Guid("13034738-4373-4cc7-b3a4-3955a097a1f4"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d") },
+                    { new Guid("18a5b7e5-0a9e-4813-a822-78a106b880ea"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f") },
+                    { new Guid("23394f2b-af2b-4bbf-8ab6-f82b56a2c8ec"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d") },
+                    { new Guid("2bf3cd11-2527-4b1a-94eb-71f79788a961"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10") },
+                    { new Guid("329f44c4-05d0-4cfd-a29e-9df939aaaee1"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a") },
+                    { new Guid("35d2bb64-a141-4572-8e5f-805723859a5a"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10") },
+                    { new Guid("3c0bf920-16d5-4391-9463-460c067e66af"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e") },
+                    { new Guid("40a7182c-8bbb-45cb-b967-18220990f3bd"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d") },
+                    { new Guid("43e56a62-3be8-4126-8d80-fb77acef635c"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a") },
+                    { new Guid("47547702-d01b-4eb7-9c3c-4c04934bca2f"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7") },
+                    { new Guid("65c5a04c-9c54-45ff-9f44-8b7a48d1df1a"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b") },
+                    { new Guid("6748689c-b9a6-40f7-9609-bad5c4ecef90"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e") },
+                    { new Guid("68b75258-4aea-497a-857b-d972b783c1fc"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f") },
+                    { new Guid("6a9e9c65-fd3b-46cd-ada7-10317ff986d8"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f") },
+                    { new Guid("738de10f-b987-40d6-883d-1562388c890e"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7") },
+                    { new Guid("78ad4454-bf28-489d-80bc-e933248cd24b"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b") },
+                    { new Guid("78e1d543-81a1-4f4f-a624-a1bd29365620"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e") },
+                    { new Guid("8050d085-80c5-4a8f-9ac8-294871297d3b"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f") },
+                    { new Guid("9f60d560-ae52-4a88-8623-fa9ede2bf4f7"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7") },
+                    { new Guid("a2b770b9-283a-47f7-89c2-03821b1d5c80"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10") },
+                    { new Guid("a7566b21-f160-4456-8a05-77002da4f7a9"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e") },
+                    { new Guid("b4fb287c-2c78-4a7e-995c-8ba2492560f9"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a") },
+                    { new Guid("b5301688-7a41-4e42-a54c-5ef7a2acf832"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f") },
+                    { new Guid("b63695ed-15d3-4664-847f-f259a5ff54e4"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10") },
+                    { new Guid("b6d33659-a328-4385-a34b-4ec8f2d98b5d"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b") },
+                    { new Guid("ba49b96d-4fb1-460e-91a3-fd0247d977b0"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e") },
+                    { new Guid("be9d94dd-c198-4566-b734-8970d3d37947"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b") },
+                    { new Guid("c0b19fe7-5a29-4699-832c-cfe369314cb5"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f") },
+                    { new Guid("d4711190-456a-42b1-ae6d-d88b2d9187e4"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e") },
+                    { new Guid("d5bdfae8-8697-4063-83bb-377dd9fec551"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f") },
+                    { new Guid("d74ef2a8-16b7-4bd3-b09f-a01844489b95"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f") },
+                    { new Guid("d773674c-6e85-4f05-bddd-c5a0260c5866"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a") },
+                    { new Guid("df86adf4-9c90-4690-8a66-9d3b0f71ea79"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7") },
+                    { new Guid("e20430b2-cfd9-4cb6-8ff6-1b70f8f291ce"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a") },
+                    { new Guid("e3ebb4e8-bb1d-4da1-874a-34594c749288"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d") },
+                    { new Guid("ed5caff0-b521-4bd0-bc40-6c93d673790c"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a") },
+                    { new Guid("fe024b71-563b-447d-a573-3c9ef43aaef4"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a") },
+                    { new Guid("fedb06d0-04e2-4128-aa7a-ad53bbe62e21"), "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23", new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e") }
                 });
 
             migrationBuilder.CreateIndex(

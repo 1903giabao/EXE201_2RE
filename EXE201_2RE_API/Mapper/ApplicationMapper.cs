@@ -25,7 +25,7 @@ namespace EXE201_2RE_API.Mapper
                .ForMember(dest => dest.mainImgUrl, opt => opt.MapFrom(src => src.tblProductImages.FirstOrDefault().imageUrl))
                .ForMember(dest => dest.listImgUrl, opt => opt.MapFrom(src => src.tblProductImages.Skip(1).Select(pi => pi.imageUrl).ToList()))
                .ReverseMap();
-            CreateMap<GetFavoriteProductsResponse, TblFavorite>().ReverseMap();
+            CreateMap<FavoriteProductResponse, TblFavorite>().ReverseMap();
         }
     }
 }
