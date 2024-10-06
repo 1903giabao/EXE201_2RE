@@ -3,6 +3,7 @@ using EXE201_2RE_API.Constants;
 using EXE201_2RE_API.Models;
 using EXE201_2RE_API.Repository;
 using EXE201_2RE_API.Response;
+using System.Runtime.CompilerServices;
 
 namespace EXE201_2RE_API.Service
 {
@@ -22,7 +23,10 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var result = _mapper.Map<List<GetFavoriteProductsResponse>>(await _unitOfWork.FavoriteRepository.FindByConditionAsync(_ => _.userId == userId));
+                var result = _unitOfWork.FavoriteRepository
+                    .FindByCondition(_ => _.userId == userId)
+                    .Select(favorite => favorite.productId)
+                    .ToList();
 
                 return new ServiceResult(200, "Favorite products by user", result);
             }
@@ -40,7 +44,15 @@ namespace EXE201_2RE_API.Service
                 
                 if (checkExisted != null)
                 {
-                    return new ServiceResult(500, "Favorite already existed");
+                    var delete = await _unitOfWork.FavoriteRepository.RemoveAsync(checkExisted);
+                    if (delete)
+                    {
+                        return new ServiceResult(500, "Remove favorite!", new FavoriteProductResponse { message = "Remove favorite!", type = "Delete"});
+                    }
+                    else
+                    {
+                        return new ServiceResult(500, "Error while removing object");
+                    }
                 }
 
                 var favorite = new TblFavorite 
@@ -56,7 +68,7 @@ namespace EXE201_2RE_API.Service
                     return new ServiceResult(500, "Error while creating object");
                 }
 
-                return new ServiceResult(200, "Create favorite");
+                return new ServiceResult(200, "Create favorite!", new FavoriteProductResponse { message = "Create favorite!", type = "Add" });
             }
             catch (Exception ex)
             {
