@@ -18,7 +18,8 @@ public partial class TblCart
     public DateTime? dateTime { get; set; }
 
     public string? address { get; set; }
-                 
+    public string? fullName { get; set; }
+
     public string? phone { get; set; }
                  
     public string? status { get; set; }
