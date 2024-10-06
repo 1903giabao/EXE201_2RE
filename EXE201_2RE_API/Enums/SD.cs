@@ -17,5 +17,10 @@
             public static string INACTIVE = "INACTIVE";
         }
 
-    }
+        public class ProductStatus
+        {
+            public static string SOLDOUT = "SOLD OUT";
+            public static string AVAILABLE = "AVAILABLE";
+        }
+}
 }
