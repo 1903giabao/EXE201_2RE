@@ -14,7 +14,9 @@
     public class GetCartDetailResponse
     {
         public Guid? productId { get; set; }
+        public string name { get; set; }
+        public string size { get; set; }
+        public string imageUrl { get; set; }
         public decimal? price { get; set; }
-        public string status { get; set; }
     }
 }
