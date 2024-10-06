@@ -69,5 +69,19 @@ namespace EXE201_2RE_API.Controllers
             var result = await _productService.CreateProduct(createProductModel);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
+        [AllowAnonymous]
+        [HttpGet("order-from-shop/{shopId}")]
+        public async Task<IActionResult> GetProductByShopOwner([FromRoute] Guid shopId)
+        {
+            var result = await _productService.GetProductByShopOwner(shopId);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+        [AllowAnonymous]
+        [HttpGet("product-from-shop/{shopId}")]
+        public async Task<IActionResult> GetAllProductFromShop([FromRoute] Guid shopId)
+        {
+            var result = await _productService.GetAllProductFromShop(shopId);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
     }
 }

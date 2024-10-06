@@ -4,6 +4,7 @@ using EXE201_2RE_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201_2RE_API.Migrations
 {
     [DbContext(typeof(EXE201Context))]
-    partial class EXE201ContextModelSnapshot : ModelSnapshot
+    [Migration("20241006152544_updateEntitiesV2")]
+    partial class updateEntitiesV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,6 @@ namespace EXE201_2RE_API.Migrations
 
                     b.Property<DateTime?>("dateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("email")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("fullName")
                         .HasColumnType("nvarchar(max)");
@@ -251,7 +250,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Nike",
                             categoryId = new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"),
                             condition = "90%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6322),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5589),
                             description = "Áo thun cổ điển dành cho nam, có nhiều kích cỡ",
                             genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
                             name = "Áo Thun Cổ Điển Nam",
@@ -259,7 +258,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6323)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5591)
                         },
                         new
                         {
@@ -267,7 +266,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Nike",
                             categoryId = new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"),
                             condition = "90%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6330),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5599),
                             description = "Quần jeans slim fit với kiểu dáng hiện đại",
                             genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
                             name = "Quần Jeans Slim Fit Nam",
@@ -275,7 +274,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6331)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5599)
                         },
                         new
                         {
@@ -283,7 +282,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Adidas",
                             categoryId = new Guid("c5e1f2b8-2f4c-4b3d-b7a8-4c5e6f7d8b9a"),
                             condition = "96%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6337),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5606),
                             description = "Áo khoác thường cho ngày thường",
                             genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
                             name = "Áo Khoác Thường Nam",
@@ -291,7 +290,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6337)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5607)
                         },
                         new
                         {
@@ -299,7 +298,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Adidas",
                             categoryId = new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"),
                             condition = "90%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6343),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5614),
                             description = "Áo thun ôm thoải mái cho nữ",
                             genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
                             name = "Áo Thun Ôm Nữ",
@@ -307,7 +306,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6343)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5617)
                         },
                         new
                         {
@@ -315,7 +314,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Puma",
                             categoryId = new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"),
                             condition = "89%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6378),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5622),
                             description = "Quần jeans ôm thời trang cho nữ",
                             genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
                             name = "Quần Jeans Ôm Nữ",
@@ -323,7 +322,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("d4f1c0e1-2d41-4f0e-bc9f-4b85b6c5f4a2"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6379)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5623)
                         },
                         new
                         {
@@ -331,7 +330,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Adidas",
                             categoryId = new Guid("c5e1f2b8-2f4c-4b3d-b7a8-4c5e6f7d8b9a"),
                             condition = "99%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6385),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5629),
                             description = "Áo khoác thời trang và ấm áp cho nữ",
                             genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
                             name = "Áo Khoác Thường Nữ",
@@ -339,7 +338,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6385)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5630)
                         },
                         new
                         {
@@ -347,7 +346,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Nike",
                             categoryId = new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"),
                             condition = "99%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6391),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5636),
                             description = "Áo thun họa tiết thời trang với thiết kế đẹp",
                             genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
                             name = "Áo Thun Họa Tiết Nam",
@@ -355,7 +354,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6391)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5637)
                         },
                         new
                         {
@@ -363,7 +362,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Puma",
                             categoryId = new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"),
                             condition = "85%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6397),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5643),
                             description = "Quần jeans regular fit cổ điển",
                             genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
                             name = "Quần Jeans Regular Fit Nam",
@@ -371,7 +370,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6398)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5644)
                         },
                         new
                         {
@@ -379,7 +378,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Nike",
                             categoryId = new Guid("c5e1f2b8-2f4c-4b3d-b7a8-4c5e6f7d8b9a"),
                             condition = "70%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6404),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5650),
                             description = "Áo khoác da cao cấp dành cho nam",
                             genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
                             name = "Áo Khoác Da Nam",
@@ -387,7 +386,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6404)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5650)
                         },
                         new
                         {
@@ -395,7 +394,7 @@ namespace EXE201_2RE_API.Migrations
                             brand = "Adidas",
                             categoryId = new Guid("f8a8e1c5-4b3c-4e8f-b8ea-3f3f6e9c2f1a"),
                             condition = "80%",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6409),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5657),
                             description = "Áo thun cotton mềm mại dành cho trang phục thường ngày",
                             genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
                             name = "Áo Thun Cotton Nữ",
@@ -403,7 +402,7 @@ namespace EXE201_2RE_API.Migrations
                             shopOwnerId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             sizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"),
                             status = "Có sẵn",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6410)
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5657)
                         });
                 });
 
@@ -428,241 +427,241 @@ namespace EXE201_2RE_API.Migrations
                     b.HasData(
                         new
                         {
-                            productImageId = new Guid("9521c2a6-ff21-4359-95fe-9f63f7a83ddb"),
+                            productImageId = new Guid("8f274025-ffaf-4667-90f5-c5250523f772"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e")
                         },
                         new
                         {
-                            productImageId = new Guid("d73c4941-736f-4968-9e2d-cfaaff9947a1"),
+                            productImageId = new Guid("172e3484-d594-47b2-a6b5-9bacdbe5a70b"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e")
                         },
                         new
                         {
-                            productImageId = new Guid("5458733a-5fef-4de9-861e-c41ae08aba2b"),
+                            productImageId = new Guid("ddd36da9-146c-4876-a676-a9b6ce174748"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e")
                         },
                         new
                         {
-                            productImageId = new Guid("b69df2e5-bbed-4a0f-b9e5-46f28aa05a37"),
+                            productImageId = new Guid("822f8305-3be2-45b0-8f81-9121658d95ed"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("5a6e2f3e-9c3e-4f87-9e8c-ea1d4f6e8b0e")
                         },
                         new
                         {
-                            productImageId = new Guid("44d5da70-7bba-4c0e-8e2c-b9cfed1e891b"),
+                            productImageId = new Guid("a26c6914-5d3f-4761-9cb9-1b8ab381226a"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d")
                         },
                         new
                         {
-                            productImageId = new Guid("4945632a-31d7-43f1-bb5c-4a6ba94f58cd"),
+                            productImageId = new Guid("39409e3b-cad5-4637-8fa4-b803e4d97805"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d")
                         },
                         new
                         {
-                            productImageId = new Guid("0ad75479-bba5-4934-9575-3eb871bc229d"),
+                            productImageId = new Guid("d1aa50d3-b5cf-40c7-9c5b-c5df83ba0cce"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d")
                         },
                         new
                         {
-                            productImageId = new Guid("db8284a6-63b9-42c0-8591-c513a610e16a"),
+                            productImageId = new Guid("91cf6aff-5090-4c17-8131-0d4bac6d594c"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("c28c2e4e-2e0a-4a4f-b3e7-8c9a9b8d5c5d")
                         },
                         new
                         {
-                            productImageId = new Guid("b0ea08c0-759a-4f76-9b69-58a1d5b93c1b"),
+                            productImageId = new Guid("72f0dce9-df34-4216-bad0-8902907e288f"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7")
                         },
                         new
                         {
-                            productImageId = new Guid("1532c77f-d4b9-4fdd-89fa-71cf67d4a7f0"),
+                            productImageId = new Guid("3ccd1af2-3eec-450c-9f18-16adebb90381"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7")
                         },
                         new
                         {
-                            productImageId = new Guid("c126611a-1723-4061-9e54-44fb894ebce1"),
+                            productImageId = new Guid("a046859e-898f-4d47-bce4-ff416a6cea07"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7")
                         },
                         new
                         {
-                            productImageId = new Guid("00b96d4c-7b50-4f0a-bab8-4c6d295e76e4"),
+                            productImageId = new Guid("57d5bfca-4985-44ec-a17d-2d3ef5bdfee2"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("b12cc9b8-4a9d-44e9-bf40-8b3e8e5cc8c7")
                         },
                         new
                         {
-                            productImageId = new Guid("e29895a0-df07-4565-bfd4-84fcb8ff7ecf"),
+                            productImageId = new Guid("7635cf2e-00c9-4d07-b398-eb648239e4da"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f")
                         },
                         new
                         {
-                            productImageId = new Guid("0d00d209-ddd4-49db-ab50-fe1fefeeadde"),
+                            productImageId = new Guid("1ac3e9be-00dc-4dcb-bd1d-0c9aa2d35c14"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f")
                         },
                         new
                         {
-                            productImageId = new Guid("bdceef44-5b85-4df4-9b16-882ea45c9196"),
+                            productImageId = new Guid("f4cfcb8b-3f5d-4ab2-92dc-ed68c411a7bf"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f")
                         },
                         new
                         {
-                            productImageId = new Guid("b0d1f42f-68e6-4d42-a717-adca773d2fe1"),
+                            productImageId = new Guid("dca21527-2617-4c68-91cf-a43d6e66da44"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("f2b7f7a4-6a34-43b0-bc18-4e8e3e8a7c8f")
                         },
                         new
                         {
-                            productImageId = new Guid("a6bb13a1-40bb-4c95-9712-7ae8c6ba072d"),
+                            productImageId = new Guid("fd7912a3-c226-4521-837c-0a27fed2d478"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a")
                         },
                         new
                         {
-                            productImageId = new Guid("95b84622-089a-4f5a-b7bc-989c45f72364"),
+                            productImageId = new Guid("6d518a2d-99b1-4dfe-81b7-ad5be6ae1292"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a")
                         },
                         new
                         {
-                            productImageId = new Guid("934775b5-e5da-4c8f-8982-0dae1e70a1a7"),
+                            productImageId = new Guid("230ae376-2322-4ba0-a317-1ca305996394"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a")
                         },
                         new
                         {
-                            productImageId = new Guid("92708b31-be1f-42b3-a5e2-920e01221267"),
+                            productImageId = new Guid("f05b5e36-e8e8-4e6b-8738-7c2a2db58113"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("0b6c1c6c-2f3f-4d3a-9e1b-1d5e3e9b2c3a")
                         },
                         new
                         {
-                            productImageId = new Guid("6fd284b6-8b1d-4de7-b874-ba629ee9597a"),
+                            productImageId = new Guid("f3480f3a-d004-4864-9b1e-efc62d094bc4"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10")
                         },
                         new
                         {
-                            productImageId = new Guid("4b04d3d6-6285-42e9-bf0c-5be79c4cc9a1"),
+                            productImageId = new Guid("d6be0f46-541a-42c5-bac2-4727e9ce4592"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10")
                         },
                         new
                         {
-                            productImageId = new Guid("17ca1155-93c7-4ed2-b3c4-9e98abc4c6c7"),
+                            productImageId = new Guid("9a6174a5-ecd9-42ac-94f0-ff767c2784c0"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10")
                         },
                         new
                         {
-                            productImageId = new Guid("a67ca932-24c4-49c0-a823-79860e2019bd"),
+                            productImageId = new Guid("84dd29bf-f911-463b-8a8c-fe975bdfae28"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("d1e7a8d2-1c34-4e91-bc1f-1a4e5f9a8e10")
                         },
                         new
                         {
-                            productImageId = new Guid("2bb08be1-ff25-4b0f-af31-e4247bbe9031"),
+                            productImageId = new Guid("754989be-31a7-4462-9fb3-5b4d7c1112e4"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f")
                         },
                         new
                         {
-                            productImageId = new Guid("8cc57209-255c-443d-90af-d30bdcce04a9"),
+                            productImageId = new Guid("98d76f72-27ce-4cf3-908f-1b9f03a08570"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f")
                         },
                         new
                         {
-                            productImageId = new Guid("7477b309-a4d0-4b1f-be66-9f25522fc990"),
+                            productImageId = new Guid("c1445ba1-eafc-41fe-a5d6-65430cff00fe"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f")
                         },
                         new
                         {
-                            productImageId = new Guid("b7619253-68db-4d4d-85c1-e669091c7045"),
+                            productImageId = new Guid("0a087b01-f760-4576-8aa4-cc24d299d9ed"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("e6b8f3b5-a4c5-4a2d-8e38-6d4c1e2a9a8f")
                         },
                         new
                         {
-                            productImageId = new Guid("ba5fec1d-1081-4324-8187-aae3b80b9e36"),
+                            productImageId = new Guid("2e4baeee-de29-4de1-bc05-4a638c63d638"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a")
                         },
                         new
                         {
-                            productImageId = new Guid("1164bbe7-6c44-4c3a-9624-80108fca1861"),
+                            productImageId = new Guid("f9f19df6-b999-4e66-916d-a9ae77f4fade"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a")
                         },
                         new
                         {
-                            productImageId = new Guid("cc43d027-807c-4d17-8eea-009af6b73259"),
+                            productImageId = new Guid("205c028c-b77c-47c7-adbc-845c6298c44a"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a")
                         },
                         new
                         {
-                            productImageId = new Guid("12547ef4-698c-435e-83b9-2c38b9d9217e"),
+                            productImageId = new Guid("ab9ce07f-a993-4f19-a730-1e7e21a84f29"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("a7c2d1f4-2b6e-4e18-bf7f-8d5e3f1b9c4a")
                         },
                         new
                         {
-                            productImageId = new Guid("d431c376-77ce-4dab-a279-5dff86eff58a"),
+                            productImageId = new Guid("49e207fc-3adb-4661-9109-028fd758a043"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b")
                         },
                         new
                         {
-                            productImageId = new Guid("f98e61c5-e306-47e8-8bd2-4ac61c1d93d3"),
+                            productImageId = new Guid("d7846b1f-384b-4269-b814-fb0363d81d53"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b")
                         },
                         new
                         {
-                            productImageId = new Guid("601458f5-dbb6-46f6-8aa2-02e9505c1f30"),
+                            productImageId = new Guid("1faa5606-3859-477d-ad74-44dcdf330ac2"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b")
                         },
                         new
                         {
-                            productImageId = new Guid("4a69d0c0-33ae-4c9e-aad9-2a6ceb534292"),
+                            productImageId = new Guid("34e764d1-9688-4598-80c7-5f76c8bc377b"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("b1f8c9e3-3e2b-4c4d-8e1a-2e6f5c3d8e0b")
                         },
                         new
                         {
-                            productImageId = new Guid("f5bde0ac-ea9b-4061-b03a-ecb73a1dcf3e"),
+                            productImageId = new Guid("319d251a-7682-47e2-a052-53c1d4fcc07e"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e")
                         },
                         new
                         {
-                            productImageId = new Guid("499ceb12-abd6-4588-b304-70817894cbea"),
+                            productImageId = new Guid("27fc80aa-6216-45a1-b95f-c78ec994f31d"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e")
                         },
                         new
                         {
-                            productImageId = new Guid("3a458124-ecd7-407d-ae5f-f08fb9900287"),
+                            productImageId = new Guid("c0ad8dae-d5a7-43b2-b2ec-5e141b706bc3"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e")
                         },
                         new
                         {
-                            productImageId = new Guid("0e5a6cc9-b761-4fa5-9657-dfb84aa12ff5"),
+                            productImageId = new Guid("32d76376-b575-4f56-bda5-3e9cc74841dd"),
                             imageUrl = "https://down-vn.img.susercontent.com/file/c7db377b177fc8e2ff75a769022dcc23",
                             productId = new Guid("9c2b3e7d-4a8a-4b1c-9e3f-2f6e8a5d9b4e")
                         });
@@ -821,7 +820,7 @@ namespace EXE201_2RE_API.Migrations
                         {
                             userId = new Guid("b1a3e477-9f5e-4bff-ae0a-5e8b42e0f8a0"),
                             address = "address",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(5956),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5188),
                             email = "user1@gmail.com",
                             isShopOwner = true,
                             passWord = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
@@ -831,20 +830,20 @@ namespace EXE201_2RE_API.Migrations
                             shopDescription = "shop1des",
                             shopLogo = "shop1logo",
                             shopName = "shop1",
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(5973),
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5203),
                             userName = "user1"
                         },
                         new
                         {
                             userId = new Guid("e2c3c2b1-5a1f-4c4f-b1ea-6b2c4f8e1a0b"),
                             address = "address",
-                            createdAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6003),
+                            createdAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5243),
                             email = "admin@gmail.com",
                             isShopOwner = false,
                             passWord = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
                             phoneNumber = "0912398765",
                             roleId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"),
-                            updatedAt = new DateTime(2024, 10, 6, 22, 26, 38, 925, DateTimeKind.Local).AddTicks(6003),
+                            updatedAt = new DateTime(2024, 10, 6, 22, 25, 43, 884, DateTimeKind.Local).AddTicks(5244),
                             userName = "admin"
                         });
                 });

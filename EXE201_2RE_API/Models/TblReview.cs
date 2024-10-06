@@ -13,15 +13,14 @@ public partial class TblReview
 
     public Guid? userId { get; set; }
 
-    public Guid? productId { get; set; }
+    public Guid? shopId { get; set; }
 
     public int? rating { get; set; }
 
     public string? comment { get; set; }
 
     public DateTime? createdAt { get; set; }
-
-    public virtual TblProduct? product { get; set; }
-
     public virtual TblUser? user { get; set; }
+    public virtual TblUser? shop { get; set; }
+
 }

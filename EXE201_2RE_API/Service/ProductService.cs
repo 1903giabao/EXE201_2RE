@@ -8,6 +8,7 @@ using EXE201_2RE_API.Repository;
 using EXE201_2RE_API.Response;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Xml.Linq;
 using static EXE201_2RE_API.Response.GetListOrderFromShop;
 
 namespace EXE201_2RE_API.Service
@@ -65,19 +66,65 @@ namespace EXE201_2RE_API.Service
                     var cartFromShop = new CartShopModel
                     {
                         id = (Guid)cartId,
-                        nameUser = cart.user.userName,
+                        nameUser = cart.fullName,
                         totalPrice = (decimal)cart.totalPrice,
                         totalQuantity = totalProduct,
+                        status = cart.status
+
                     };
+                    listCartFromShop.Add(cartFromShop);
                 }
 
-                return new ServiceResult(200, "Success", distinctCartIds);
+                return new ServiceResult(200, "Success", listCartFromShop);
             }
             catch(Exception ex)
             {
                 return new ServiceResult(500, ex.Message);
             }
         }
+        public async Task<IServiceResult> GetAllProductFromShop(Guid shopId)
+        {
+            try
+            {
+                var productsOwnedByShopOwner = _unitOfWork.ProductRepository.GetAllIncluding(_ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
+                                                              .Where(_ => _.shopOwnerId == shopId)
+                                                              .Select(_ => new GetAllProductFromShopResponse
+                                                              {
+                                                                  productId = _.productId,
+                                                                  categoryId = (Guid)_.categoryId,
+                                                                  categoryName = _.category.name,
+                                                                  sizeId = (Guid)_.sizeId,
+                                                                  sizeName = _.size.sizeName,
+                                                                  name = _.name,
+                                                                  price = (decimal)_.price,
+                                                                  imageUrl = _.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault(),
+                                                                  brand = _.brand,
+                                                                  description = _.description,
+                                                              })
+                                                              .ToList();
+                return new ServiceResult(200, "Success", productsOwnedByShopOwner);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+
+            }
+
+        }
+       /* public async Task<IServiceResult> GetAllShop()
+        {
+            try
+            {
+                
+               *//* return new ServiceResult(200, "Success", productsOwnedByShopOwner);*//*
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+
+            }
+
+        }*/
         public async Task<IServiceResult> GetProductById(Guid id)
         {
             try

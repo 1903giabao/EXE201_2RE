@@ -23,5 +23,6 @@ namespace EXE201_2RE_API.Controllers
             var result = await _cartService.Checkout(req);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
+       
     }
 }
