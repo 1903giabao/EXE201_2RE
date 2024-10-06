@@ -34,16 +34,15 @@ namespace EXE201_2RE_API.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<TblCategory>()
-                        .HasMany(c => c.tblProducts)
-                        .WithOne(p => p.category)
-                        .HasForeignKey(p => p.categoryId)
-                        .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<TblReview>()
-                        .HasOne(r => r.user)
-                        .WithMany(u => u.reviewsWritten)
-                        .HasForeignKey(r => r.userId)
-                        .OnDelete(DeleteBehavior.ClientSetNull);  
+                        .HasIndex(r => new { r.userId, r.shopId })
+                        .IsUnique();
+
+            modelBuilder.Entity<TblReview>()
+                .HasOne(r => r.user)
+                .WithMany(u => u.reviewsWritten)
+                .HasForeignKey(r => r.userId)
+                .OnDelete(DeleteBehavior.ClientSetNull); 
 
             modelBuilder.Entity<TblReview>()
                 .HasOne(r => r.shop)

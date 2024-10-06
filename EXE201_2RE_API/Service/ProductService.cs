@@ -63,7 +63,7 @@ namespace EXE201_2RE_API.Service
                 {
                     var cart =  _unitOfWork.CartRepository.GetAllIncluding(_ => _.user).Where(_ => _.cartId == cartId).FirstOrDefault();
                     var totalProduct = _unitOfWork.CartDetailRepository.GetAll().Where(_ => _.cartId == cartId).Count();
-                    var cartFromShop = new CartShopModel
+                    listCartFromShop.Add( new CartShopModel
                     {
                         id = (Guid)cartId,
                         nameUser = cart.fullName,
@@ -71,8 +71,7 @@ namespace EXE201_2RE_API.Service
                         totalQuantity = totalProduct,
                         status = cart.status
 
-                    };
-                    listCartFromShop.Add(cartFromShop);
+                    });
                 }
 
                 return new ServiceResult(200, "Success", listCartFromShop);
@@ -111,12 +110,32 @@ namespace EXE201_2RE_API.Service
             }
 
         }
-       /* public async Task<IServiceResult> GetAllShop()
+        public async Task<IServiceResult> GetAllShop()
         {
             try
             {
-                
-               *//* return new ServiceResult(200, "Success", productsOwnedByShopOwner);*//*
+                var shops = await _unitOfWork.UserRepository
+                                             .GetAllIncluding(_ => _.reviewsReceivedAsShop, _ => _.reviewsWritten)
+                                             .Where(_ => _.isShopOwner == true)
+                                             .ToListAsync();
+
+                var listShops = new List<GetListShopResponse>();
+
+                foreach (var shop in shops)
+                {
+                    var totalRating = shop.reviewsReceivedAsShop.Sum(_ => _.rating ?? 0);
+                    var quantityRating = shop.reviewsReceivedAsShop.Count();
+
+                    listShops.Add(new GetListShopResponse
+                    {
+                        shopId = shop.userId ?? Guid.Empty,
+                        shopName = shop.shopName,
+                        shopLogo = shop.shopLogo,
+                        totalRating = totalRating,
+                        quantityRating = quantityRating
+                    });
+                }
+                return new ServiceResult(200, "Success", listShops);
             }
             catch (Exception ex)
             {
@@ -124,7 +143,41 @@ namespace EXE201_2RE_API.Service
 
             }
 
-        }*/
+        }
+        public async Task<IServiceResult> OrderDetailFromShop(Guid cartId)
+        {
+            try
+            {
+                var cartDetails = await _unitOfWork.CartDetailRepository
+                                                   .GetAllIncluding(_ => _.product, _ => _.product.tblProductImages)
+                                                   .Where(_ => _.cartId == cartId)
+                                                   .ToListAsync();
+
+                var listProductsInCart = new List<OrderDetailResponse>();
+
+                foreach (var detail in cartDetails)
+                {
+                    if (detail.product != null)
+                    {
+                        listProductsInCart.Add(new OrderDetailResponse
+                        {
+                            productId = detail.product.productId,
+                            productName = detail.product.name,
+                            price = detail.price ?? 0, 
+                            imageUrl = detail.product.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault()
+                        });
+                    }
+                }
+
+                return new ServiceResult(200, "Success", listProductsInCart);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+
+            }
+
+        }
         public async Task<IServiceResult> GetProductById(Guid id)
         {
             try
