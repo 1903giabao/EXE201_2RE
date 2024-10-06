@@ -42,12 +42,27 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var carts = _unitOfWork.CartRepository.FindByCondition(_ => _.userId == id).ToList();
+                var carts = _unitOfWork.CartRepository
+                        .GetAllIncluding(
+                            _ => _.user,
+                            _ => _.tblCartDetails,
+                            _ => _.tblOrderHistories
+                        )
+                        .Where(_ => _.userId == id).ToList();
+
+                foreach (var cart in carts)
+                {
+                    foreach (var detail in cart.tblCartDetails)
+                    {
+                        detail.product = _unitOfWork.ProductRepository.GetAllIncluding(_ => _.size, _ => _.tblProductImages).Where(_ => _.productId == detail.productId).FirstOrDefault();
+                    }
+                }
 
                 var cartResponses = new List<GetCartByUserIdResponse>();
 
                 foreach (var cart in carts)
                 {
+                    // Create the response object for each cart
                     var response = new GetCartByUserIdResponse
                     {
                         totalPrice = cart.totalPrice,
@@ -56,13 +71,22 @@ namespace EXE201_2RE_API.Service
                         email = cart.email,
                         fullName = cart.fullName,
                         phone = cart.phone,
-                        listProducts = cart.tblCartDetails?.Select(detail => new GetCartDetailResponse
+                        listProducts = new List<GetCartDetailResponse>()
+                    };
+
+                    foreach (var detail in cart.tblCartDetails)
+                    {
+                        var productResponse = new GetCartDetailResponse
                         {
                             productId = detail.productId,
                             price = detail.price,
-                            status = detail.product.status
-                        }).ToList()
-                    };
+                            name = detail.product?.name,
+                            size = detail.product?.size?.sizeName,
+                            imageUrl = detail.product?.tblProductImages.FirstOrDefault()?.imageUrl
+                        };
+
+                        response.listProducts.Add(productResponse);
+                    }
 
                     cartResponses.Add(response);
                 }
@@ -89,7 +113,7 @@ namespace EXE201_2RE_API.Service
 
                 Guid? firstShopId = null;
 
-                foreach (Guid guid in req.products)
+                foreach (var guid in req.products)
                 {
                     var product = await _unitOfWork.ProductRepository.GetByIdAsync(guid);
 
@@ -121,6 +145,7 @@ namespace EXE201_2RE_API.Service
                     cartId = Guid.NewGuid(),
                     userId = user.userId,
                     fullName = req.fullName,
+                    email = req.email,
                     address = req.address,
                     phone = req.phone,
                     dateTime = DateTime.Now,
@@ -129,6 +154,39 @@ namespace EXE201_2RE_API.Service
                 };
 
                 var result = await _unitOfWork.CartRepository.CreateAsync(cart);
+
+                var listCartDetail = new List<TblCartDetail>();
+
+                if (result > 0)
+                {
+                    foreach (var item in req.products)
+                    {
+                        var product = await _unitOfWork.ProductRepository.GetByIdAsync(item); 
+
+                        if (product == null)
+                        {
+                            return new ServiceResult(500, "Error when checkout!");
+
+                        }
+
+                        var cartDetail = new TblCartDetail
+                        {
+                            cartDetailId = Guid.NewGuid(),
+                            cartId = cart.cartId,
+                            productId = product.productId,
+                            price = product.price,
+                        };
+
+                        listCartDetail.Add(cartDetail);
+                    }
+
+                    var cartDetailRs = await _unitOfWork.CartDetailRepository.CreateRangeAsync(listCartDetail);
+
+                    if (cartDetailRs < 1)
+                    {
+                        return new ServiceResult(500, "Error when checkout!");
+                    }
+                }
 
                 if (result < 1)
                 {
@@ -168,10 +226,12 @@ namespace EXE201_2RE_API.Service
 
                     return new ServiceResult(200, "Checkout success", dataResult.data.qrDataURL);
                 }
-                else
+                else if (req.paymentMethod.Equals("COD"))
                 {
                     return new ServiceResult(200, "Checkout success");
                 }
+
+                return new ServiceResult(500, "Failed!");
             }
             catch (Exception ex)
             {
