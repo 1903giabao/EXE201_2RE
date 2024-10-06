@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal;
 using EXE201_2RE_API.Constants;
+using EXE201_2RE_API.Enums;
 using EXE201_2RE_API.Helpers;
 using EXE201_2RE_API.Models;
 using EXE201_2RE_API.Repository;
 using EXE201_2RE_API.Response;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RestSharp;
 using System.Drawing.Imaging;
@@ -36,27 +38,102 @@ namespace EXE201_2RE_API.Service
             }
         }
 
+        public async Task<IServiceResult> GetCartsByUserId(Guid id)
+        {
+            try
+            {
+                var carts = _unitOfWork.CartRepository.FindByCondition(_ => _.userId == id).ToList();
+
+                var cartResponses = new List<GetCartByUserIdResponse>();
+
+                foreach (var cart in carts)
+                {
+                    var response = new GetCartByUserIdResponse
+                    {
+                        totalPrice = cart.totalPrice,
+                        dateTime = cart.dateTime,
+                        address = cart.address,
+                        email = cart.email,
+                        fullName = cart.fullName,
+                        phone = cart.phone,
+                        listProducts = cart.tblCartDetails?.Select(detail => new GetCartDetailResponse
+                        {
+                            productId = detail.productId,
+                            price = detail.price,
+                            status = detail.product.status
+                        }).ToList()
+                    };
+
+                    cartResponses.Add(response);
+                }
+
+                return new ServiceResult(200, "Carts retrieved successfully", cartResponses);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
         public async Task<IServiceResult> Checkout(CheckoutRequest req)
         {
             try
             {
-                var user = _unitOfWork.UserRepository.FindByCondition(_ => _.email.ToLower().Equals(req.email.ToLower())).FirstOrDefault();
+                //var user = _unitOfWork.UserRepository.FindByCondition(_ => _.email.ToLower().Equals(req.email.ToLower())).FirstOrDefault();
+                var user = _unitOfWork.UserRepository.FindByCondition(_ => _.userId == req.userId).FirstOrDefault();
 
                 if (user == null)
                 {
                     return new ServiceResult(404, "Cannot find user");
                 }
 
+                Guid? firstShopId = null;
+
+                foreach (Guid guid in req.products)
+                {
+                    var product = await _unitOfWork.ProductRepository.GetByIdAsync(guid);
+
+                    if (product == null)
+                    {
+                        return new ServiceResult(404, "Cannot find product");
+                    }
+
+                    if (product.status.Equals(SD.ProductStatus.SOLDOUT))
+                    {
+                        return new ServiceResult(404, "Product is sold out!");
+                    }
+
+                    if (req.paymentMethod.Equals("QRPAY"))
+                    {
+                        if (firstShopId == null)
+                        {
+                            firstShopId = product.shopOwnerId;
+                        }
+                        else if (product.shopOwnerId != firstShopId)
+                        {
+                            return new ServiceResult(404, "Products belong to different shops!");
+                        }
+                    }
+                }
+
                 var cart = new TblCart
                 {
                     cartId = Guid.NewGuid(),
                     userId = user.userId,
+                    fullName = req.fullName,
                     address = req.address,
                     phone = req.phone,
                     dateTime = DateTime.Now,
                     status = "Pending",
                     totalPrice = req.price,
                 };
+
+                var result = await _unitOfWork.CartRepository.CreateAsync(cart);
+
+                if (result < 1)
+                {
+                    return new ServiceResult(500, "Error when checkout!");
+                }
 
                 if (req.paymentMethod.Equals("QRPAY"))
                 {
