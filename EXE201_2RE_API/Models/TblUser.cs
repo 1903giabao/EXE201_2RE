@@ -43,8 +43,8 @@ public partial class TblUser
 
     public virtual ICollection<TblProduct>? tblProducts { get; set; } = new List<TblProduct>();
 
-    public virtual ICollection<TblReview>? tblReviews { get; set; } = new List<TblReview>();
-
+    public virtual ICollection<TblReview>? reviewsWritten { get; set; } = new List<TblReview>();
+    public virtual ICollection<TblReview>? reviewsReceivedAsShop { get; set; } = new List<TblReview>();
     public virtual ICollection<TblFavorite>? tblFavorites { get; set; } = new List<TblFavorite>();
 
 }

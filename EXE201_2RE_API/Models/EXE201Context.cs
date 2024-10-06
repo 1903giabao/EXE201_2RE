@@ -39,6 +39,17 @@ namespace EXE201_2RE_API.Models
                         .WithOne(p => p.category)
                         .HasForeignKey(p => p.categoryId)
                         .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<TblReview>()
+                        .HasOne(r => r.user)
+                        .WithMany(u => u.reviewsWritten)
+                        .HasForeignKey(r => r.userId)
+                        .OnDelete(DeleteBehavior.ClientSetNull);  
+
+            modelBuilder.Entity<TblReview>()
+                .HasOne(r => r.shop)
+                .WithMany(u => u.reviewsReceivedAsShop)
+                .HasForeignKey(r => r.shopId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<TblRole>().HasData(
                 new TblRole { roleId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), name = "User" },
                 new TblRole { roleId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), name = "Admin" }
