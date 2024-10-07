@@ -16,6 +16,7 @@
         public string name { get; set; }
 
         public decimal price { get; set; }
+        public decimal sale { get; set; }
 
         public string mainImgUrl { get; set; }
 

@@ -96,6 +96,7 @@ namespace EXE201_2RE_API.Service
                                                                   size = _.size.sizeName,
                                                                   name = _.name,
                                                                   price = (decimal)_.price,
+                                                                  sale = (decimal)_.sale,
                                                                   imgUrl = _.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault(),
                                                                   brand = _.brand,
                                                                   condition = _.condition,
