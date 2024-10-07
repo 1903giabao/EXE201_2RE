@@ -15,6 +15,14 @@
         {
             public static string ACTIVE = "ACTIVE";
             public static string INACTIVE = "INACTIVE";
+        }        
+        
+        public class CartStatus
+        {
+            public static string PENDING = "CHƯA THANH TOÁN";
+            public static string PAID = "ĐANG VẬN CHUYỂN";
+            public static string FINISHED = "ĐÃ HOÀN THÀNH";
+            public static string CANCEL = "ĐÃ HỦY";
         }
 
         public class ProductStatus

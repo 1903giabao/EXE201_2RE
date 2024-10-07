@@ -149,7 +149,7 @@ namespace EXE201_2RE_API.Service
                     address = req.address,
                     phone = req.phone,
                     dateTime = DateTime.Now,
-                    status = "Pending",
+                    status = SD.CartStatus.PENDING,
                     totalPrice = req.price,
                 };
 
