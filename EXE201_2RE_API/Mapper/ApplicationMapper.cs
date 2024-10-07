@@ -19,6 +19,7 @@ namespace EXE201_2RE_API.Mapper
                .ReverseMap();
             CreateMap<TblProduct, GetProductDetailResponse>()
                .ForMember(dest => dest.shopOwner, opt => opt.MapFrom(src => src.shopOwner.shopName))
+               .ForMember(dest => dest.shopId, opt => opt.MapFrom(src => src.shopOwner.userId))
                .ForMember(dest => dest.category, opt => opt.MapFrom(src => src.category.name))
                .ForMember(dest => dest.genderCategory, opt => opt.MapFrom(src => src.genderCategory.name))
                .ForMember(dest => dest.size, opt => opt.MapFrom(src => src.size.sizeName))
@@ -26,6 +27,9 @@ namespace EXE201_2RE_API.Mapper
                .ForMember(dest => dest.listImgUrl, opt => opt.MapFrom(src => src.tblProductImages.Skip(1).Select(pi => pi.imageUrl).ToList()))
                .ReverseMap();
             CreateMap<FavoriteProductResponse, TblFavorite>().ReverseMap();
+            CreateMap<TblReview, ReviewsList>()
+                .ForMember(dest => dest.userName, opt => opt.MapFrom(src => src.user.userName))
+                .ReverseMap();
             CreateMap<TblCart, GetCartByUserIdResponse>()
                 .ReverseMap();
         }

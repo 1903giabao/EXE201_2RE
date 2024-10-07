@@ -12,7 +12,7 @@
         public string name { get; set; }
         public decimal price { get; set; }
         public string description { get; set; }
-        public string imageUrl { get; set; }
+        public string imgUrl { get; set; }
         public string brand {  get; set; }
        
     }

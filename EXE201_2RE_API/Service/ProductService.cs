@@ -96,7 +96,7 @@ namespace EXE201_2RE_API.Service
                                                                   sizeName = _.size.sizeName,
                                                                   name = _.name,
                                                                   price = (decimal)_.price,
-                                                                  imageUrl = _.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault(),
+                                                                  imgUrl = _.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault(),
                                                                   brand = _.brand,
                                                                   description = _.description,
                                                               })
@@ -125,6 +125,11 @@ namespace EXE201_2RE_API.Service
                     return new ServiceResult(404, "Shop not found");
                 }
 
+                foreach (var review in shop.reviewsReceivedAsShop)
+                {
+                    review.user = await _unitOfWork.UserRepository.GetByIdAsync(review.userId.Value);
+                }
+
                 var totalRating = shop.reviewsReceivedAsShop.Sum(_ => _.rating ?? 0);
                 var quantityRating = shop.reviewsReceivedAsShop.Count();
 
@@ -136,6 +141,7 @@ namespace EXE201_2RE_API.Service
                     shopAddress = shop.shopAddress,
                     totalRating = totalRating,
                     quantityRating = quantityRating,
+                    reviews = _mapper.Map<List<ReviewsList>>(shop.reviewsReceivedAsShop)
                 };
 
                 return new ServiceResult(200, "Get Shop Detail", result);

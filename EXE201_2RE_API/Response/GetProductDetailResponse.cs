@@ -3,6 +3,7 @@
     public class GetProductDetailResponse
     {
         public Guid productId { get; set; }
+        public Guid shopId { get; set; }
 
         public string? shopOwner { get; set; }
 

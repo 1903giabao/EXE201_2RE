@@ -9,6 +9,7 @@
         public string? fullName { get; set; }
         public string? phone { get; set; }
         public List<GetCartDetailResponse> listProducts { get; set; }
+        public string status { get; set; }
     }
 
     public class GetCartDetailResponse

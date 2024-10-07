@@ -62,7 +62,6 @@ namespace EXE201_2RE_API.Service
 
                 foreach (var cart in carts)
                 {
-                    // Create the response object for each cart
                     var response = new GetCartByUserIdResponse
                     {
                         totalPrice = cart.totalPrice,
@@ -71,7 +70,8 @@ namespace EXE201_2RE_API.Service
                         email = cart.email,
                         fullName = cart.fullName,
                         phone = cart.phone,
-                        listProducts = new List<GetCartDetailResponse>()
+                        listProducts = new List<GetCartDetailResponse>(),
+                        status = cart.status
                     };
 
                     foreach (var detail in cart.tblCartDetails)
@@ -82,7 +82,7 @@ namespace EXE201_2RE_API.Service
                             price = detail.price,
                             name = detail.product?.name,
                             size = detail.product?.size?.sizeName,
-                            imageUrl = detail.product?.tblProductImages.FirstOrDefault()?.imageUrl
+                            imageUrl = detail.product?.tblProductImages.FirstOrDefault()?.imageUrl,
                         };
 
                         response.listProducts.Add(productResponse);
