@@ -85,20 +85,21 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var productsOwnedByShopOwner = _unitOfWork.ProductRepository.GetAllIncluding(_ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
+                var productsOwnedByShopOwner = _unitOfWork.ProductRepository.GetAllIncluding(_ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages, _ => _.shopOwner)
                                                               .Where(_ => _.shopOwnerId == shopId)
-                                                              .Select(_ => new GetAllProductFromShopResponse
+                                                              .Select(_ => new GetListProductResponse
                                                               {
                                                                   productId = _.productId,
-                                                                  categoryId = (Guid)_.categoryId,
-                                                                  categoryName = _.category.name,
-                                                                  sizeId = (Guid)_.sizeId,
-                                                                  sizeName = _.size.sizeName,
+                                                                  shopOwner = _.shopOwner.shopName,
+                                                                  category = _.category.name,
+                                                                  genderCategory = _.genderCategory.name,
+                                                                  size = _.size.sizeName,
                                                                   name = _.name,
                                                                   price = (decimal)_.price,
-                                                                  imageUrl = _.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault(),
+                                                                  imgUrl = _.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault(),
                                                                   brand = _.brand,
-                                                                  description = _.description,
+                                                                  condition = _.condition,
+                                                                  status = _.status
                                                               })
                                                               .ToList();
                 return new ServiceResult(200, "Success", productsOwnedByShopOwner);
