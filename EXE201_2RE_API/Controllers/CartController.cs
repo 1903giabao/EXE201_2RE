@@ -25,7 +25,7 @@ namespace EXE201_2RE_API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("/user/{id}")]
+        [HttpGet("/user/{id}")]
         public async Task<IActionResult> GetCartsByUserId([FromRoute] Guid id)
         {
             var result = await _cartService.GetCartsByUserId(id);
