@@ -6,6 +6,7 @@
         public string shopLogo { get; set; }
         public string shopDescription { get; set; }
         public string shopAddress { get; set; }
+        public string shopPhone { get; set; }
         public int totalRating { get; set; }
         public int quantityRating { get; set; }
     }

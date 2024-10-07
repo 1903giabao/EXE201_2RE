@@ -135,6 +135,7 @@ namespace EXE201_2RE_API.Service
                     shopLogo = shop.shopLogo,
                     shopDescription = shop.shopDescription,
                     shopAddress = shop.shopAddress,
+                    shopPhone = shop.phoneNumber,
                     totalRating = totalRating,
                     quantityRating = quantityRating,
                 };
