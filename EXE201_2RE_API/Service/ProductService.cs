@@ -126,6 +126,11 @@ namespace EXE201_2RE_API.Service
                     return new ServiceResult(404, "Shop not found");
                 }
 
+                foreach (var review in shop.reviewsReceivedAsShop)
+                {
+                    review.user = await _unitOfWork.UserRepository.GetByIdAsync(review.userId.Value);
+                }
+
                 var totalRating = shop.reviewsReceivedAsShop.Sum(_ => _.rating ?? 0);
                 var quantityRating = shop.reviewsReceivedAsShop.Count();
 
@@ -138,6 +143,7 @@ namespace EXE201_2RE_API.Service
                     shopPhone = shop.phoneNumber,
                     totalRating = totalRating,
                     quantityRating = quantityRating,
+                    reviews = _mapper.Map<List<ReviewsList>>(shop.reviewsReceivedAsShop)
                 };
 
                 return new ServiceResult(200, "Get Shop Detail", result);
