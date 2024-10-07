@@ -9,7 +9,9 @@ namespace EXE201_2RE_API.Mapper
     {
         public ApplicationMapper()
         {
-            CreateMap<UserModel, TblUser>().ReverseMap();
+            CreateMap<TblUser, UserModel>()
+                .ForMember(dest => dest.roleName, opt => opt.MapFrom(src => src.role.name))
+                .ReverseMap();
             CreateMap<TblProduct, GetListProductResponse>()
                .ForMember(dest => dest.shopOwner, opt => opt.MapFrom(src => src.shopOwner.shopName))
                .ForMember(dest => dest.category, opt => opt.MapFrom(src => src.category.name))

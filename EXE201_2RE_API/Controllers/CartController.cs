@@ -30,6 +30,14 @@ namespace EXE201_2RE_API.Controllers
         {
             var result = await _cartService.GetCartsByUserId(id);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }        
+        
+        [AllowAnonymous]
+        [HttpPut("/status/{cartId}")]
+        public async Task<IActionResult> ChangeCartStatus([FromRoute] Guid cartId, [FromQuery] string status)
+        {
+            var result = await _cartService.ChangeCartStatus(cartId, status);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
     }
 }

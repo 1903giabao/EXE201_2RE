@@ -51,7 +51,7 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var result = _mapper.Map<UserModel>(_unitOfWork.UserRepository.GetAll().Where(_ => _.email == username).FirstOrDefault());
+                var result = _mapper.Map<UserModel>(_unitOfWork.UserRepository.GetAllIncluding(u => u.role).Where(_ => _.email == username).FirstOrDefault());
                 return new ServiceResult(200, "Get user by user name", result);
             }
             catch (Exception ex)
