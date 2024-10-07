@@ -26,15 +26,22 @@ namespace EXE201_2RE_API.Service
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        private string GenerateUniqueId(Guid? cartId, DateTime? dateTime)
-        {
-            var combined = $"{cartId}_{dateTime?.Ticks}";
 
-            using (var sha256 = SHA256.Create())
+        public async Task<IServiceResult> ChangeCartStatus(Guid cartId, string status)
+        {
+            try
             {
-                var hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(combined));
-                var hexString = BitConverter.ToString(hash).Replace("-", "").ToLower();
-                return hexString.Substring(0, 10);
+                var cart = await _unitOfWork.CartRepository.GetByIdAsync(cartId);
+
+                cart.status = status;
+
+                var result = await _unitOfWork.CartRepository.UpdateAsync(cart);
+
+                return new ServiceResult(200, "Update cart status", cart);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
             }
         }
 
@@ -195,7 +202,7 @@ namespace EXE201_2RE_API.Service
 
                 if (req.paymentMethod.Equals("QRPAY"))
                 {
-                    var uniqueId = GenerateUniqueId(cart.cartId, cart.dateTime);
+                    var uniqueId = cart.cartId.ToString().Substring(0, 8);
 
                     var apiRequest = new QRCodeRequest
                     {

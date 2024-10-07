@@ -23,6 +23,8 @@ namespace EXE201_2RE_API.DTOs
 
         public Guid? roleId { get; set; }
 
+        public string? roleName { get; set; }
+
         public bool? isShopOwner { get; set; }
 
         public string shopName { get; set; }
