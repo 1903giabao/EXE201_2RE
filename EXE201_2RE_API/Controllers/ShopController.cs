@@ -23,6 +23,15 @@ namespace EXE201_2RE_API.Controllers
             var result = await _productService.GetAllShop();
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
+
+        [AllowAnonymous]
+        [HttpGet("/detail/{id}")]
+        public async Task<IActionResult> GetShopDetail([FromRoute] Guid id)
+        {
+            var result = await _productService.GetShopDetail(id);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
         [AllowAnonymous]
         [HttpGet("detail-cart-from-shop/{cartId}")]
         public async Task<IActionResult> OrderDetailFromShop([FromRoute] Guid cartId)

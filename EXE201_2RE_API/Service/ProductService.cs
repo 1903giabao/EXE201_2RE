@@ -110,6 +110,41 @@ namespace EXE201_2RE_API.Service
             }
 
         }
+
+        public async Task<IServiceResult> GetShopDetail(Guid id)
+        {
+            try
+            {
+                var shop = await _unitOfWork.UserRepository
+                             .GetAllIncluding(_ => _.reviewsReceivedAsShop, _ => _.reviewsWritten)
+                             .Where(_ => _.isShopOwner == true && _.userId == id)
+                             .FirstOrDefaultAsync();
+
+                if (shop == null)
+                {
+                    return new ServiceResult(404, "Shop not found");
+                }
+
+                var totalRating = shop.reviewsReceivedAsShop.Sum(_ => _.rating ?? 0);
+                var quantityRating = shop.reviewsReceivedAsShop.Count();
+
+                var result = new GetShopDetailResponse
+                {
+                    shopName = shop.shopName,
+                    shopLogo = shop.shopLogo,
+                    shopDescription = shop.shopDescription,
+                    shopAddress = shop.shopAddress,
+                    totalRating = totalRating,
+                    quantityRating = quantityRating,
+                };
+
+                return new ServiceResult(200, "Get Shop Detail", result);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
         public async Task<IServiceResult> GetAllShop()
         {
             try
