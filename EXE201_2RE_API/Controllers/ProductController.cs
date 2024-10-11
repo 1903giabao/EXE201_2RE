@@ -1,5 +1,6 @@
 ﻿using EXE201_2RE_API.DTOs;
 using EXE201_2RE_API.Repository;
+using EXE201_2RE_API.Request;
 using EXE201_2RE_API.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +70,23 @@ namespace EXE201_2RE_API.Controllers
             var result = await _productService.CreateProduct(createProductModel);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
+
+        [AllowAnonymous]
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> UpdateProduct([FromRoute] Guid productId, [FromForm] UpdateProductRequest updateProductRequest)
+        {
+            var result = await _productService.UpdateProduct(productId, updateProductRequest);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
+        [AllowAnonymous]
+        [HttpPut("status/{productId}")]
+        public async Task<IActionResult> ChangeProductStatus([FromQuery] Guid productId, [FromQuery] string status)
+        {
+            var result = await _productService.ChangeProductStatus(productId, status);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
         [AllowAnonymous]
         [HttpGet("order-from-shop/{shopId}")]
         public async Task<IActionResult> GetProductByShopOwner([FromRoute] Guid shopId)

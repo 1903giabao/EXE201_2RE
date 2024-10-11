@@ -158,6 +158,7 @@ namespace EXE201_2RE_API.Service
                     dateTime = DateTime.Now,
                     status = SD.CartStatus.PENDING,
                     totalPrice = req.price,
+                    paymentMethod = req.paymentMethod,
                 };
 
                 var result = await _unitOfWork.CartRepository.CreateAsync(cart);

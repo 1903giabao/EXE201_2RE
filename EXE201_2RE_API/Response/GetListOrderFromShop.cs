@@ -8,6 +8,8 @@
             public int totalQuantity { get; set; }
             public decimal totalPrice { get; set; }
             public string nameUser { get; set; }
+            public DateTime date {  get; set; }
+            public string paymentMethod { get; set; }
             public string status {  get; set; }
         }
     }
