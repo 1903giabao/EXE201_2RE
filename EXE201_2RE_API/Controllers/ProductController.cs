@@ -43,6 +43,22 @@ namespace EXE201_2RE_API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("brands")]
+        public async Task<IActionResult> GetAllBrand()
+        {
+            var result = await _productService.GetAllBrand();
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetAllCategory()
+        {
+            var result = await _productService.GetAllCategory();
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
+        [AllowAnonymous]
         [HttpGet("list")]
         public async Task<IActionResult> GetListProductByListId([FromQuery] List<Guid> listId)
         {

@@ -13,6 +13,7 @@ namespace EXE201_2RE_API.Repository
         private UserRepository _user;
         private CartDetailRepository _cartDetail;
         private CartRepository _cart;
+        private CategoryRepository _category;
         private GenderCategoryRepository _genderCategory;
         private OrderHistoryRepository _orderHistory;
         private ProductRepository _product;
@@ -30,6 +31,14 @@ namespace EXE201_2RE_API.Repository
         {
             _unitOfWorkContext ??= unitOfWorkContext;
         }
+        public CategoryRepository CategoryRepository
+        {
+            get
+            {
+                return _category ??= new CategoryRepository(_unitOfWorkContext);
+            }
+        }
+
         public ProductImageRepository ProductImageRepository
         {
             get
@@ -37,8 +46,6 @@ namespace EXE201_2RE_API.Repository
                 return _productImage ??= new ProductImageRepository(_unitOfWorkContext);
             }
         }
-
-
         public UserRepository UserRepository
         {
             get
