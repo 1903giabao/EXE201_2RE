@@ -22,6 +22,7 @@ public partial class TblCart
 
     public string? phone { get; set; }
     public string? email { get; set; }
+    public string? paymentMethod { get; set; }
 
     public string? status { get; set; }
 

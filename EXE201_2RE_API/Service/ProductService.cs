@@ -5,6 +5,7 @@ using EXE201_2RE_API.Enums;
 using EXE201_2RE_API.Helpers;
 using EXE201_2RE_API.Models;
 using EXE201_2RE_API.Repository;
+using EXE201_2RE_API.Request;
 using EXE201_2RE_API.Response;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -25,6 +26,109 @@ namespace EXE201_2RE_API.Service
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _firebaseService = firebaseService;
+        }
+
+        public async Task<IServiceResult> ChangeProductStatus(Guid productId, string status)
+        {
+            try
+            {
+                var product = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+
+                product.status = status;
+
+                var result = await _unitOfWork.ProductRepository.UpdateAsync(product);
+
+                return new ServiceResult(200, "Update cart status", product);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IServiceResult> UpdateProduct(Guid productId, UpdateProductRequest createProductModel)
+        {
+            try
+            {
+                var result = 0;
+                var newProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+
+                if (newProduct != null)
+                {
+                    newProduct.categoryId = createProductModel.categoryId;
+                    newProduct.genderCategoryId = createProductModel.genderCategoryId;
+                    newProduct.shopOwnerId = createProductModel.shopOwnerId;
+                    newProduct.sizeId = createProductModel.sizeId;
+                    newProduct.description = createProductModel.description;
+                    newProduct.name = createProductModel.name;
+                    newProduct.brand = createProductModel.brand;
+                    newProduct.condition = createProductModel.condition;
+                    newProduct.price = createProductModel.price;
+                    newProduct.updatedAt = DateTime.Now;
+                    newProduct.price = createProductModel.price;
+
+                    var listImg = await _unitOfWork.ProductImageRepository.FindByConditionAsync(i => i.productId == productId);
+                    var images = listImg.ToList();
+                    var urlsToKeep = createProductModel.oldImg;
+
+                    for (int i = images.Count - 1; i >= 0; i--)
+                    {
+                        if (!urlsToKeep.Contains(images[i].imageUrl))
+                        {
+                            await _unitOfWork.ProductImageRepository.RemoveAsync(images[i]);
+                        }
+                    }
+
+                    if (createProductModel.listImgUrl != null && createProductModel.listImgUrl.Any())
+                    {
+                        var imageUploadResults = new List<string>();
+                        var productImages = new List<TblProductImage>();
+
+                        foreach (var imgUrl in createProductModel.listImgUrl)
+                        {
+                            var imagePath = FirebasePathName.PRODUCT + $"{newProduct.productId}";
+                            var imageUploadResult = await _firebaseService.UploadFileToFirebase(imgUrl, imagePath);
+
+                            if (!imageUploadResult.isSuccess)
+                            {
+                                return new ServiceResult(500, "Failed to upload one or more images", null);
+                            }
+
+                            var uploadedImgUrl = (string)imageUploadResult.result;
+                            imageUploadResults.Add(uploadedImgUrl);
+
+                            var productImage = new TblProductImage
+                            {
+                                productImageId = Guid.NewGuid(),
+                                productId = newProduct.productId,
+                                imageUrl = uploadedImgUrl
+                            };
+
+                            productImages.Add(productImage);
+                        }
+                        result += await _unitOfWork.ProductImageRepository.CreateRangeAsync(productImages);
+                    }
+
+                    result += await _unitOfWork.ProductRepository.UpdateAsync(newProduct);
+                }
+                else
+                {
+                    return new ServiceResult(404, "Product not found", null);
+                }
+
+                if (result > 0)
+                {
+                    return new ServiceResult(200, "Update product", newProduct);
+                }
+                else
+                {
+                    return new ServiceResult(500, "Failed to Update product", null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
         }
 
         public async Task<IServiceResult> GetAllProducts()
@@ -69,8 +173,9 @@ namespace EXE201_2RE_API.Service
                         nameUser = cart.fullName,
                         totalPrice = (decimal)cart.totalPrice,
                         totalQuantity = totalProduct,
-                        status = cart.status
-
+                        status = cart.status,
+                        date = (DateTime)cart.dateTime,
+                        paymentMethod = cart.paymentMethod
                     });
                 }
 
