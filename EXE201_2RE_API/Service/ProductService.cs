@@ -28,6 +28,36 @@ namespace EXE201_2RE_API.Service
             _firebaseService = firebaseService;
         }
 
+        public async Task<IServiceResult> GetAllBrand()
+        {
+            try
+            {
+                var products = await _unitOfWork.ProductRepository.GetAllAsync();
+                var brands = products.Select(p => p.brand).Distinct().ToList();
+
+                return new ServiceResult(200, "Get all brands", brands);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IServiceResult> GetAllCategory()
+        {
+            try
+            {
+                var categories = await _unitOfWork.CategoryRepository.GetAllAsync();
+                var result = categories.Select(c => c.name).Distinct().ToList();
+
+                return new ServiceResult(200, "Get all categories", result);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
         public async Task<IServiceResult> ChangeProductStatus(Guid productId, string status)
         {
             try
