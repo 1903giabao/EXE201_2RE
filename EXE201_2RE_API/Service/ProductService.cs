@@ -402,6 +402,21 @@ namespace EXE201_2RE_API.Service
                 var products = _unitOfWork.ProductRepository
                     .GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
                     .OrderByDescending(p => p.createdAt)
+                    .Select(_ => new GetListProductResponse
+                    {
+                        productId = _.productId,
+                        shopOwner = _.shopOwner.userName,
+                        category = _.category.name,
+                        genderCategory = _.genderCategory.name,
+                        size = _.size.sizeName,
+                        name = _.name,
+                        price = (decimal)_.price,
+                        sale = (decimal)_.sale,
+                        imgUrl = _.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault(),
+                        brand = _.brand,
+                        condition = _.condition,
+                        status = _.status
+                    })
                     .Take(6)
                     .ToList();
 
