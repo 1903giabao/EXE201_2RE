@@ -27,8 +27,8 @@
 
         public class ProductStatus
         {
-            public static string SOLDOUT = "SOLD OUT";
-            public static string AVAILABLE = "AVAILABLE";
+            public static string SOLDOUT = "Hết hàng";
+            public static string AVAILABLE = "Có sẵn";
         }
 }
 }

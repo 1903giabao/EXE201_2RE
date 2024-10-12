@@ -165,7 +165,8 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var productEntities = _unitOfWork.ProductRepository.GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages);
+                var productEntities = await _unitOfWork.ProductRepository.GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
+                                                                   .Where(p => p.status.Equals(SD.ProductStatus.AVAILABLE)).ToListAsync();
                 var products = _mapper.Map<List<GetListProductResponse>>(productEntities);
                 return new ServiceResult(200, "Get all products", products);
             }
@@ -401,6 +402,7 @@ namespace EXE201_2RE_API.Service
             {
                 var products = _unitOfWork.ProductRepository
                     .GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
+                    .Where(p => p.status.Equals(SD.ProductStatus.AVAILABLE))
                     .OrderByDescending(p => p.createdAt)
                     .Select(_ => new GetListProductResponse
                     {
@@ -444,7 +446,7 @@ namespace EXE201_2RE_API.Service
                     .GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
                     .Where(p => p.categoryId == product.categoryId &&
                                  p.genderCategoryId == product.genderCategoryId &&
-                                 p.productId != product.productId)
+                                 p.productId != product.productId && p.status.Equals(SD.ProductStatus.AVAILABLE))
                     .ToList();
 
                 var randomProducts = new List<TblProduct>();
