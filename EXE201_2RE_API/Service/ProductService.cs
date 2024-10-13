@@ -93,6 +93,7 @@ namespace EXE201_2RE_API.Service
                     newProduct.brand = createProductModel.brand;
                     newProduct.condition = createProductModel.condition;
                     newProduct.price = createProductModel.price;
+                    newProduct.sale = createProductModel.sale;
                     newProduct.updatedAt = DateTime.Now;
                     newProduct.price = createProductModel.price;
 
@@ -498,6 +499,7 @@ namespace EXE201_2RE_API.Service
                         brand = createProductModel.brand,
                         condition = createProductModel.condition,
                         price = createProductModel.price,
+                        sale = createProductModel.sale,
                         createdAt = DateTime.Now,
                         status = SD.GeneralStatus.ACTIVE,
                     };
