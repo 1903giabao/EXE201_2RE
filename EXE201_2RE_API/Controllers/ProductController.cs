@@ -59,6 +59,22 @@ namespace EXE201_2RE_API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("sizes")]
+        public async Task<IActionResult> GetAllSize()
+        {
+            var result = await _productService.GetAllSize();
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("gender_categories")]
+        public async Task<IActionResult> GetAllGenderCategory()
+        {
+            var result = await _productService.GetAllGenderCategory();
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
+        [AllowAnonymous]
         [HttpGet("list")]
         public async Task<IActionResult> GetListProductByListId([FromQuery] List<Guid> listId)
         {

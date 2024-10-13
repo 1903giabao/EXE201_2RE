@@ -7,10 +7,13 @@
 
         public string? shopOwner { get; set; }
 
+        public Guid categoryId { get; set; }
         public string? category { get; set; }
 
+        public Guid genderCategoryId { get; set; }
         public string? genderCategory { get; set; }
 
+        public Guid sizeId { get; set; }
         public string? size { get; set; }
 
         public string name { get; set; }
