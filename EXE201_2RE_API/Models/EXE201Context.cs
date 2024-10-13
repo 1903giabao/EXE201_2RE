@@ -92,7 +92,8 @@ namespace EXE201_2RE_API.Models
 
             modelBuilder.Entity<TblGenderCategory>().HasData(
                 new TblGenderCategory { genderCategoryId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"), name = "Nam" },
-                new TblGenderCategory { genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), name = "Nữ" }
+                new TblGenderCategory { genderCategoryId = new Guid("c9ebf5d5-d6b4-4c1d-bc12-fc4b8f1f4c61"), name = "Nữ" },
+                new TblGenderCategory { genderCategoryId = new Guid("6dd832ca-f7fe-4b77-9e4a-068ffd8db08e"), name = "Tất cả" }
             );
 
             modelBuilder.Entity<TblProductImage>().HasData(
@@ -182,6 +183,7 @@ namespace EXE201_2RE_API.Models
                 new TblSize { sizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), sizeName = "M" },
                 new TblSize { sizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), sizeName = "L" },
                 new TblSize { sizeId = new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"), sizeName = "XL" }
+                new TblSize { sizeId = new Guid("b1bc2089-742e-4cd2-b66e-21f7babf62df"), sizeName = "Free" }
             );
             modelBuilder.Entity<TblProduct>().HasData(
             new TblProduct
