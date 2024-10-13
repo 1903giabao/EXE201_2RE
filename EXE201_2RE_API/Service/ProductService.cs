@@ -48,9 +48,8 @@ namespace EXE201_2RE_API.Service
             try
             {
                 var categories = await _unitOfWork.CategoryRepository.GetAllAsync();
-                var result = categories.Select(c => c.name).Distinct().ToList();
 
-                return new ServiceResult(200, "Get all categories", result);
+                return new ServiceResult(200, "Get all categories", categories);
             }
             catch (Exception ex)
             {
@@ -545,6 +544,34 @@ namespace EXE201_2RE_API.Service
                 {
                     return new ServiceResult(500, "Failed to create product", null);
                 }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IServiceResult> GetAllSize()
+        {
+            try
+            {
+                var result = await _unitOfWork.SizeRepository.GetAllAsync();
+
+                return new ServiceResult(200, "Get all size", result);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IServiceResult> GetAllGenderCategory()
+        {
+            try
+            {
+                var result = await _unitOfWork.GenderCategoryRepository.GetAllAsync();
+
+                return new ServiceResult(200, "Get all gender category", result);
             }
             catch (Exception ex)
             {
