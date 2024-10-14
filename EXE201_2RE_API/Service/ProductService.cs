@@ -530,7 +530,7 @@ namespace EXE201_2RE_API.Service
                         price = createProductModel.price,
                         sale = createProductModel.sale,
                         createdAt = DateTime.Now,
-                        status = SD.GeneralStatus.ACTIVE,
+                        status = SD.ProductStatus.AVAILABLE,
                     };
 
                     var imageUploadResults = new List<string>();
