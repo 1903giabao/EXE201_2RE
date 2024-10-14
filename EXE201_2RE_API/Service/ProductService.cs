@@ -80,13 +80,34 @@ namespace EXE201_2RE_API.Service
             try
             {
                 var result = 0;
-                var newProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+                var newProduct = await _unitOfWork.ProductRepository.GetAllIncluding(_ => _.shopOwner, _ => _.category, _ => _.genderCategory, _ => _.size, _ => _.tblProductImages)
+                                                   .Where(p => p.productId == productId).FirstOrDefaultAsync();
+
+                var category = await _unitOfWork.CategoryRepository.GetByIdAsync(createProductModel.categoryId.Value);
+
+                if (category == null)
+                {
+                    return new ServiceResult(404, "Category not found!", null);
+                }                
+                
+                var genderCategory = await _unitOfWork.GenderCategoryRepository.GetByIdAsync(createProductModel.genderCategoryId.Value);
+
+                if (genderCategory == null)
+                {
+                    return new ServiceResult(404, "Gender category not found!", null);
+                }                
+                
+                var size = await _unitOfWork.SizeRepository.GetByIdAsync(createProductModel.sizeId.Value);
+
+                if (size == null)
+                {
+                    return new ServiceResult(404, "Size not found!", null);
+                }
 
                 if (newProduct != null)
                 {
                     newProduct.categoryId = createProductModel.categoryId;
                     newProduct.genderCategoryId = createProductModel.genderCategoryId;
-                    newProduct.shopOwnerId = createProductModel.shopOwnerId;
                     newProduct.sizeId = createProductModel.sizeId;
                     newProduct.description = createProductModel.description;
                     newProduct.name = createProductModel.name;
@@ -95,11 +116,11 @@ namespace EXE201_2RE_API.Service
                     newProduct.price = createProductModel.price;
                     newProduct.sale = createProductModel.sale;
                     newProduct.updatedAt = DateTime.Now;
-                    newProduct.price = createProductModel.price;
 
                     var listImg = await _unitOfWork.ProductImageRepository.FindByConditionAsync(i => i.productId == productId);
                     var images = listImg.ToList();
-                    var urlsToKeep = createProductModel.oldImg;
+
+                    var urlsToKeep = createProductModel.oldImg ?? new List<string>();
 
                     for (int i = images.Count - 1; i >= 0; i--)
                     {
@@ -146,9 +167,11 @@ namespace EXE201_2RE_API.Service
                     return new ServiceResult(404, "Product not found", null);
                 }
 
+                var realRs = _mapper.Map<GetProductDetailResponse>(newProduct);
+
                 if (result > 0)
                 {
-                    return new ServiceResult(200, "Update product", newProduct);
+                    return new ServiceResult(200, "Update product", realRs);
                 }
                 else
                 {

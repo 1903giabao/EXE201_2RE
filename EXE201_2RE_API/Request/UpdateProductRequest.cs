@@ -2,8 +2,6 @@
 {
     public class UpdateProductRequest
     {
-        public Guid? shopOwnerId { get; set; }
-
         public Guid? categoryId { get; set; }
 
         public Guid? genderCategoryId { get; set; }
