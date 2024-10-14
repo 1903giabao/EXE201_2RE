@@ -17,6 +17,7 @@ namespace EXE201_2RE_API.DTOs
         public string name { get; set; }
 
         public decimal price { get; set; }
+        public decimal sale { get; set; }
 
         public string imgUrl { get; set; }
 
