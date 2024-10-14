@@ -83,6 +83,15 @@ namespace EXE201_2RE_API.Repository
             return query;
         }
 
+        public void Detach<T>(T entity)
+        {
+            if (_context.Entry(entity).State == EntityState.Detached)
+            {
+                return; 
+            }
+
+            _context.Entry(entity).State = EntityState.Detached; 
+        }
         public void Create(T entity)
         {
             _context.Add(entity);

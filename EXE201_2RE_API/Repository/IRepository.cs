@@ -17,7 +17,7 @@ namespace EXE201_2RE_API.Repository
         public void PrepareRemove(T entity);
 
         public int Save();
-
+        public void Detach<TEntity>(TEntity entity);
         public Task<int> SaveAsync();
         public List<T> GetAll();
         public Task<List<T>> GetAllAsync();
