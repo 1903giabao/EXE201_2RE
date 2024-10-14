@@ -126,6 +126,11 @@ namespace EXE201_2RE_API.Service
                     {
                         if (!urlsToKeep.Contains(images[i].imageUrl))
                         {
+                            var existingImage = await _unitOfWork.ProductImageRepository.GetByIdAsync(images[i].productImageId);
+                            if (existingImage != null)
+                            {
+                                _unitOfWork.ProductImageRepository.Detach(existingImage); // Detach the existing tracked entity
+                            }
                             await _unitOfWork.ProductImageRepository.RemoveAsync(images[i]);
                         }
                     }
@@ -137,7 +142,13 @@ namespace EXE201_2RE_API.Service
 
                         foreach (var imgUrl in createProductModel.listImgUrl)
                         {
-                            var imagePath = FirebasePathName.PRODUCT + $"{newProduct.productId}";
+                            var productImage = new TblProductImage
+                            {
+                                productImageId = Guid.NewGuid(),
+                                productId = newProduct.productId
+                            };
+
+                            var imagePath = FirebasePathName.PRODUCT + $"{productImage.productImageId}";
                             var imageUploadResult = await _firebaseService.UploadFileToFirebase(imgUrl, imagePath);
 
                             if (!imageUploadResult.isSuccess)
@@ -148,12 +159,7 @@ namespace EXE201_2RE_API.Service
                             var uploadedImgUrl = (string)imageUploadResult.result;
                             imageUploadResults.Add(uploadedImgUrl);
 
-                            var productImage = new TblProductImage
-                            {
-                                productImageId = Guid.NewGuid(),
-                                productId = newProduct.productId,
-                                imageUrl = uploadedImgUrl
-                            };
+                            productImage.imageUrl = uploadedImgUrl;
 
                             productImages.Add(productImage);
                         }
@@ -532,7 +538,13 @@ namespace EXE201_2RE_API.Service
 
                     foreach (var imgUrl in createProductModel.listImgUrl)
                     {
-                        var imagePath = FirebasePathName.PRODUCT + $"{newProduct.productId}";
+                        var productImage = new TblProductImage
+                        {
+                            productImageId = Guid.NewGuid(),
+                            productId = newProduct.productId
+                        };
+
+                        var imagePath = FirebasePathName.PRODUCT + $"{productImage.productImageId}";
                         var imageUploadResult = await _firebaseService.UploadFileToFirebase(imgUrl, imagePath);
 
                         if (!imageUploadResult.isSuccess)
@@ -543,12 +555,7 @@ namespace EXE201_2RE_API.Service
                         var uploadedImgUrl = (string)imageUploadResult.result;
                         imageUploadResults.Add(uploadedImgUrl);
 
-                        var productImage = new TblProductImage
-                        {
-                            productImageId = Guid.NewGuid(),
-                            productId = newProduct.productId,
-                            imageUrl = uploadedImgUrl
-                        };
+                        productImage.imageUrl = uploadedImgUrl;
 
                         productImages.Add(productImage);
                     }
