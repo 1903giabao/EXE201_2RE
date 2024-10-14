@@ -31,8 +31,56 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var result = _mapper.Map<List<UserModel>>(await _unitOfWork.UserRepository.GetAllAsync());
+                var listUser = _unitOfWork.UserRepository.GetAllIncluding(_ => _.role);
+                var result = listUser.Select(_ => new UserModel
+                {
+                     userId = (Guid)_.userId,
+                     userName = _.userName,
+                     passWord = _.passWord,
+                     email = _.email,
+                     address = _.address,
+                     phoneNumber = _.phoneNumber,
+                     roleId = _.roleId,
+                     roleName = _.role.name,
+                     isShopOwner = _.isShopOwner,
+                     shopName = _.shopName,
+                     shopAddress = _.shopAddress,
+                     shopDescription = _.shopDescription,
+                     shopLogo = _.shopLogo,
+                     createdAt = (DateTime)_.createdAt,
+                     updatedAt = (DateTime)_.updatedAt
+                 }).ToList();    
                 return new ServiceResult(200, "Get user by user name", result);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+        public async Task<IServiceResult> GetAllUserByRoleId(Guid roleId)
+        {
+            try
+            {
+                var listUser = _unitOfWork.UserRepository.GetAllIncluding(_ => _.role).Where(_ => _.roleId == roleId);
+                var result = listUser.Select(_ => new UserModel
+                {
+                    userId = (Guid)_.userId,
+                    userName = _.userName,
+                    passWord = _.passWord,
+                    email = _.email,
+                    address = _.address,
+                    phoneNumber = _.phoneNumber,
+                    roleId = _.roleId,
+                    roleName = _.role.name,
+                    isShopOwner = _.isShopOwner,
+                    shopName = _.shopName,
+                    shopAddress = _.shopAddress,
+                    shopDescription = _.shopDescription,
+                    shopLogo = _.shopLogo,
+                    createdAt = (DateTime)_.createdAt,
+                    updatedAt = (DateTime)_.updatedAt
+                }).ToList();
+                return new ServiceResult(200, "Get user by roleId", result);
             }
             catch (Exception ex)
             {
@@ -83,9 +131,9 @@ namespace EXE201_2RE_API.Service
             try
             {
                 var shop = await _unitOfWork.UserRepository
-                                             .GetAllIncluding(_ => _.reviewsReceivedAsShop, _ => _.reviewsWritten)
-                                             .Where(_ => _.isShopOwner == true && _.userId == shopId)
-                                             .FirstOrDefaultAsync();
+                                            .GetAllIncluding(_ => _.reviewsReceivedAsShop, _ => _.reviewsWritten)
+                                            .Where(_ => _.isShopOwner == true && _.userId == shopId)
+                                            .FirstOrDefaultAsync();
 
                 if (shop == null)
                 {                

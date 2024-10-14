@@ -23,6 +23,13 @@ namespace EXE201_2RE_API.Controllers
             var result = await _userService.GetAllUser();
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
+        [AllowAnonymous]
+        [HttpGet("/role/{roleId}")]
+        public async Task<IActionResult> GetAllUserByRoleId(Guid roleId)
+        {
+            var result = await _userService.GetAllUserByRoleId(roleId);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
 
         [AllowAnonymous]
         [HttpPut("/update/profile/{userId}")]
