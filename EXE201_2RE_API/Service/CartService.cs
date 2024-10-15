@@ -12,6 +12,7 @@ using RestSharp;
 using System.Drawing.Imaging;
 using System.Security.Cryptography;
 using System.Text;
+using static EXE201_2RE_API.Response.GetListOrderFromShop;
 
 namespace EXE201_2RE_API.Service
 {
@@ -38,6 +39,48 @@ namespace EXE201_2RE_API.Service
                 var result = await _unitOfWork.CartRepository.UpdateAsync(cart);
 
                 return new ServiceResult(200, "Update cart status", cart);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IServiceResult> GetAllCart()
+        {
+            try
+            {
+                var productsOwnedByShopOwner = _unitOfWork.ProductRepository.GetAll()
+                                                          .Select(_ => _.productId)
+                                                          .ToList();
+
+                var productInCartDetails = _unitOfWork.CartDetailRepository.GetAll()
+                                                      .Where(_ => productsOwnedByShopOwner.Contains((Guid)_.productId))
+                                                      .Select(_ => new { _.productId, _.cartId })
+                                                      .ToList();
+
+                var distinctCartIds = productInCartDetails
+                                     .Select(_ => _.cartId)
+                                     .Distinct()
+                                     .ToList();
+                var listCartFromShop = new List<CartShopModel>();
+                foreach (var cartId in distinctCartIds)
+                {
+                    var cart = _unitOfWork.CartRepository.GetAllIncluding(_ => _.user).Where(_ => _.cartId == cartId).FirstOrDefault();
+                    var totalProduct = _unitOfWork.CartDetailRepository.GetAll().Where(_ => _.cartId == cartId).Count();
+                    listCartFromShop.Add(new CartShopModel
+                    {
+                        id = (Guid)cartId,
+                        nameUser = cart.fullName,
+                        totalPrice = (decimal)cart.totalPrice,
+                        totalQuantity = totalProduct,
+                        status = cart.status,
+                        date = (DateTime)cart.dateTime,
+                        paymentMethod = cart.paymentMethod
+                    });
+                }
+
+                return new ServiceResult(200, "Success", listCartFromShop);
             }
             catch (Exception ex)
             {
