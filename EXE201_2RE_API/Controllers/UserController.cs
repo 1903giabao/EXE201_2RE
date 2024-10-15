@@ -15,7 +15,13 @@ namespace EXE201_2RE_API.Controllers
         {
             _userService = userService;
         }
-
+        [AllowAnonymous]
+        [HttpGet("/role")]
+        public async Task<IActionResult> GetAllRole()
+        {
+            var result = await _userService.GetAllRole();
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
         [AllowAnonymous]
         [HttpGet()]
         public async Task<IActionResult> GetAllUser()

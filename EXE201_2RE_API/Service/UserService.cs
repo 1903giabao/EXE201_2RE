@@ -18,6 +18,7 @@ using EXE201_2RE_API.Helpers;
 
 namespace EXE201_2RE_API.Service
 {
+
     public class UserService
     {
         private readonly UnitOfWork _unitOfWork;
@@ -30,7 +31,23 @@ namespace EXE201_2RE_API.Service
             _mapper = mapper;
             _firebaseService = firebaseService;
         }
+        public async Task<IServiceResult> GetAllRole()
+        {
+            try
+            {
+                var listRoles = _unitOfWork.RoleRepository.GetAll().Select(_ => new RoleModel
+                {
+                    roleid = (Guid)_.roleId,
+                    roleName = _.name
+                });
+                return new ServiceResult(200, "Get all roles", listRoles);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
 
+            }
+        }
         public async Task<IServiceResult> GetAllUser()
         {
             try
