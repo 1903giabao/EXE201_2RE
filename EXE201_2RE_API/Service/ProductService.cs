@@ -362,18 +362,29 @@ namespace EXE201_2RE_API.Service
                                                    .Where(_ => _.cartId == cartId)
                                                    .ToListAsync();
 
+                var listShop = await _unitOfWork.UserRepository.GetAllAsync();
+
                 var listProductsInCart = new List<OrderDetailResponse>();
 
                 foreach (var detail in cartDetails)
                 {
                     if (detail.product != null)
                     {
+                        foreach (var shop in listShop)
+                        {
+                            if (detail.product.shopOwnerId == shop.userId)
+                            {
+                                detail.product.shopOwner = shop;
+                            }
+                        }
+
                         listProductsInCart.Add(new OrderDetailResponse
                         {
                             productId = detail.product.productId,
                             productName = detail.product.name,
                             price = detail.price ?? 0, 
-                            imageUrl = detail.product.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault()
+                            imageUrl = detail.product.tblProductImages.Select(_ => _.imageUrl).FirstOrDefault(),
+                            shopName = detail.product.shopOwner.shopName
                         });
                     }
                 }

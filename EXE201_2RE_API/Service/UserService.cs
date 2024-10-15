@@ -15,6 +15,7 @@ using EXE201_2RE_API.Enums;
 using EXE201_2RE_API.Request;
 using EXE201_2RE_API.Domain.Helpers;
 using EXE201_2RE_API.Helpers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EXE201_2RE_API.Service
 {
@@ -120,7 +121,14 @@ namespace EXE201_2RE_API.Service
                     return new ServiceResult(404, "User not found!");
                 }
 
-                user.passWord = SecurityUtil.Hash(req.passWord);
+                if (!req.passWord.IsNullOrEmpty() && !req.newPassWord.IsNullOrEmpty())
+                {
+                    if (SecurityUtil.Hash(req.passWord) == user.passWord)
+                    {
+                        user.passWord = SecurityUtil.Hash(req.newPassWord);
+                    }
+                }
+
                 user.phoneNumber = req.phoneNumber;
                 user.address = req.address;
 
