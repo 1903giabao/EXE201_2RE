@@ -1,6 +1,8 @@
 ﻿using EXE201_2RE_API.Auth;
 using EXE201_2RE_API.Constants;
 using EXE201_2RE_API.Domain.Helpers;
+using EXE201_2RE_API.Enums;
+using EXE201_2RE_API.Helpers;
 using EXE201_2RE_API.Models;
 using EXE201_2RE_API.Repository;
 using EXE201_2RE_API.Request;
@@ -23,11 +25,12 @@ namespace EXE201_2RE_API.Service
     {
         private readonly JwtSettings _jwtSettings;
         private readonly UnitOfWork _unitOfWork;
-
-        public IdentityService(UnitOfWork unitOfWork, IOptions<JwtSettings> jwtSettingsOptions)
+        private readonly IFirebaseService _firebaseService;
+        public IdentityService(UnitOfWork unitOfWork, IOptions<JwtSettings> jwtSettingsOptions, IFirebaseService firebaseService)
         {
             _unitOfWork = unitOfWork;
             _jwtSettings = jwtSettingsOptions.Value;
+            _firebaseService = firebaseService;
         }
 
         public async Task<IServiceResult> Signup(SignupRequest req)
@@ -71,12 +74,24 @@ namespace EXE201_2RE_API.Service
                     shopAddress = req.shopAddress,
                     roleId = new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
                     shopDescription = req.shopDescription,
-                    shopLogo = req.shopLogo,
                     shopName = req.shopName,
                     createdAt = DateTime.Now,
                     updatedAt = DateTime.Now,
                 };
+                if (req.shopLogo != null && req.shopLogo.Length > 0)
+                {                    
+                    var imagePath = $"{FirebasePathName.AVATAR}{newAccount.userId}";
+                    var imageUploadResult = await _firebaseService.UploadFileToFirebase(req.shopLogo, imagePath);
 
+                    if (imageUploadResult.isSuccess)
+                    {
+                        newAccount.shopLogo = (string)imageUploadResult.result;
+                    }
+                    else
+                    {
+                        return new ServiceResult(500, "Failed to upload one or more images", null);
+                    }
+                }
                 _unitOfWork.UserRepository.PrepareCreate(newAccount);
 
                 var res = await _unitOfWork.UserRepository.SaveAsync();

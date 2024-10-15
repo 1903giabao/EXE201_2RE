@@ -33,7 +33,7 @@ namespace EXE201_2RE_API.Controllers
 
         [AllowAnonymous]
         [HttpPut("/update/profile/{userId}")]
-        public async Task<IActionResult> UpdateProfile([FromRoute] Guid userId, [FromBody] UpdateProfileRequest req)
+        public async Task<IActionResult> UpdateProfile([FromRoute] Guid userId, [FromForm] UpdateProfileRequest req)
         {
             var result = await _userService.UpdateProfile(userId, req);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);

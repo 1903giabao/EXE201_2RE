@@ -8,6 +8,6 @@
         public string shopName { get; set; }
         public string shopAddress { get; set; }
         public string shopDescription { get; set; }
-        public string shopLogo { get; set; }
+        public IFormFile? shopLogo { get; set; }
     }
 }

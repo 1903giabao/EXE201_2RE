@@ -24,7 +24,7 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost]
-    public async Task<IActionResult> Signup([FromBody] SignupRequest req)
+    public async Task<IActionResult> Signup([FromForm] SignupRequest req)
     {
         var result = await _identityService.Signup(req);
         return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);

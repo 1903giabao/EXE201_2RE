@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using EXE201_2RE_API.Enums;
 using EXE201_2RE_API.Request;
 using EXE201_2RE_API.Domain.Helpers;
+using EXE201_2RE_API.Helpers;
 
 namespace EXE201_2RE_API.Service
 {
@@ -21,10 +22,13 @@ namespace EXE201_2RE_API.Service
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public UserService(UnitOfWork unitOfWork, IMapper mapper)
+        public readonly IFirebaseService _firebaseService;
+
+        public UserService(UnitOfWork unitOfWork, IMapper mapper, IFirebaseService firebaseService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _firebaseService = firebaseService;
         }
 
         public async Task<IServiceResult> GetAllUser()
@@ -106,11 +110,32 @@ namespace EXE201_2RE_API.Service
                 if ((bool)user.isShopOwner)
                 {
                     user.shopName = req.shopName;
-                    user.shopLogo = req.shopLogo;
                     user.shopDescription = req.shopDescription;
                     user.shopAddress = req.shopAddress;
                 }
+                if (req.shopLogo != null && req.shopLogo.Length > 0)
+                {
+                    if (!string.IsNullOrEmpty(user.shopLogo))
+                    {
+                        string url = $"{FirebasePathName.AVATAR}{user.userId}";
+                        var deleteResult = await _firebaseService.DeleteFileFromFirebase(url);
+                        if (!deleteResult.isSuccess)
+                        {
+                            return new ServiceResult(500, "Failed to upload one or more images", null);
+                        }
+                    }
+                    var imagePath = $"{FirebasePathName.AVATAR}{user.userId}";
+                    var imageUploadResult = await _firebaseService.UploadFileToFirebase(req.shopLogo, imagePath);
 
+                    if (imageUploadResult.isSuccess)
+                    {
+                        user.shopLogo = (string)imageUploadResult.result;
+                    }
+                    else
+                    {
+                        return new ServiceResult(500, "Failed to upload one or more images", null);
+                    }
+                }
                 var rs = await _unitOfWork.UserRepository.UpdateAsync(user);
 
                 if (rs > 0)
