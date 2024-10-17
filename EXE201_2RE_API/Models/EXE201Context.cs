@@ -183,7 +183,7 @@ namespace EXE201_2RE_API.Models
                 new TblSize { sizeId = new Guid("e5a1b4d6-5c4c-4f0e-bc9f-4b85b6c5f4a3"), sizeName = "M" },
                 new TblSize { sizeId = new Guid("f6b2e8a7-7d5f-4f0e-bc9f-4b85b6c5f4a4"), sizeName = "L" },
                 new TblSize { sizeId = new Guid("a7c3f9b8-8e6f-4f0e-bc9f-4b85b6c5f4a5"), sizeName = "XL" },
-                new TblSize { sizeId = new Guid("b1bc2089-742e-4cd2-b66e-21f7babf62df"), sizeName = "Free" }
+                new TblSize { sizeId = new Guid("b1bc2089-742e-4cd2-b66e-21f7babf62df"), sizeName = "FREE" }
             );
             modelBuilder.Entity<TblProduct>().HasData(
             new TblProduct
@@ -199,7 +199,7 @@ namespace EXE201_2RE_API.Models
                 description = "Áo thun cổ điển dành cho nam, có nhiều kích cỡ",
                 brand = "Nike",
                 condition = "90%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -216,7 +216,7 @@ namespace EXE201_2RE_API.Models
                 description = "Quần jeans với kiểu dáng hiện đại",
                 brand = "Nike",
                 condition = "90%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -233,7 +233,7 @@ namespace EXE201_2RE_API.Models
                 description = "Áo khoác Jeans thời trang cho nam",
                 brand = "Adidas",
                 condition = "96%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -267,7 +267,7 @@ namespace EXE201_2RE_API.Models
                 description = "Quần jeans ôm thời trang cho nữ",
                 brand = "Maison",
                 condition = "89%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -284,7 +284,7 @@ namespace EXE201_2RE_API.Models
                 description = "Áo khoác thời trang và ấm áp cho nữ",
                 brand = "Routine",
                 condition = "99%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -301,7 +301,7 @@ namespace EXE201_2RE_API.Models
                 description = "Áo thun họa tiết thời trang với thiết kế đẹp",
                 brand = "Adidas",
                 condition = "99%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -318,7 +318,7 @@ namespace EXE201_2RE_API.Models
                 description = "Quần jeans regular fit cổ điển",
                 brand = "Puma",
                 condition = "85%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -335,7 +335,7 @@ namespace EXE201_2RE_API.Models
                 description = "Áo khoác da cao cấp dành cho nam",
                 brand = "Nike",
                 condition = "70%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -352,7 +352,7 @@ namespace EXE201_2RE_API.Models
                 description = "Áo thun cotton mềm mại dành cho trang phục thường ngày",
                 brand = "Adidas",
                 condition = "80%",
-                status = "Có sẵn",
+                status = "CÓ SẴN",
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             },
@@ -369,7 +369,7 @@ namespace EXE201_2RE_API.Models
                             description = "Váy đen dài, kiểu dáng thanh lịch với chất liệu mềm mại, phù hợp cho cả những dịp đi làm và tiệc tùng.",
                             brand = "Zara",
                             condition = "90%",
-                            status = "Có sẵn",
+                            status = "CÓ SẴN",
                             createdAt = DateTime.Now,
                             updatedAt = DateTime.Now
                         },
@@ -386,7 +386,7 @@ namespace EXE201_2RE_API.Models
                             description = "Váy đầm hoa với thiết kế trẻ trung, phù hợp cho các buổi tiệc hoặc dạo phố. Chất liệu mềm mại, thoải mái.",
                             brand = "H&M",
                             condition = "85%",
-                            status = "Có sẵn",
+                            status = "CÓ SẴN",
                             createdAt = DateTime.Now,
                             updatedAt = DateTime.Now
                         },
@@ -403,7 +403,7 @@ namespace EXE201_2RE_API.Models
                             description = "Váy đầm hoa đỏ với thiết kế dễ thương, phù hợp cho các buổi hẹn hò hoặc đi chơi. Chất liệu thoáng mát và thoải mái.",
                             brand = "Forever 21",
                             condition = "90%",
-                            status = "Có sẵn",
+                            status = "CÓ SẴN",
                             createdAt = DateTime.Now,
                             updatedAt = DateTime.Now
                         },
@@ -420,7 +420,7 @@ namespace EXE201_2RE_API.Models
                             description = "Váy caro thời trang với thiết kế trẻ trung, phù hợp cho các buổi đi chơi hoặc dạo phố. Chất liệu mềm mại và thoải mái.",
                             brand = "Mango",
                             condition = "90%",
-                            status = "Có sẵn",
+                            status = "CÓ SẴN",
                             createdAt = DateTime.Now,
                             updatedAt = DateTime.Now
                         },
@@ -437,7 +437,7 @@ namespace EXE201_2RE_API.Models
                             description = "Áo khoác dù chỉ mới sử dung được 2 tháng kể từ khi mua",
                             brand = "Adidas",
                             condition = "80%",
-                            status = "Có sẵn",
+                            status = "CÓ SẴN",
                             createdAt = DateTime.Now,
                             updatedAt = DateTime.Now
                         },
@@ -454,7 +454,7 @@ namespace EXE201_2RE_API.Models
       description = "Áo khoác nỉ, day dặn, form đứng",
       brand = "Nike",
       condition = "85%",
-      status = "Có sẵn",
+      status = "CÓ SẴN",
       createdAt = DateTime.Now,
       updatedAt = DateTime.Now
   },
@@ -471,7 +471,7 @@ namespace EXE201_2RE_API.Models
       description = "Áo khoác hoodie Nike màu xám, thiết kế năng động và thoải mái, phù hợp cho các hoạt động thể thao hoặc dạo phố.",
       brand = "Nike",
       condition = "99%",
-      status = "Có sẵn",
+      status = "CÓ SẴN",
       createdAt = DateTime.Now,
       updatedAt = DateTime.Now
   }

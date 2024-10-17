@@ -10,12 +10,7 @@
         {
             if (instance == null) instance = new SD();
             return instance;
-        }
-        public class GeneralStatus
-        {
-            public static string ACTIVE = "ACTIVE";
-            public static string INACTIVE = "INACTIVE";
-        }        
+        }      
         
         public class CartStatus
         {
@@ -27,8 +22,8 @@
 
         public class ProductStatus
         {
-            public static string SOLDOUT = "Hết hàng";
-            public static string AVAILABLE = "Có sẵn";
+            public static string SOLDOUT = "HẾT HÀNG";
+            public static string AVAILABLE = "CÓ SẴN";
         }
 }
 }
