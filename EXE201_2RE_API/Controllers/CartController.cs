@@ -55,16 +55,13 @@ namespace EXE201_2RE_API.Controllers
         public async Task<IActionResult> HandleReturnUrl([FromQuery] string code, [FromQuery]  string id, [FromQuery] string cancel, [FromQuery] string status, [FromQuery] long orderCode)
         {
             var result = await _cartService.UpdateCartStatus(orderCode, status);
-            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
-        }
 
-        // Endpoint for cancelUrl
-        [AllowAnonymous]
-        [HttpGet("cancel-url")]
-        public async Task<IActionResult> HandleCancelUrl([FromQuery] string code, [FromQuery] string id, [FromQuery] string cancel, [FromQuery] string status, [FromQuery] long orderCode)
-        {
-            var result = await _cartService.UpdateCartStatus(orderCode, status);
-            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+            if (result.Data != null)
+            {
+                return Redirect("http://localhost:8888/payment-success");
+            }
+
+            return Redirect("http://localhost:8888/payment-failure");
         }
     }
 }

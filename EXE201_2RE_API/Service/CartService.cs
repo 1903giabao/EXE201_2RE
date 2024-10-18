@@ -24,7 +24,7 @@ namespace EXE201_2RE_API.Service
 
         private readonly IMapper _mapper;
 
-        private string cancelUrl = "https://localhost:7145/cart/cancel-url";
+        private string cancelUrl = "https://localhost:7145/cart/return-url";
         private string returnUrl = "https://localhost:7145/cart/return-url";
         private string clientId = "9e463c91-db86-4e48-a738-2dd12f936bf0";
         private string apiKey = "221468d5-9a17-48f5-8521-a510bca81ccd";   
@@ -274,9 +274,9 @@ namespace EXE201_2RE_API.Service
 
                     if (req.paymentMethod.Equals("QRPAY"))
                     {
-                        decimal billPrice = (totalPrice == 0) ? req.price : totalPrice;
+                        int billPrice = (totalPrice == 0) ? req.price : totalPrice;
 
-                        PaymentData paymentData = new PaymentData(uniqueId, 5000,
+                        PaymentData paymentData = new PaymentData(uniqueId, billPrice,
                             $"Thanh toán đơn {uniqueId}",
                             items, cancelUrl, returnUrl);
 
@@ -307,25 +307,44 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var cart = _unitOfWork.CartRepository.GetAll().Where(c => c.code == orderCode.ToString()).FirstOrDefault();
+                var cart = _unitOfWork.CartRepository.GetAllIncluding(c => c.tblCartDetails).Where(c => c.code == orderCode.ToString()).FirstOrDefault();
                 if (cart == null)
                 {
                     return new ServiceResult(500, "Failed!");
                 }
 
+                int result = 0;
+
                 if (status.Equals("PAID"))
                 {
                     cart.status = SD.CartStatus.PAID;
+                    result += await _unitOfWork.CartRepository.UpdateAsync(cart);
                 }
+                else if (status.Equals("CANCELLED"))
+                {
+                    var cartDetailsToRemove = new List<TblCartDetail>();
 
-                var result = await _unitOfWork.CartRepository.UpdateAsync(cart);
+                    // Collect items to remove
+                    foreach (var cartDetail in cart.tblCartDetails)
+                    {
+                        var cartRemove = await _unitOfWork.CartDetailRepository.GetByIdAsync(cartDetail.cartDetailId.Value);
+                        cartDetailsToRemove.Add(cartRemove);
+                    }
+
+                    foreach (var cartDetail in cartDetailsToRemove)
+                    {
+                        await _unitOfWork.CartDetailRepository.RemoveAsync(cartDetail);
+                    }
+
+                    await _unitOfWork.CartRepository.RemoveAsync(cart);
+                }
 
                 if (result > 0)
                 {
                     return new ServiceResult(200, "Paid success", cart);
                 }
             
-                return new ServiceResult(200, "Cancel success", cart);
+                return new ServiceResult(200, "Cancel success");
             }
             catch (Exception ex)
             {

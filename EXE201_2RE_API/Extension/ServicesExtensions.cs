@@ -63,7 +63,7 @@ public static class ServicesExtensions
 
         services.AddDbContext<EXE201Context>(opt =>
         {
-            opt.UseSqlServer(configuration.GetConnectionString("Host"));
+            opt.UseSqlServer(configuration.GetConnectionString("BaoConnection"));
         });
 
         var firebaseConfigSection = configuration.GetSection("Firebase");
