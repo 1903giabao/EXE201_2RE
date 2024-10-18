@@ -9,6 +9,8 @@
         public string? shopName { get; set; }
         public string? shopAddress { get; set; }
         public string? shopDescription { get; set; }
+        public string? shopBankId { get; set; }
+        public string? shopBank { get; set; }
         public IFormFile? shopLogo { get; set; }
     }
 }

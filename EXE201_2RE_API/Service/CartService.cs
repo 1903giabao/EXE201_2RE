@@ -241,6 +241,28 @@ namespace EXE201_2RE_API.Service
 
                     decimal totalPrice = (decimal)products.Sum(p => p.price);
 
+                    var shopTransaction = _unitOfWork.TransactionRepository.GetAll().Where(s => s.userId == shopOwnerId).FirstOrDefault();
+
+                    if (shopTransaction == null)
+                    {
+                        var transaction = new TblTransaction
+                        {
+                            transactionId = Guid.NewGuid(),
+                            userId = shopOwnerId,
+                            totalMoney = totalPrice,
+                            month = DateTime.Now.Month,
+                            year = DateTime.Now.Year,
+                            status = SD.TransactionStatus.PENDING
+                        };
+
+                        await _unitOfWork.TransactionRepository.CreateAsync(transaction);
+                    }
+                    else
+                    {
+                        shopTransaction.totalMoney += totalPrice;
+                        await _unitOfWork.TransactionRepository.UpdateAsync(shopTransaction);
+                    }
+
                     var cart = new TblCart
                     {
                         cartId = Guid.NewGuid(),

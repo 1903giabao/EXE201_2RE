@@ -25,5 +25,12 @@
             public static string SOLDOUT = "HẾT HÀNG";
             public static string AVAILABLE = "CÓ SẴN";
         }
-}
+
+        public class TransactionStatus
+        {
+            public static string PAID = "ĐÃ THANH TOÁN";
+            public static string RECEIVED = "ĐÃ NHẬN";
+            public static string PENDING = "CHƯA THANH TOÁN";
+        }
+    }
 }

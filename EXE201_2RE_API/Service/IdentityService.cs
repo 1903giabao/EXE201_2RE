@@ -77,6 +77,8 @@ namespace EXE201_2RE_API.Service
                     shopName = req.shopName,
                     createdAt = DateTime.Now,
                     updatedAt = DateTime.Now,
+                    shopBankId = req.shopBankId,
+                    shopBank = req.shopBank,
                 };
                 if (req.shopLogo != null && req.shopLogo.Length > 0)
                 {                    

@@ -22,6 +22,7 @@ namespace EXE201_2RE_API.Repository
         private SizeRepository _size;
         private FavoriteRepository _favorite;
         private ProductImageRepository _productImage;
+        private TransactionRepository _transaction;
 
         public UnitOfWork()
         {
@@ -31,6 +32,14 @@ namespace EXE201_2RE_API.Repository
         {
             _unitOfWorkContext ??= unitOfWorkContext;
         }
+        public TransactionRepository TransactionRepository
+        {
+            get
+            {
+                return _transaction ??= new TransactionRepository(_unitOfWorkContext);
+            }
+        }        
+        
         public CategoryRepository CategoryRepository
         {
             get
