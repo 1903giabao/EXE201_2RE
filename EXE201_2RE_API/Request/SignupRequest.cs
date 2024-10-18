@@ -14,9 +14,9 @@ namespace EXE201_2RE_API.Request
         public string address { get; set; } = null!;
         public string phoneNumber { get; set; }
         public bool isShopOwner { get; set; }
-        public string shopName { get; set; }
-        public string shopAddress { get; set; }
-        public string shopDescription { get; set; }
+        public string? shopName { get; set; }
+        public string? shopAddress { get; set; }
+        public string? shopDescription { get; set; }
         public IFormFile? shopLogo { get; set; }
 
     }
