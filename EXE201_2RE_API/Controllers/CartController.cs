@@ -56,7 +56,7 @@ namespace EXE201_2RE_API.Controllers
         {
             var result = await _cartService.UpdateCartStatus(orderCode, status);
 
-            if (result.Data != null)
+            if (result.Message.Equals("Paid success"))
             {
                 return Redirect("http://localhost:8888/payment-success");
             }

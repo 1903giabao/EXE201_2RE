@@ -3,6 +3,7 @@
     public class GetCartByUserIdResponse
     {
         public decimal? totalPrice { get; set; }
+        public string? paymentMethod { get; set; }
         public DateTime? dateTime { get; set; }
         public string? address { get; set; }
         public string? email { get; set; }

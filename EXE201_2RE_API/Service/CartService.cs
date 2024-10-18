@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using static EXE201_2RE_API.Response.GetListOrderFromShop;
 using Net.payOS;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EXE201_2RE_API.Service
 {
@@ -40,13 +41,38 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var cart = await _unitOfWork.CartRepository.GetByIdAsync(cartId);
+                var cart = await _unitOfWork.CartRepository.GetAllIncluding(c => c.tblCartDetails).Where(c => c.cartId == cartId).FirstOrDefaultAsync();
 
-                cart.status = status;
+                int result = 0;
 
-                var result = await _unitOfWork.CartRepository.UpdateAsync(cart);
+                if (status.Equals(SD.CartStatus.CANCEL))
+                {
+                    var cartDetailsToUpdate = new List<TblCartDetail>();
 
-                return new ServiceResult(200, "Update cart status", cart);
+                    foreach (var cartDetail in cart.tblCartDetails)
+                    {
+                        var cartRemove = await _unitOfWork.CartDetailRepository.GetAllIncluding(c => c.product).Where(c => c.cartDetailId.Equals(cartDetail.cartDetailId)).FirstOrDefaultAsync();
+                        cartDetailsToUpdate.Add(cartRemove);
+                    }
+
+                    foreach (var cartDetail in cartDetailsToUpdate)
+                    {
+                        var product = await _unitOfWork.ProductRepository.GetByIdAsync(cartDetail.productId.Value);
+                        product.status = SD.ProductStatus.AVAILABLE;
+                        await _unitOfWork.ProductRepository.UpdateAsync(product);
+                    }
+
+                    cart.status = SD.CartStatus.CANCEL;
+
+                    result += await _unitOfWork.CartRepository.UpdateAsync(cart);
+                }
+
+                if (result <= 0)
+                {
+                    return new ServiceResult(500, "Update failed!");
+                }
+
+                return new ServiceResult(200, "Update successfully!");
             }
             catch (Exception ex)
             {
@@ -122,6 +148,7 @@ namespace EXE201_2RE_API.Service
                 {
                     var response = new GetCartByUserIdResponse
                     {
+                        paymentMethod = cart.paymentMethod,
                         totalPrice = cart.totalPrice,
                         dateTime = cart.dateTime,
                         address = cart.address,
@@ -171,6 +198,7 @@ namespace EXE201_2RE_API.Service
 
                 Guid? firstShopId = null;
 
+                var productsByShopOwner = new Dictionary<Guid?, List<TblProduct>>();
                 foreach (var guid in req.products)
                 {
                     var product = await _unitOfWork.ProductRepository.GetByIdAsync(guid);
@@ -185,38 +213,16 @@ namespace EXE201_2RE_API.Service
                         return new ServiceResult(404, "Product is sold out!");
                     }
 
-                    if (req.paymentMethod.Equals("QRPAY"))
+                    if (!productsByShopOwner.ContainsKey(product.shopOwnerId))
                     {
-                        if (firstShopId == null)
-                        {
-                            firstShopId = product.shopOwnerId;
-                        }
-                        else if (product.shopOwnerId != firstShopId)
-                        {
-                            return new ServiceResult(404, "Products belong to different shops!");
-                        }
+                        productsByShopOwner[product.shopOwnerId] = new List<TblProduct>();
                     }
-
+                    productsByShopOwner[product.shopOwnerId].Add(product);
                 }
 
                 long uniqueId = 0;
-
-                var cart = new TblCart
-                {
-                    cartId = Guid.NewGuid(),
-                    userId = user.userId,
-                    fullName = req.fullName,
-                    email = req.email,
-                    address = req.address,
-                    phone = req.phone,
-                    dateTime = DateTime.Now,
-                    status = SD.CartStatus.PENDING,
-                    totalPrice = req.price,
-                    paymentMethod = req.paymentMethod,
-                };
-
-                Guid cartGuid = (Guid)cart.cartId;
-                byte[] guidBytes = cartGuid.ToByteArray();
+                Guid id = Guid.NewGuid();
+                byte[] guidBytes = id.ToByteArray();
                 using (SHA256 sha256 = SHA256.Create())
                 {
                     byte[] hash = sha256.ComputeHash(guidBytes);
@@ -224,9 +230,56 @@ namespace EXE201_2RE_API.Service
                     uniqueId = Math.Abs(BitConverter.ToInt64(hash, 0) / 1000000000);
                 }
 
-                cart.code = uniqueId.ToString();
+                var createdCarts = new List<TblCart>();
 
-                var result = await _unitOfWork.CartRepository.CreateAsync(cart);
+                int result = 0;
+
+                foreach (var kvp in productsByShopOwner)
+                {
+                    Guid? shopOwnerId = kvp.Key;
+                    var products = kvp.Value;
+
+                    decimal totalPrice = (decimal)products.Sum(p => p.price);
+
+                    var cart = new TblCart
+                    {
+                        cartId = Guid.NewGuid(),
+                        userId = user.userId,
+                        fullName = req.fullName,
+                        email = req.email,
+                        address = req.address,
+                        phone = req.phone,
+                        dateTime = DateTime.Now,
+                        status = SD.CartStatus.PENDING,
+                        totalPrice = totalPrice,
+                        paymentMethod = req.paymentMethod,
+                        code = uniqueId.ToString(),
+                    };
+
+                    createdCarts.Add(cart);
+
+                    var addRs = await _unitOfWork.CartRepository.CreateAsync(cart);
+
+                    if (addRs <= 0)
+                    {
+                        return new ServiceResult(500, "Create cart failed!");
+                    }
+
+                    result += addRs;
+
+                    foreach (var product in products)
+                    {
+                        var cartDetail = new TblCartDetail
+                        {
+                            cartDetailId = Guid.NewGuid(),
+                            cartId = cart.cartId,
+                            productId = product.productId,
+                            price = product.price,
+                        };
+
+                        await _unitOfWork.CartDetailRepository.CreateAsync(cartDetail);
+                    }
+                }
 
                 if (result > 0)
                 {
@@ -245,38 +298,26 @@ namespace EXE201_2RE_API.Service
                         if (product == null)
                         {
                             return new ServiceResult(500, "Error when checkout!");
+                        }
+                        if (req.paymentMethod.Equals("COD"))
+                        {
+                            product.status = SD.ProductStatus.SOLDOUT;
 
+                            await _unitOfWork.ProductRepository.UpdateAsync(product);
                         }
 
-                        var cartDetail = new TblCartDetail
-                        {
-                            cartDetailId = Guid.NewGuid(),
-                            cartId = cart.cartId,
-                            productId = product.productId,
-                            price = product.price,
-                        };
-
                         totalPrice += (int)product.price;
-
-                        listCartDetail.Add(cartDetail);
 
                         ItemData itemData = new ItemData(product.name, 1, (int)product.price);
 
                         items.Add(itemData);
                     }
 
-                    var cartDetailRs = await _unitOfWork.CartDetailRepository.CreateRangeAsync(listCartDetail);
-
-                    if (cartDetailRs < 1)
-                    {
-                        return new ServiceResult(500, "Error when checkout!");
-                    }
-
                     if (req.paymentMethod.Equals("QRPAY"))
                     {
                         int billPrice = (totalPrice == 0) ? req.price : totalPrice;
 
-                        PaymentData paymentData = new PaymentData(uniqueId, billPrice,
+                        PaymentData paymentData = new PaymentData(uniqueId, 5000,
                             $"Thanh toán đơn {uniqueId}",
                             items, cancelUrl, returnUrl);
 
@@ -307,8 +348,9 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var cart = _unitOfWork.CartRepository.GetAllIncluding(c => c.tblCartDetails).Where(c => c.code == orderCode.ToString()).FirstOrDefault();
-                if (cart == null)
+                var cartList = await _unitOfWork.CartRepository.GetAllIncluding(c => c.tblCartDetails).Where(c => c.code == orderCode.ToString()).ToListAsync();
+
+                if (cartList.IsNullOrEmpty())
                 {
                     return new ServiceResult(500, "Failed!");
                 }
@@ -317,31 +359,48 @@ namespace EXE201_2RE_API.Service
 
                 if (status.Equals("PAID"))
                 {
-                    cart.status = SD.CartStatus.PAID;
-                    result += await _unitOfWork.CartRepository.UpdateAsync(cart);
+                    foreach (var cart in cartList)
+                    {
+                        var cartDetailsToUpdate = await _unitOfWork.CartDetailRepository
+                            .GetAllIncluding(cd => cd.product)
+                            .Where(cd => cd.cartId == cart.cartId)
+                            .ToListAsync();
+
+                        foreach (var cartDetail in cartDetailsToUpdate)
+                        {
+                            var product = await _unitOfWork.ProductRepository.GetByIdAsync(cartDetail.productId.Value);
+                            if (product != null)
+                            {
+                                product.status = SD.ProductStatus.SOLDOUT;
+                                await _unitOfWork.ProductRepository.UpdateAsync(product);
+                            }
+                        }
+
+                        cart.status = SD.CartStatus.PAID;
+                        result += await _unitOfWork.CartRepository.UpdateAsync(cart);
+                    }
                 }
                 else if (status.Equals("CANCELLED"))
                 {
-                    var cartDetailsToRemove = new List<TblCartDetail>();
-
-                    // Collect items to remove
-                    foreach (var cartDetail in cart.tblCartDetails)
+                    foreach (var cart in cartList)
                     {
-                        var cartRemove = await _unitOfWork.CartDetailRepository.GetByIdAsync(cartDetail.cartDetailId.Value);
-                        cartDetailsToRemove.Add(cartRemove);
-                    }
+                        var cartDetailsToRemove = await _unitOfWork.CartDetailRepository
+                            .GetAllIncluding(cd => cd.product) 
+                            .Where(cd => cd.cartId == cart.cartId) 
+                            .ToListAsync();
 
-                    foreach (var cartDetail in cartDetailsToRemove)
-                    {
-                        await _unitOfWork.CartDetailRepository.RemoveAsync(cartDetail);
-                    }
+                        foreach (var cartDetail in cartDetailsToRemove)
+                        {
+                            await _unitOfWork.CartDetailRepository.RemoveAsync(cartDetail);
+                        }
 
-                    await _unitOfWork.CartRepository.RemoveAsync(cart);
+                        await _unitOfWork.CartRepository.RemoveAsync(cart);
+                    }
                 }
 
                 if (result > 0)
                 {
-                    return new ServiceResult(200, "Paid success", cart);
+                    return new ServiceResult(200, "Paid success");
                 }
             
                 return new ServiceResult(200, "Cancel success");
