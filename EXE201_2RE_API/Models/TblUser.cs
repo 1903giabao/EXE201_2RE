@@ -33,6 +33,10 @@ public partial class TblUser
                  
     public string? shopLogo { get; set; }
 
+    public string? shopBankId { get; set; }
+
+    public string? shopBank { get; set; }
+
     public DateTime? createdAt { get; set; }
 
     public DateTime? updatedAt { get; set; }

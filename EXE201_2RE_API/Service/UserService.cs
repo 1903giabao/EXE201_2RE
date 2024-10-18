@@ -137,6 +137,8 @@ namespace EXE201_2RE_API.Service
                     user.shopName = req.shopName;
                     user.shopDescription = req.shopDescription;
                     user.shopAddress = req.shopAddress;
+                    user.shopBankId = req.shopBankId;
+                    user.shopBank = req.shopBank;
                 }
                 if (req.shopLogo != null && req.shopLogo.Length > 0)
                 {

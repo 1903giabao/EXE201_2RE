@@ -232,6 +232,7 @@ namespace EXE201_2RE_API.Service
                         id = (Guid)cartId,
                         nameUser = cart.fullName,
                         totalPrice = (decimal)cart.totalPrice,
+                        code = cart.code,
                         totalQuantity = totalProduct,
                         status = cart.status,
                         date = (DateTime)cart.dateTime,
