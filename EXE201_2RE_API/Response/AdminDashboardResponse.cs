@@ -6,6 +6,6 @@
         public int totalShops {  get; set; }
         public int totalOrdersThisMonth {  get; set; }
         public List<MonthlyRevenue> monthlyRevenue { get; set; }
-        public List<Guid?> top5Shop { get; set; }
+        public List<string> top5Shop { get; set; }
     }
 }

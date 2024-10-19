@@ -367,13 +367,15 @@ namespace EXE201_2RE_API.Service
                     .Select(mr => mr.ShopId)
                     .ToList();
 
+                var top5ShopsName = _unitOfWork.UserRepository.GetAll().Where(s => top5Shops.Contains(s.userId)).Select(s => s.shopName).ToList(); 
+
                 var result = new AdminDashboardResponse
                 {
                     totalUsers = userList.Count,
                     totalShops = shopList.Count,
                     totalOrdersThisMonth = cartList.Count(c => c.dateTime.Value.Month == currentMonth && c.dateTime.Value.Year == currentYear),
                     monthlyRevenue = monthlyRevenue,
-                    top5Shop = top5Shops
+                    top5Shop = top5ShopsName
                 };
 
                 return new ServiceResult(200, "Get user by user name", result);
