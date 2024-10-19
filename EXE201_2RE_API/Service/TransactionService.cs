@@ -22,7 +22,7 @@ namespace EXE201_2RE_API.Service
             try
             {
                 var list = _unitOfWork.TransactionRepository.GetAllIncluding(t => t.user).Where(t => t.userId == shopId).ToList();
-                var result = _mapper.Map<TransactionModel>(list);
+                var result = _mapper.Map<List<TransactionModel>>(list);
                 return new ServiceResult(200, "Get all transaction", result);
             }
             catch (Exception ex)
