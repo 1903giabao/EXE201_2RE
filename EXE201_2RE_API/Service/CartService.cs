@@ -66,6 +66,50 @@ namespace EXE201_2RE_API.Service
 
                     result += await _unitOfWork.CartRepository.UpdateAsync(cart);
                 }
+                else if (status.Equals(SD.CartStatus.FINISHED))
+                {
+                    Guid shopId = Guid.Empty;
+                    foreach (var cartDetail in cart.tblCartDetails)
+                    {
+                        var cartRemove = await _unitOfWork.CartDetailRepository.GetAllIncluding(c => c.product).Where(c => c.cartDetailId.Equals(cartDetail.cartDetailId)).FirstOrDefaultAsync();
+                        
+                        if (shopId != (Guid)cartRemove.product.shopOwnerId && shopId != Guid.Empty)
+                        {
+                            return new ServiceResult(500, "Update failed!");
+                        }
+
+                        shopId = (Guid)cartRemove.product.shopOwnerId;
+                    }
+
+                    int curMonth = DateTime.Now.Month;
+                    int curYear = DateTime.Now.Year;
+
+                    var shopTransaction = _unitOfWork.TransactionRepository.GetAll().Where(s => s.userId == shopId && s.month == cart.dateTime.Value.Month && s.year == cart.dateTime.Value.Year).FirstOrDefault();
+
+                    if (shopTransaction == null)
+                    {
+                        var transaction = new TblTransaction
+                        {
+                            transactionId = Guid.NewGuid(),
+                            userId = shopId,
+                            totalMoney = cart.totalPrice,
+                            month = curMonth,
+                            year = curYear,
+                            status = SD.TransactionStatus.PENDING
+                        };
+
+                        await _unitOfWork.TransactionRepository.CreateAsync(transaction);
+                    }
+                    else
+                    {
+                        shopTransaction.totalMoney += cart.totalPrice;
+                        await _unitOfWork.TransactionRepository.UpdateAsync(shopTransaction);
+                    }
+
+                    cart.status = SD.CartStatus.FINISHED;
+
+                    result += await _unitOfWork.CartRepository.UpdateAsync(cart);
+                }
 
                 if (result <= 0)
                 {
@@ -240,28 +284,6 @@ namespace EXE201_2RE_API.Service
                     var products = kvp.Value;
 
                     decimal totalPrice = (decimal)products.Sum(p => p.price);
-
-                    var shopTransaction = _unitOfWork.TransactionRepository.GetAll().Where(s => s.userId == shopOwnerId).FirstOrDefault();
-
-                    if (shopTransaction == null)
-                    {
-                        var transaction = new TblTransaction
-                        {
-                            transactionId = Guid.NewGuid(),
-                            userId = shopOwnerId,
-                            totalMoney = totalPrice,
-                            month = DateTime.Now.Month,
-                            year = DateTime.Now.Year,
-                            status = SD.TransactionStatus.PENDING
-                        };
-
-                        await _unitOfWork.TransactionRepository.CreateAsync(transaction);
-                    }
-                    else
-                    {
-                        shopTransaction.totalMoney += totalPrice;
-                        await _unitOfWork.TransactionRepository.UpdateAsync(shopTransaction);
-                    }
 
                     var cart = new TblCart
                     {

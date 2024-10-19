@@ -315,5 +315,73 @@ namespace EXE201_2RE_API.Service
                 return new ServiceResult(500, ex.Message);
             }
         }
+
+        public async Task<IServiceResult> AdminDashboard()
+        {
+            try
+            {
+                var userList = _unitOfWork.UserRepository.GetAll().Where(u => u.isShopOwner == false).ToList();
+
+                var shopList = _unitOfWork.UserRepository.GetAllIncluding(u => u.tblCarts).Where(u => u.isShopOwner == true).ToList();
+
+                var cartList = _unitOfWork.CartRepository.GetAll().Where(c => c.status.Equals(SD.CartStatus.FINISHED)).ToList();
+
+                foreach (var cart in cartList)
+                {
+                    cart.tblCartDetails = await _unitOfWork.CartDetailRepository.GetAllIncluding(cd => cd.product).Where(cdt => cartList.Select(cl => cl.cartId).Contains(cdt.cartId)).ToListAsync();
+                }
+
+                var currentMonth = DateTime.UtcNow.Month;
+                var currentYear = DateTime.UtcNow.Year;
+
+                var monthlyRevenue = cartList
+                    .Where(c => c.dateTime.Value.Month == currentMonth && c.dateTime.Value.Year == currentYear)
+                    .GroupBy(c => c.dateTime.Value.Month) 
+                    .Select(g => new MonthlyRevenue
+                    {
+                        month = g.Key,
+                        revenue = (double?)g.Sum(x => x.totalPrice) 
+                    })
+                    .ToList();
+
+                var shopRevenue = cartList
+                    .Where(c => c.dateTime.HasValue &&
+                                 c.dateTime.Value.Month == currentMonth &&
+                                 c.dateTime.Value.Year == currentYear)
+                    .SelectMany(c => c.tblCartDetails, (cart, detail) => new
+                    {
+                        ShopId = detail.product.shopOwnerId,
+                        TotalPrice = cart.totalPrice
+                    })
+                    .GroupBy(x => x.ShopId)
+                    .Select(g => new
+                    {
+                        ShopId = g.Key,
+                        Revenue = g.Sum(x => x.TotalPrice)
+                    })
+                    .ToList();
+
+                var top5Shops = shopRevenue
+                    .OrderByDescending(mr => mr.Revenue)
+                    .Take(5)
+                    .Select(mr => mr.ShopId)
+                    .ToList();
+
+                var result = new AdminDashboardResponse
+                {
+                    totalUsers = userList.Count,
+                    totalShops = shopList.Count,
+                    totalOrdersThisMonth = cartList.Count(c => c.dateTime.Value.Month == currentMonth && c.dateTime.Value.Year == currentYear),
+                    monthlyRevenue = monthlyRevenue,
+                    top5Shop = top5Shops
+                };
+
+                return new ServiceResult(200, "Get user by user name", result);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(500, ex.Message);
+            }
+        }
     }
 }

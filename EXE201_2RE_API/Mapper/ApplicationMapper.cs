@@ -34,6 +34,10 @@ namespace EXE201_2RE_API.Mapper
                 .ReverseMap();
             CreateMap<TblCart, GetCartByUserIdResponse>()
                 .ReverseMap();
+            CreateMap<TblTransaction, TransactionModel>()
+                .ForMember(dest => dest.shopBankId, opt => opt.MapFrom(src => src.user.shopBankId))
+                .ForMember(dest => dest.shopBank, opt => opt.MapFrom(src => src.user.shopBank))
+                .ReverseMap();
         }
     }
 }

@@ -21,6 +21,14 @@ namespace EXE201_2RE_API.Controllers
         {
             var result = await _userService.DashboardOfShop(shopId);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }        
+        
+        [AllowAnonymous]
+        [HttpGet("admin")]
+        public async Task<IActionResult> AdminDashboard()
+        {
+            var result = await _userService.AdminDashboard();
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
     }
 }

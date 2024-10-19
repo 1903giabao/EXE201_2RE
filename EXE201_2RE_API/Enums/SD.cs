@@ -28,8 +28,8 @@
 
         public class TransactionStatus
         {
-            public static string PAID = "ĐÃ THANH TOÁN";
-            public static string RECEIVED = "ĐÃ NHẬN";
+            public static string PAID = "ADMIN ĐÃ THANH TOÁN";
+            public static string RECEIVED = "HOÀN THÀNH";
             public static string PENDING = "CHƯA THANH TOÁN";
         }
     }
