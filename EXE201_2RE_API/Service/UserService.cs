@@ -320,7 +320,7 @@ namespace EXE201_2RE_API.Service
         {
             try
             {
-                var userList = _unitOfWork.UserRepository.GetAll().Where(u => u.isShopOwner == false).ToList();
+                var userList = _unitOfWork.UserRepository.GetAll().Where(u => u.isShopOwner == false && u.roleId == new Guid("f47ac10b-58cc-4372-a567-0e02b2c3d479")).ToList();
 
                 var shopList = _unitOfWork.UserRepository.GetAllIncluding(u => u.tblCarts).Where(u => u.isShopOwner == true).ToList();
 
@@ -334,15 +334,24 @@ namespace EXE201_2RE_API.Service
                 var currentMonth = DateTime.UtcNow.Month;
                 var currentYear = DateTime.UtcNow.Year;
 
-                var monthlyRevenue = cartList
-                    .Where(c => c.dateTime.Value.Month == currentMonth && c.dateTime.Value.Year == currentYear)
-                    .GroupBy(c => c.dateTime.Value.Month) 
-                    .Select(g => new MonthlyRevenue
+                var monthlyRevenue = new List<MonthlyRevenue>();
+
+                for (int month = 1; month <= 12; month++)
+                {
+                    monthlyRevenue.Add(new MonthlyRevenue
                     {
-                        month = g.Key,
-                        revenue = (double?)g.Sum(x => x.totalPrice) 
-                    })
-                    .ToList();
+                        month = month,
+                        revenue = 0 
+                    });
+                }
+
+                foreach (var cart in cartList.Where(c => c.dateTime.HasValue && c.dateTime.Value.Year == currentYear))
+                {
+                    int month = cart.dateTime.Value.Month;
+                    monthlyRevenue[month - 1].revenue += (double?)cart.totalPrice ?? 0;
+                }
+
+                monthlyRevenue = monthlyRevenue.OrderBy(m => m.month).ToList();
 
                 var shopRevenue = cartList
                     .Where(c => c.dateTime.HasValue &&
@@ -367,7 +376,16 @@ namespace EXE201_2RE_API.Service
                     .Select(mr => mr.ShopId)
                     .ToList();
 
-                var top5ShopsName = _unitOfWork.UserRepository.GetAll().Where(s => top5Shops.Contains(s.userId)).Select(s => s.shopName).ToList(); 
+                var top5ShopsDetails = _unitOfWork.UserRepository.GetAll()
+                    .Where(s => top5Shops.Contains(s.userId))
+                    .Select(s => new Top5Shop
+                    {
+                        name = s.shopName,
+                        revenue = (double)shopRevenue.First(sr => sr.ShopId == s.userId).Revenue
+                    })
+                    .ToList();
+
+                var top5ShopsName = _unitOfWork.UserRepository.GetAll().Where(s => top5Shops.Contains(s.userId)).Select(s => s.shopName).ToList();
 
                 var result = new AdminDashboardResponse
                 {
@@ -375,7 +393,7 @@ namespace EXE201_2RE_API.Service
                     totalShops = shopList.Count,
                     totalOrdersThisMonth = cartList.Count(c => c.dateTime.Value.Month == currentMonth && c.dateTime.Value.Year == currentYear),
                     monthlyRevenue = monthlyRevenue,
-                    top5Shop = top5ShopsName
+                    top5Shop = top5ShopsDetails
                 };
 
                 return new ServiceResult(200, "Get user by user name", result);

@@ -5,6 +5,7 @@ namespace EXE201_2RE_API.Response
     public class GetShopDetailResponse
     {
         public string userName {  get; set; }
+        public string email {  get; set; }
         public string phoneNumber {  get; set; }
         public string address {  get; set; }
         public string shopName {  get; set; }

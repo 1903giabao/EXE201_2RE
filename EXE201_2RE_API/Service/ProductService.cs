@@ -304,6 +304,7 @@ namespace EXE201_2RE_API.Service
                 var result = new GetShopDetailResponse
                 {
                     userName = shop.userName,
+                    email = shop.email,
                     phoneNumber = shop.phoneNumber,
                     address = shop.address,
                     shopBankId = shop.shopBankId,
