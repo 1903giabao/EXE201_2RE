@@ -361,7 +361,7 @@ namespace EXE201_2RE_API.Service
                     {
                         int billPrice = (totalPrice == 0) ? req.price : totalPrice;
 
-                        PaymentData paymentData = new PaymentData(uniqueId, 5000,
+                        PaymentData paymentData = new PaymentData(uniqueId, billPrice,
                             $"Thanh toán đơn {uniqueId}",
                             items, cancelUrl, returnUrl);
 
