@@ -34,7 +34,6 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -52,8 +51,8 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-           app-name: 'Exe201'
+          app-name: 'Exe201'
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_55A3B40A76954B5B83B46CB77EE07212 }}
-          
+
