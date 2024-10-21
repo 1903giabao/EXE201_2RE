@@ -17,7 +17,8 @@ namespace EXE201_2RE_API
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddInfrastructure(builder.Configuration);
-
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddMvc();
             builder.Services.AddSwaggerGen(option =>
             {
                 option.SwaggerDoc("v1", new OpenApiInfo { Title = "Mock API", Version = "v1" });
@@ -54,24 +55,16 @@ namespace EXE201_2RE_API
             var app = builder.Build();
 
             // Hook into application lifetime events and trigger only application fully started 
-            app.Lifetime.ApplicationStarted.Register(async () =>
-            {
-                // Database Initialiser 
-            });
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+
+
+            ApplyMigration(app);
+            app.UseSwagger(op => op.SerializeAsV2 = false);
+            app.UseSwaggerUI(options =>
             {
-                await using (var scope = app.Services.CreateAsyncScope())
-                {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<EXE201Context>();
-                }
-
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            //ApplyMigration(app);
-
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+            });
             app.UseCors("CORS");
 
             app.UseHttpsRedirection();
@@ -87,8 +80,7 @@ namespace EXE201_2RE_API
 
             app.Run();
         }
-
-/*        private static void ApplyMigration(WebApplication app)
+        private static void ApplyMigration(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
@@ -98,6 +90,17 @@ namespace EXE201_2RE_API
                     _db.Database.Migrate();
                 }
             }
-        }*/
+        }
+        /*        private static void ApplyMigration(WebApplication app)
+                {
+                    using (var scope = app.Services.CreateScope())
+                    {
+                        var _db = scope.ServiceProvider.GetRequiredService<EXE201Context>();
+                        if (_db.Database.GetPendingMigrations().Any())
+                        {
+                            _db.Database.Migrate();
+                        }
+                    }
+                }*/
     }
 }
