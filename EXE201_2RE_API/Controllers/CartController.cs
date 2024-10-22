@@ -58,10 +58,10 @@ namespace EXE201_2RE_API.Controllers
 
             if (result.Message.Equals("Paid success"))
             {
-                return Redirect("http://localhost:8888/payment-success");
+                return Redirect("http://2re-secondhand.vercel.app/payment-success");
             }
 
-            return Redirect("http://localhost:8888/payment-failure");
+            return Redirect("http://2re-secondhand.vercel.app/payment-failure");
         }
     }
 }
