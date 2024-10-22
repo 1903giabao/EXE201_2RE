@@ -25,8 +25,8 @@ namespace EXE201_2RE_API.Service
 
         private readonly IMapper _mapper;
 
-        private string cancelUrl = "https://localhost:7145/cart/return-url";
-        private string returnUrl = "https://localhost:7145/cart/return-url";
+        private string cancelUrl = "https://exe201-hedgfudpdahubgh9.southeastasia-01.azurewebsites.net/cart/return-url";
+        private string returnUrl = "https://exe201-hedgfudpdahubgh9.southeastasia-01.azurewebsites.net/cart/return-url";
         private string clientId = "9e463c91-db86-4e48-a738-2dd12f936bf0";
         private string apiKey = "221468d5-9a17-48f5-8521-a510bca81ccd";   
         private string checksumKey = "e12e2458eb05d7dbea1609ea69387ee6b217946df08917a49ff1c49c1d56fe1b";
