@@ -208,15 +208,15 @@ namespace EXE201_2RE_API.Service
 
                 foreach (var cart in listCarts)
                 {
-                    cart.tblCartDetails = await _unitOfWork.CartDetailRepository.GetAllIncluding(cd => cd.product).ToListAsync();
+                    var cartDetailsForShop = cart.tblCartDetails.Where(cd => cd.product.shopOwnerId == shopId);
 
-                    if (cart.tblCartDetails.Any(cd => cd.product != null && cd.product.shopOwnerId == shopId))
+                    if (cartDetailsForShop.Any())
                     {
-                        totalCartCount++;
+                        totalCartCount++; 
 
                         if (cart.dateTime.HasValue && cart.dateTime.Value.Month == currentMonth && cart.dateTime.Value.Year == currentYear)
                         {
-                            currentMonthRevenue += (double)cart.totalPrice;
+                            currentMonthRevenue += (double)cart.totalPrice; 
                         }
                     }
                 }
