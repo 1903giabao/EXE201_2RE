@@ -192,7 +192,7 @@ namespace EXE201_2RE_API.Service
                     return new ServiceResult(404, "Shop not found!");
                 }
 
-                var totalProducts = _unitOfWork.ProductRepository.GetAll().Where(p => p.shopOwnerId == shopId && p.status.Equals(SD.ProductStatus.AVAILABLE)).Count();
+                var totalProducts = _unitOfWork.ProductRepository.GetAll().Where(p => p.shopOwnerId == shopId).Count();
 
                 var listCarts = await _unitOfWork.CartRepository.GetAllIncluding(cd => cd.tblCartDetails).ToListAsync();
 
